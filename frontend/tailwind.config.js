@@ -23,4 +23,20 @@ export default {
     },
   },
   plugins: [],
+  // Performance optimizations
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
+  // Safelist dynamic classes
+  safelist: [
+    {
+      pattern: /^swiper-/,
+    },
+    {
+      pattern: /^slide-/,
+    },
+    {
+      pattern: /^range-slider-/,
+    },
+  ],
 }

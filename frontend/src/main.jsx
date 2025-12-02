@@ -4,6 +4,15 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 
+// Performance monitoring (only in development)
+if (import.meta.env.DEV) {
+  import('./utils/performance').then(({ reportWebVitals }) => {
+    reportWebVitals((metric) => {
+      console.log('📊 Web Vital:', metric);
+    });
+  });
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>

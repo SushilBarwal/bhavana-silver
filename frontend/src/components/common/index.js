@@ -5,3 +5,5 @@ export { default as Modal } from './Modal';
 export { default as FilterSidebar } from './FilterSidebar';
 export { default as Breadcrumb } from './Breadcrumb';
 export { default as SearchDropdown } from './SearchDropdown';
+export { default as DashboardSidebar } from './DashboardSidebar';
+export { default as OptimizedImage } from './OptimizedImage';

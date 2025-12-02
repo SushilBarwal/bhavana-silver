@@ -16,84 +16,169 @@ const Navbar = () => {
 
   // Menu data structure for megamenu
   const menuItems = [
-    { name: 'HOME', path: '/', hasSubmenu: false },
+    { name: "HOME", path: "/", hasSubmenu: false },
     {
-      name: 'GOLD JEWELRY',
-      path: '/category/gold-jewelry',
+      name: "RINGS",
+      path: "/category/gold-jewelry",
       hasSubmenu: true,
       submenu: {
         categories: [
           {
-            title: 'Rings',
-            items: ['Gold Rings', 'Diamond Rings', 'Engagement Rings', 'Wedding Bands']
+            title: "PLAIN RINGS",
+            items: [
+              "Gold PLAIN RINGS (S/W)",
+              "Diamond PLAIN RINGS (SILVER PLATINUM)",
+              "PLAIN RINGS (GOLD MICRON 1–3)",
+              "PLAIN RINGS (ROSE GOLD MICRON)",
+            ],
           },
           {
-            title: 'Necklaces',
-            items: ['Gold Chains', 'Pendants', 'Statement Necklaces', 'Chokers']
+            title: "STONE RINGS",
+            items: [
+              "STONE RINGS (CH(L))",
+              "STONE RINGS (SILVER PLATED)",
+              "STONE RINGS (GOLD MICRON 1–3)",
+              "STONE RINGS (ROSE GOLD MICRON)",
+            ],
           },
           {
-            title: 'Earrings',
-            items: ['Studs', 'Hoops', 'Drop Earrings', 'Chandeliers']
-          },
-          {
-            title: 'Bracelets',
-            items: ['Bangles', 'Chain Bracelets', 'Charm Bracelets', 'Cuffs']
-          }
-        ]
-      }
+            title: "TOE RING PLAIN",
+            items: [
+              "PLAIN TOE RINGS (S.P)",
+              "PLAIN TOE RING (GOLD MICRON)",
+              "Drop PLAIN TOE RING (ROSE GOLD)",
+            ],
+          },         
+        ],
+      },
     },
     {
-      name: 'SILVER JEWELRY',
-      path: '/category/silver-jewelry',
+      name: "EARRINGS",
+      path: "/category/silver-jewelry",
       hasSubmenu: true,
       submenu: {
         categories: [
           {
-            title: 'Rings',
-            items: ['Silver Rings', 'Sterling Silver', 'Statement Rings', 'Band Rings']
+            title: "Rings",
+            items: [
+              "Silver Rings",
+              "Sterling Silver",
+              "Statement Rings",
+              "Band Rings",
+            ],
           },
           {
-            title: 'Necklaces',
-            items: ['Silver Chains', 'Pendants', 'Lockets', 'Layered Necklaces']
+            title: "Necklaces",
+            items: [
+              "Silver Chains",
+              "Pendants",
+              "Lockets",
+              "Layered Necklaces",
+            ],
           },
           {
-            title: 'Earrings',
-            items: ['Silver Studs', 'Hoops', 'Danglers', 'Jhumkas']
+            title: "Earrings",
+            items: ["Silver Studs", "Hoops", "Danglers", "Jhumkas"],
           },
           {
-            title: 'Bracelets',
-            items: ['Silver Bangles', 'Chain Bracelets', 'Kada', 'Anklets']
-          }
-        ]
-      }
+            title: "Bracelets",
+            items: ["Silver Bangles", "Chain Bracelets", "Kada", "Anklets"],
+          },
+        ],
+      },
     },
     {
-      name: 'FASHION JEWELRY',
-      path: '/category/fashion-jewelry',
+      name: "PENDANTS",
+      path: "/category/fashion-jewelry",
       hasSubmenu: true,
       submenu: {
         categories: [
           {
-            title: 'Rings',
-            items: ['Statement Rings', 'Band Sets', 'Adjustable Rings', 'Midi Rings']
+            title: "Rings",
+            items: [
+              "Statement Rings",
+              "Band Sets",
+              "Adjustable Rings",
+              "Midi Rings",
+            ],
           },
           {
-            title: 'Necklaces',
-            items: ['Layered Necklaces', 'Pendants', 'Chokers', 'Long Chains']
+            title: "Necklaces",
+            items: ["Layered Necklaces", "Pendants", "Chokers", "Long Chains"],
           },
           {
-            title: 'Earrings',
-            items: ['Drop Earrings', 'Studs', 'Hoops', 'Tassel Earrings']
+            title: "Earrings",
+            items: ["Drop Earrings", "Studs", "Hoops", "Tassel Earrings"],
           },
           {
-            title: 'Bracelets',
-            items: ['Beaded Bracelets', 'Cuffs', 'Bangles', 'Charm Bracelets']
-          }
-        ]
-      }
+            title: "Bracelets",
+            items: ["Beaded Bracelets", "Cuffs", "Bangles", "Charm Bracelets"],
+          },
+        ],
+      },
     },
-    { name: 'SHIP NOW', path: '/ship-now', hasSubmenu: false },
-    { name: 'ABOUT US', path: '/about-us', hasSubmenu: false }
+    {
+      name: "BANGLES",
+      path: "/category/fashion-jewelry",
+      hasSubmenu: true,
+      submenu: {
+        categories: [
+          {
+            title: "Rings",
+            items: [
+              "Statement Rings",
+              "Band Sets",
+              "Adjustable Rings",
+              "Midi Rings",
+            ],
+          },
+          {
+            title: "Necklaces",
+            items: ["Layered Necklaces", "Pendants", "Chokers", "Long Chains"],
+          },
+          {
+            title: "Earrings",
+            items: ["Drop Earrings", "Studs", "Hoops", "Tassel Earrings"],
+          },
+          {
+            title: "Bracelets",
+            items: ["Beaded Bracelets", "Cuffs", "Bangles", "Charm Bracelets"],
+          },
+        ],
+      },
+    },
+    {
+      name: "BRACELETS",
+      path: "/category/fashion-jewelry",
+      hasSubmenu: true,
+      submenu: {
+        categories: [
+          {
+            title: "Rings",
+            items: [
+              "Statement Rings",
+              "Band Sets",
+              "Adjustable Rings",
+              "Midi Rings",
+            ],
+          },
+          {
+            title: "Necklaces",
+            items: ["Layered Necklaces", "Pendants", "Chokers", "Long Chains"],
+          },
+          {
+            title: "Earrings",
+            items: ["Drop Earrings", "Studs", "Hoops", "Tassel Earrings"],
+          },
+          {
+            title: "Bracelets",
+            items: ["Beaded Bracelets", "Cuffs", "Bangles", "Charm Bracelets"],
+          },
+        ],
+      },
+    },
+    { name: "SHIP NOW", path: "/ship-now", hasSubmenu: false },
+    { name: "ABOUT US", path: "/about-us", hasSubmenu: false },
   ];
 
   const handleMouseEnter = (menuName) => {
