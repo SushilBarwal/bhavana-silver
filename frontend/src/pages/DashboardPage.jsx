@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -6,6 +7,7 @@ import { Breadcrumb } from '../components/common';
 import DashboardSidebar from '../components/common/DashboardSidebar';
 import { WishlistSection, DashboardOverview } from '../components/sections/DashboardSections';
 import { getWishlistWithProducts, removeFromWishlist } from '../utils/wishlistData';
+import { getRecentlyViewedCount } from '../utils/recentlyViewedData';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -17,6 +19,7 @@ gsap.registerPlugin(ScrollTrigger);
 const DashboardPage = () => {
   const pageRef = useRef(null);
   const [wishlistItems, setWishlistItems] = useState(getWishlistWithProducts());
+  const [recentlyViewedCount, setRecentlyViewedCount] = useState(getRecentlyViewedCount());
 
   // Breadcrumb items
   const breadcrumbItems = [
@@ -71,8 +74,7 @@ const DashboardPage = () => {
             {/* Overview Stats */}
             <DashboardOverview
               wishlistCount={wishlistItems.length}
-              ordersCount={8}
-              cartCount={0}
+              recentlyViewedCount={recentlyViewedCount}
             />
 
             {/* Wishlist Section */}
@@ -88,15 +90,24 @@ const DashboardPage = () => {
                 Quick Actions
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                <button className="px-6 py-4 bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 text-body uppercase tracking-wide">
-                  View All Orders
-                </button>
-                <button className="px-6 py-4 bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 text-body uppercase tracking-wide">
-                  Track Shipment
-                </button>
-                <button className="px-6 py-4 bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 text-body uppercase tracking-wide">
+                <Link
+                  to="/support"
+                  className="px-6 py-4 bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 text-body uppercase tracking-wide text-center"
+                >
                   Contact Support
-                </button>
+                </Link>
+                <Link
+                  to="/help"
+                  className="px-6 py-4 bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 text-body uppercase tracking-wide text-center"
+                >
+                  FAQs / Help Center
+                </Link>
+                <Link
+                  to="/returns"
+                  className="px-6 py-4 bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 text-body uppercase tracking-wide text-center"
+                >
+                  Return & Refund Policy
+                </Link>
               </div>
             </section>
           </div>

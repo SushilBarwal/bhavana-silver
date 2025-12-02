@@ -1,14 +1,15 @@
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import PropTypes from 'prop-types';
-import { FiHeart, FiShoppingCart, FiPackage, FiTrendingUp } from 'react-icons/fi';
+import { FiHeart, FiShoppingBag, FiEye } from 'react-icons/fi';
 
 /**
  * Dashboard Overview Component
  * Quick stats and summary cards
  */
-const DashboardOverview = ({ wishlistCount, ordersCount, cartCount }) => {
+const DashboardOverview = ({ wishlistCount, recentlyViewedCount }) => {
   const overviewRef = useRef(null);
   const cardsRef = useRef([]);
 
@@ -38,31 +39,26 @@ const DashboardOverview = ({ wishlistCount, ordersCount, cartCount }) => {
       value: wishlistCount,
       icon: FiHeart,
       color: 'bg-pink-100 text-pink-600',
-      iconBg: 'bg-pink-600'
+      iconBg: 'bg-pink-600',
+      link: null
     },
     {
-      id: 'cart',
-      label: 'Cart Items',
-      value: cartCount,
-      icon: FiShoppingCart,
+      id: 'shop',
+      label: 'Shop',
+      value: '0',
+      icon: FiShoppingBag,
       color: 'bg-blue-100 text-blue-600',
-      iconBg: 'bg-blue-600'
+      iconBg: 'bg-blue-600',
+      link: '/shop'
     },
     {
-      id: 'orders',
-      label: 'Total Orders',
-      value: ordersCount,
-      icon: FiPackage,
-      color: 'bg-green-100 text-green-600',
-      iconBg: 'bg-green-600'
-    },
-    {
-      id: 'activity',
-      label: 'Recent Activity',
-      value: '12',
-      icon: FiTrendingUp,
+      id: 'recently-viewed',
+      label: 'Recently Viewed',
+      value: recentlyViewedCount,
+      icon: FiEye,
       color: 'bg-purple-100 text-purple-600',
-      iconBg: 'bg-purple-600'
+      iconBg: 'bg-purple-600',
+      link: '/recently-viewed'
     }
   ];
 
@@ -71,16 +67,20 @@ const DashboardOverview = ({ wishlistCount, ordersCount, cartCount }) => {
       <h2 className="text-2xl md:text-3xl font-section font-bold text-gray-900 mb-6">
         Dashboard Overview
       </h2>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
-          
+          const CardWrapper = stat.link ? Link : 'div';
+          const cardProps = stat.link ? { to: stat.link } : {};
+
           return (
-            <div
+            <CardWrapper
               key={stat.id}
+              {...cardProps}
               ref={(el) => (cardsRef.current[index] = el)}
-              className="stat-card bg-white p-6 shadow-md hover:shadow-xl transition-all duration-300 group"
+              className={`stat-card bg-white p-6 shadow-md hover:shadow-xl transition-all duration-300 group ${stat.link ? 'cursor-pointer hover:-translate-y-1' : ''
+                }`}
             >
               <div className="flex items-start justify-between mb-4">
                 <div className={`w-12 h-12 rounded-lg ${stat.iconBg} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
@@ -90,7 +90,7 @@ const DashboardOverview = ({ wishlistCount, ordersCount, cartCount }) => {
                   Active
                 </span>
               </div>
-              
+
               <div>
                 <p className="text-question text-gray-600 uppercase tracking-wide mb-1">
                   {stat.label}
@@ -99,7 +99,7 @@ const DashboardOverview = ({ wishlistCount, ordersCount, cartCount }) => {
                   {stat.value}
                 </p>
               </div>
-            </div>
+            </CardWrapper>
           );
         })}
       </div>
@@ -109,8 +109,7 @@ const DashboardOverview = ({ wishlistCount, ordersCount, cartCount }) => {
 
 DashboardOverview.propTypes = {
   wishlistCount: PropTypes.number.isRequired,
-  ordersCount: PropTypes.number.isRequired,
-  cartCount: PropTypes.number.isRequired
+  recentlyViewedCount: PropTypes.number.isRequired
 };
 
 export default DashboardOverview;

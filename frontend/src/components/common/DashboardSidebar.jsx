@@ -11,29 +11,11 @@ const DashboardSidebar = ({ activeSection }) => {
 
   const menuItems = [
     {
-      id: 'overview',
-      label: 'Dashboard',
-      icon: FiUser,
-      path: '/dashboard'
-    },
-    {
       id: 'wishlist',
-      label: 'My Wishlist',
+      label: 'Wishlist',
       icon: FiHeart,
       path: '/dashboard/wishlist',
       badge: true
-    },
-    {
-      id: 'orders',
-      label: 'My Orders',
-      icon: FiPackage,
-      path: '/dashboard/orders'
-    },
-    {
-      id: 'cart',
-      label: 'Shopping Cart',
-      icon: FiShoppingCart,
-      path: '/cart'
     },
     {
       id: 'settings',
@@ -61,18 +43,17 @@ const DashboardSidebar = ({ activeSection }) => {
         <ul className="space-y-2">
           {menuItems.map((item) => {
             const Icon = item.icon;
-            const isActive = location.pathname === item.path || 
-                           (item.id === activeSection);
-            
+            const isActive = location.pathname === item.path ||
+              (item.id === activeSection);
+
             return (
               <li key={item.id}>
                 <Link
                   to={item.path}
-                  className={`flex items-center gap-3 px-4 py-3 rounded transition-all duration-300 ${
-                    isActive
+                  className={`flex items-center gap-3 px-4 py-3 rounded transition-all duration-300 ${isActive
                       ? 'bg-primary text-white shadow-md'
                       : 'text-gray-700 hover:bg-gray-100'
-                  }`}
+                    }`}
                 >
                   <Icon className="w-5 h-5" />
                   <span className="text-body font-medium flex-1">{item.label}</span>

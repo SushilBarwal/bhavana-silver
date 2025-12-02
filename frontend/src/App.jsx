@@ -20,6 +20,7 @@ const TermsPage = lazy(() => import('./pages/TermsPage'))
 const ShippingPage = lazy(() => import('./pages/ShippingPage'))
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
 const SitemapPage = lazy(() => import('./pages/SitemapPage'))
+const RecentlyViewedPage = lazy(() => import('./pages/RecentlyViewedPage'))
 
 // Loading component
 const PageLoader = () => (
@@ -39,31 +40,32 @@ function App() {
       <Navbar />
       <Suspense fallback={<PageLoader />}>
         <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/search" element={<SearchResultsPage />} />
-        <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/collection/:collection" element={<CategoryPage />} />
-        <Route path="/category/:category" element={<CategoryPage />} />
-        <Route path="/category/:category/:stone" element={<CategoryPage />} />
-        <Route path="/gold-jewelry" element={<CategoryPage />} />
-        <Route path="/gold-jewelry/*" element={<CategoryPage />} />
-        <Route path="/silver-jewelry" element={<CategoryPage />} />
-        <Route path="/silver-jewelry/*" element={<CategoryPage />} />
-        <Route path="/fashion-jewelry" element={<CategoryPage />} />
-        <Route path="/fashion-jewelry/*" element={<CategoryPage />} />
-        <Route path="/ship-now" element={<ShipNowPage />} />
-        <Route path="/about-us" element={<AboutUsPage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/blog/:slug" element={<BlogDetailPage />} />
-        <Route path="/account" element={<DashboardPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/terms" element={<TermsPage />} />
-        <Route path="/shipping" element={<ShippingPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/sitemap" element={<SitemapPage />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/search" element={<SearchResultsPage />} />
+          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/collection/:collection" element={<CategoryPage />} />
+          <Route path="/category/:category" element={<CategoryPage />} />
+          <Route path="/category/:category/:stone" element={<CategoryPage />} />
+          <Route path="/gold-jewelry" element={<CategoryPage />} />
+          <Route path="/gold-jewelry/*" element={<CategoryPage />} />
+          <Route path="/silver-jewelry" element={<CategoryPage />} />
+          <Route path="/silver-jewelry/*" element={<CategoryPage />} />
+          <Route path="/fashion-jewelry" element={<CategoryPage />} />
+          <Route path="/fashion-jewelry/*" element={<CategoryPage />} />
+          <Route path="/ship-now" element={<ShipNowPage />} />
+          <Route path="/about-us" element={<AboutUsPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogDetailPage />} />
+          <Route path="/account" element={<DashboardPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/recently-viewed" element={<RecentlyViewedPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/shipping" element={<ShippingPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/sitemap" element={<SitemapPage />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/wishlist" element={<Wishlist />} />
         </Routes>
       </Suspense>
       <Footer />
