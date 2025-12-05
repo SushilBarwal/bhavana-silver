@@ -9,7 +9,7 @@ const HomePage = lazy(() => import('./pages/HomePage'))
 const ProductPage = lazy(() => import('./pages/ProductPage'))
 const CategoryPage = lazy(() => import('./pages/CategoryPage'))
 const SearchResultsPage = lazy(() => import('./pages/SearchResultsPage'))
-const ShipNowPage = lazy(() => import('./pages/ShipNowPage'))
+const ShopPage = lazy(() => import('./pages/ShopPage'))
 const AboutUsPage = lazy(() => import('./pages/AboutUsPage'))
 const BlogPage = lazy(() => import('./pages/BlogPage'))
 const BlogDetailPage = lazy(() => import('./pages/BlogDetailPage'))
@@ -52,7 +52,7 @@ function App() {
           <Route path="/silver-jewelry/*" element={<CategoryPage />} />
           <Route path="/fashion-jewelry" element={<CategoryPage />} />
           <Route path="/fashion-jewelry/*" element={<CategoryPage />} />
-          <Route path="/ship-now" element={<ShipNowPage />} />
+          <Route path="/shop" element={<ShopPage />} />
           <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogDetailPage />} />
