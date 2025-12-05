@@ -1,0 +1,34 @@
+{
+  "wishlist": [
+    {
+      "id": "wish-001",
+      "userId": "user-001",
+      "productId": "GR001",
+      "addedDate": "2024-11-10T14:30:00Z"
+    },
+    {
+      "id": "wish-002",
+      "userId": "user-001",
+      "productId": "GR015",
+      "addedDate": "2024-11-12T09:15:00Z"
+    },
+    {
+      "id": "wish-003",
+      "userId": "user-001",
+      "productId": "GR028",
+      "addedDate": "2024-11-14T16:45:00Z"
+    },
+    {
+      "id": "wish-004",
+      "userId": "user-001",
+      "productId": "GR042",
+      "addedDate": "2024-11-15T11:20:00Z"
+    },
+    {
+      "id": "wish-005",
+      "userId": "user-001",
+      "productId": "GR055",
+      "addedDate": "2024-11-16T13:00:00Z"
+    }
+  ]
+}

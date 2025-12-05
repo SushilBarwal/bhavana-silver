@@ -1,0 +1,20 @@
+{
+  "cart": [
+    {
+      "id": "cart-001",
+      "userId": "user-001",
+      "productId": "GR001",
+      "quantity": 2,
+      "selectedStone": "sapphire",
+      "addedDate": "2024-11-18T10:30:00Z"
+    },
+    {
+      "id": "cart-002",
+      "userId": "user-001",
+      "productId": "GR015",
+      "quantity": 1,
+      "selectedStone": "ruby",
+      "addedDate": "2024-11-18T14:20:00Z"
+    }
+  ]
+}

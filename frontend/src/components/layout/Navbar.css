@@ -9,9 +9,9 @@
 }
 
 .navbar-container {
-  max-width: 1400px;
+  max-width: 1536px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 32px;
 }
 
 /* Top Bar */
@@ -250,7 +250,7 @@
   background-color: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   padding: 40px;
-  min-width: 600px;
+  min-width: 1000px;
   opacity: 0;
   visibility: hidden;
   animation: fadeIn 0.3s forwards;
@@ -266,7 +266,7 @@
 
 .megamenu-content {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 40px;
 }
 

@@ -5,17 +5,18 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FiShoppingCart, FiTruck, FiShield } from 'react-icons/fi';
 import { getProductById, getRelatedProducts } from '../utils/productData';
+import { addRecentlyViewed } from '../utils/recentlyViewedData';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 import { Modal, Breadcrumb } from '../components/common';
 import { LeadForm } from '../components/forms';
-import { 
-  ProductGallery, 
-  ProductInfo, 
-  RelatedProducts, 
-  CertificationGrid 
+import {
+  ProductGallery,
+  ProductInfo,
+  RelatedProducts,
+  CertificationGrid
 } from '../components/product';
 
 // Import gemstone images
@@ -40,33 +41,33 @@ import fieoCert from '../assets/certificates/fieo.png';
 const ProductPage = () => {
   const { id } = useParams();
   const sectionRef = useRef(null);
-  
+
   // Get product by ID
   const product = getProductById(id);
-  
+
   // If product not found, redirect to home
   if (!product) {
     return <Navigate to="/" replace />;
   }
-  
+
   // State management
   const [showModal, setShowModal] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [activeAccordion, setActiveAccordion] = useState('details');
   const [detailsTab, setDetailsTab] = useState('stone');
-  
+
   // Handle form submission
   const handleFormSubmit = (formData) => {
     console.log('Form submitted:', formData);
     alert('Appointment request submitted successfully!');
     setShowModal(false);
   };
-  
+
   // Handle wishlist toggle
   const handleWishlistToggle = () => {
     setIsWishlisted(!isWishlisted);
   };
-  
+
   // Handle share
   const handleShare = () => {
     if (navigator.share) {
@@ -79,13 +80,20 @@ const ProductPage = () => {
       alert('Share functionality not supported on this browser');
     }
   };
-  
+
+  // Track product view in recently viewed
+  useEffect(() => {
+    if (product && product.id) {
+      addRecentlyViewed(product.id);
+    }
+  }, [product]);
+
   // Show modal after 10 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowModal(true);
     }, 10000);
-    
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -128,33 +136,33 @@ const ProductPage = () => {
   // Generate breadcrumb items
   const breadcrumbItems = useMemo(() => {
     const items = [{ label: 'HOME', link: '/' }];
-    
+
     if (product.category) {
-      items.push({ 
-        label: product.category.replace('-', ' ').toUpperCase(), 
-        link: `/category/${product.category}` 
+      items.push({
+        label: product.category.replace('-', ' ').toUpperCase(),
+        link: `/category/${product.category}`
       });
     }
-    
+
     if (product.subcategory) {
-      items.push({ 
-        label: product.subcategory.toUpperCase(), 
-        link: `/category/${product.category}/${product.subcategory.toLowerCase()}` 
+      items.push({
+        label: product.subcategory.toUpperCase(),
+        link: `/category/${product.category}/${product.subcategory.toLowerCase()}`
       });
     }
-    
+
     if (product.stone) {
-      items.push({ 
-        label: product.stone.replace('-', ' ').toUpperCase(), 
-        link: `/category/${product.category}/${product.stone}` 
+      items.push({
+        label: product.stone.replace('-', ' ').toUpperCase(),
+        link: `/category/${product.category}/${product.stone}`
       });
     }
-    
-    items.push({ 
-      label: product.id, 
-      active: true 
+
+    items.push({
+      label: product.id,
+      active: true
     });
-    
+
     return items;
   }, [product]);
 
@@ -162,7 +170,7 @@ const ProductPage = () => {
   useGSAP(() => {
     // Animate product sections on scroll
     const sections = sectionRef.current?.querySelectorAll('.animate-on-scroll');
-    
+
     sections?.forEach((section, index) => {
       gsap.fromTo(
         section,
@@ -223,28 +231,26 @@ const ProductPage = () => {
                 <span className="text-body font-semibold text-gray-900 uppercase tracking-wider">DETAILS</span>
                 <span className="text-2xl text-gray-600">{activeAccordion === 'details' ? '-' : '+'}</span>
               </button>
-              
+
               {activeAccordion === 'details' && (
                 <div className="px-6 pb-6 space-y-6">
                   {/* Stone/Product Tabs */}
                   <div className="flex gap-4 border-b">
-                    <button 
+                    <button
                       onClick={() => setDetailsTab('stone')}
-                      className={`px-4 py-2 text-[13px] font-semibold uppercase transition-colors ${
-                        detailsTab === 'stone' 
-                          ? 'text-gray-900 border-b-2 border-gray-900' 
-                          : 'text-gray-600 hover:text-gray-900'
-                      }`}
+                      className={`px-4 py-2 text-[13px] font-semibold uppercase transition-colors ${detailsTab === 'stone'
+                        ? 'text-gray-900 border-b-2 border-gray-900'
+                        : 'text-gray-600 hover:text-gray-900'
+                        }`}
                     >
                       STONE
                     </button>
-                    <button 
+                    <button
                       onClick={() => setDetailsTab('product')}
-                      className={`px-4 py-2 text-[13px] font-semibold uppercase transition-colors ${
-                        detailsTab === 'product' 
-                          ? 'text-gray-900 border-b-2 border-gray-900' 
-                          : 'text-gray-600 hover:text-gray-900'
-                      }`}
+                      className={`px-4 py-2 text-[13px] font-semibold uppercase transition-colors ${detailsTab === 'product'
+                        ? 'text-gray-900 border-b-2 border-gray-900'
+                        : 'text-gray-600 hover:text-gray-900'
+                        }`}
                     >
                       PRODUCT
                     </button>
@@ -335,7 +341,7 @@ const ProductPage = () => {
                 <span className="text-body font-semibold text-gray-900 uppercase tracking-wider">DESCRIPTION</span>
                 <span className="text-2xl text-gray-600">{activeAccordion === 'description' ? '-' : '+'}</span>
               </button>
-              
+
               {activeAccordion === 'description' && (
                 <div className="px-6 pb-6 space-y-4">
                   <p className="text-body text-gray-700 leading-relaxed">
@@ -378,8 +384,8 @@ const ProductPage = () => {
       </div>
 
       {/* Lead Form Modal */}
-      <Modal 
-        isOpen={showModal} 
+      <Modal
+        isOpen={showModal}
         onClose={() => setShowModal(false)}
         title="BOOK AN APPOINTMENT"
       >

@@ -16,84 +16,169 @@ const Navbar = () => {
 
   // Menu data structure for megamenu
   const menuItems = [
-    { name: 'HOME', path: '/', hasSubmenu: false },
+    { name: "HOME", path: "/", hasSubmenu: false },
     {
-      name: 'GOLD JEWELRY',
-      path: '/category/gold-jewelry',
+      name: "RINGS",
+      path: "/category/gold-jewelry",
       hasSubmenu: true,
       submenu: {
         categories: [
           {
-            title: 'Rings',
-            items: ['Gold Rings', 'Diamond Rings', 'Engagement Rings', 'Wedding Bands']
+            title: "PLAIN RINGS",
+            items: [
+              "Gold PLAIN RINGS (S/W)",
+              "Diamond PLAIN RINGS (SILVER PLATINUM)",
+              "PLAIN RINGS (GOLD MICRON 1–3)",
+              "PLAIN RINGS (ROSE GOLD MICRON)",
+            ],
           },
           {
-            title: 'Necklaces',
-            items: ['Gold Chains', 'Pendants', 'Statement Necklaces', 'Chokers']
+            title: "STONE RINGS",
+            items: [
+              "STONE RINGS (CH(L))",
+              "STONE RINGS (SILVER PLATED)",
+              "STONE RINGS (GOLD MICRON 1–3)",
+              "STONE RINGS (ROSE GOLD MICRON)",
+            ],
           },
           {
-            title: 'Earrings',
-            items: ['Studs', 'Hoops', 'Drop Earrings', 'Chandeliers']
+            title: "TOE RING PLAIN",
+            items: [
+              "PLAIN TOE RINGS (S.P)",
+              "PLAIN TOE RING (GOLD MICRON)",
+              "Drop PLAIN TOE RING (ROSE GOLD)",
+            ],
           },
-          {
-            title: 'Bracelets',
-            items: ['Bangles', 'Chain Bracelets', 'Charm Bracelets', 'Cuffs']
-          }
-        ]
-      }
+        ],
+      },
     },
     {
-      name: 'SILVER JEWELRY',
-      path: '/category/silver-jewelry',
+      name: "EARRINGS",
+      path: "/category/silver-jewelry",
       hasSubmenu: true,
       submenu: {
         categories: [
           {
-            title: 'Rings',
-            items: ['Silver Rings', 'Sterling Silver', 'Statement Rings', 'Band Rings']
+            title: "Rings",
+            items: [
+              "Silver Rings",
+              "Sterling Silver",
+              "Statement Rings",
+              "Band Rings",
+            ],
           },
           {
-            title: 'Necklaces',
-            items: ['Silver Chains', 'Pendants', 'Lockets', 'Layered Necklaces']
+            title: "Necklaces",
+            items: [
+              "Silver Chains",
+              "Pendants",
+              "Lockets",
+              "Layered Necklaces",
+            ],
           },
           {
-            title: 'Earrings',
-            items: ['Silver Studs', 'Hoops', 'Danglers', 'Jhumkas']
+            title: "Earrings",
+            items: ["Silver Studs", "Hoops", "Danglers", "Jhumkas"],
           },
           {
-            title: 'Bracelets',
-            items: ['Silver Bangles', 'Chain Bracelets', 'Kada', 'Anklets']
-          }
-        ]
-      }
+            title: "Bracelets",
+            items: ["Silver Bangles", "Chain Bracelets", "Kada", "Anklets"],
+          },
+        ],
+      },
     },
     {
-      name: 'FASHION JEWELRY',
-      path: '/category/fashion-jewelry',
+      name: "PENDANTS",
+      path: "/category/fashion-jewelry",
       hasSubmenu: true,
       submenu: {
         categories: [
           {
-            title: 'Rings',
-            items: ['Statement Rings', 'Band Sets', 'Adjustable Rings', 'Midi Rings']
+            title: "Rings",
+            items: [
+              "Statement Rings",
+              "Band Sets",
+              "Adjustable Rings",
+              "Midi Rings",
+            ],
           },
           {
-            title: 'Necklaces',
-            items: ['Layered Necklaces', 'Pendants', 'Chokers', 'Long Chains']
+            title: "Necklaces",
+            items: ["Layered Necklaces", "Pendants", "Chokers", "Long Chains"],
           },
           {
-            title: 'Earrings',
-            items: ['Drop Earrings', 'Studs', 'Hoops', 'Tassel Earrings']
+            title: "Earrings",
+            items: ["Drop Earrings", "Studs", "Hoops", "Tassel Earrings"],
           },
           {
-            title: 'Bracelets',
-            items: ['Beaded Bracelets', 'Cuffs', 'Bangles', 'Charm Bracelets']
-          }
-        ]
-      }
+            title: "Bracelets",
+            items: ["Beaded Bracelets", "Cuffs", "Bangles", "Charm Bracelets"],
+          },
+        ],
+      },
     },
-    { name: 'SHIP NOW', path: '/ship-now', hasSubmenu: false },
-    { name: 'ABOUT US', path: '/about-us', hasSubmenu: false }
+    {
+      name: "BANGLES",
+      path: "/category/fashion-jewelry",
+      hasSubmenu: true,
+      submenu: {
+        categories: [
+          {
+            title: "Rings",
+            items: [
+              "Statement Rings",
+              "Band Sets",
+              "Adjustable Rings",
+              "Midi Rings",
+            ],
+          },
+          {
+            title: "Necklaces",
+            items: ["Layered Necklaces", "Pendants", "Chokers", "Long Chains"],
+          },
+          {
+            title: "Earrings",
+            items: ["Drop Earrings", "Studs", "Hoops", "Tassel Earrings"],
+          },
+          {
+            title: "Bracelets",
+            items: ["Beaded Bracelets", "Cuffs", "Bangles", "Charm Bracelets"],
+          },
+        ],
+      },
+    },
+    {
+      name: "BRACELETS",
+      path: "/category/fashion-jewelry",
+      hasSubmenu: true,
+      submenu: {
+        categories: [
+          {
+            title: "Rings",
+            items: [
+              "Statement Rings",
+              "Band Sets",
+              "Adjustable Rings",
+              "Midi Rings",
+            ],
+          },
+          {
+            title: "Necklaces",
+            items: ["Layered Necklaces", "Pendants", "Chokers", "Long Chains"],
+          },
+          {
+            title: "Earrings",
+            items: ["Drop Earrings", "Studs", "Hoops", "Tassel Earrings"],
+          },
+          {
+            title: "Bracelets",
+            items: ["Beaded Bracelets", "Cuffs", "Bangles", "Charm Bracelets"],
+          },
+        ],
+      },
+    },
+    { name: "SHIP NOW", path: "/ship-now", hasSubmenu: false },
+    { name: "ABOUT US", path: "/about-us", hasSubmenu: false },
   ];
 
   const handleMouseEnter = (menuName) => {
@@ -112,7 +197,7 @@ const Navbar = () => {
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
-    
+
     if (query.trim().length > 0) {
       const results = searchProducts(query);
       setSearchResults(results);
@@ -147,7 +232,7 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <div className="navbar-container">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Top Bar */}
         <div className="navbar-top">
           {/* Search Bar */}
@@ -163,11 +248,11 @@ const Navbar = () => {
               />
               <button type="submit" className="search-icon-button">
                 <svg className="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <circle cx="11" cy="11" r="8" strokeWidth="2"/>
-                  <path d="m21 21-4.35-4.35" strokeWidth="2"/>
+                  <circle cx="11" cy="11" r="8" strokeWidth="2" />
+                  <path d="m21 21-4.35-4.35" strokeWidth="2" />
                 </svg>
               </button>
-              
+
               {/* Search Dropdown */}
               {showSearchDropdown && (
                 <SearchDropdown
@@ -185,9 +270,9 @@ const Navbar = () => {
           {/* Logo */}
           <div className="navbar-logo">
             <Link to="/">
-              <img 
-                src={purpleLogo} 
-                alt="Bhavana Silver Jewellers" 
+              <img
+                src={purpleLogo}
+                alt="Bhavana Silver Jewellers"
                 className="logo-image"
               />
             </Link>
@@ -197,21 +282,21 @@ const Navbar = () => {
           <div className="navbar-icons">
             <Link to="/account" className="nav-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" strokeWidth="2"/>
-                <circle cx="12" cy="7" r="4" strokeWidth="2"/>
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" strokeWidth="2" />
+                <circle cx="12" cy="7" r="4" strokeWidth="2" />
               </svg>
             </Link>
             <Link to="/wishlist" className="nav-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" strokeWidth="2"/>
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" strokeWidth="2" />
               </svg>
               <span className="icon-badge">0</span>
             </Link>
             <Link to="/cart" className="nav-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <circle cx="9" cy="21" r="1" strokeWidth="2"/>
-                <circle cx="20" cy="21" r="1" strokeWidth="2"/>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" strokeWidth="2"/>
+                <circle cx="9" cy="21" r="1" strokeWidth="2" />
+                <circle cx="20" cy="21" r="1" strokeWidth="2" />
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" strokeWidth="2" />
               </svg>
               <span className="icon-badge">0</span>
             </Link>
