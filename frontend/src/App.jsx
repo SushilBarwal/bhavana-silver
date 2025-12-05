@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
+import ScrollToTop from './components/common/ScrollToTop'
 import './App.css'
 
 // Lazy load pages for better performance
@@ -11,9 +12,10 @@ const CategoryPage = lazy(() => import('./pages/CategoryPage'))
 const SearchResultsPage = lazy(() => import('./pages/SearchResultsPage'))
 const ShopPage = lazy(() => import('./pages/ShopPage'))
 const AboutUsPage = lazy(() => import('./pages/AboutUsPage'))
-const BlogPage = lazy(() => import('./pages/BlogPage'))
-const BlogDetailPage = lazy(() => import('./pages/BlogDetailPage'))
+const ContactPage = lazy(() => import('./pages/ContactPage'))
+const FaqPage = lazy(() => import('./pages/FaqPage'))
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
+const AccountSettings = lazy(() => import('./pages/AccountSettings'))
 const CartPage = lazy(() => import('./pages/CartPage'))
 const CheckoutPage = lazy(() => import('./pages/CheckoutPage'))
 const TermsPage = lazy(() => import('./pages/TermsPage'))
@@ -37,6 +39,7 @@ const Wishlist = () => <div style={{ padding: '40px', textAlign: 'center' }}><h1
 function App() {
   return (
     <>
+      <ScrollToTop />
       <Navbar />
       <Suspense fallback={<PageLoader />}>
         <Routes>
@@ -54,9 +57,10 @@ function App() {
           <Route path="/fashion-jewelry/*" element={<CategoryPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/about-us" element={<AboutUsPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:slug" element={<BlogDetailPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/faqs" element={<FaqPage />} />
           <Route path="/account" element={<DashboardPage />} />
+          <Route path="/account/settings" element={<AccountSettings />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/recently-viewed" element={<RecentlyViewedPage />} />

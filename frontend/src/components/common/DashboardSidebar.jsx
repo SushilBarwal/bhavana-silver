@@ -14,14 +14,14 @@ const DashboardSidebar = ({ activeSection }) => {
       id: 'wishlist',
       label: 'Wishlist',
       icon: FiHeart,
-      path: '/dashboard/wishlist',
+      path: '/account',
       badge: true
     },
     {
       id: 'settings',
       label: 'Account Settings',
       icon: FiSettings,
-      path: '/dashboard/settings'
+      path: '/account/settings'
     }
   ];
 
@@ -44,15 +44,16 @@ const DashboardSidebar = ({ activeSection }) => {
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path ||
-              (item.id === activeSection);
+              location.pathname.includes(item.id) ||
+              (activeSection && item.id === activeSection);
 
             return (
               <li key={item.id}>
                 <Link
                   to={item.path}
                   className={`flex items-center gap-3 px-4 py-3 rounded transition-all duration-300 ${isActive
-                      ? 'bg-primary text-white shadow-md'
-                      : 'text-gray-700 hover:bg-gray-100'
+                    ? 'bg-primary text-white shadow-md'
+                    : 'text-gray-700 hover:bg-gray-100'
                     }`}
                 >
                   <Icon className="w-5 h-5" />

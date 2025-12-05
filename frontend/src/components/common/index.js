@@ -7,3 +7,4 @@ export { default as Breadcrumb } from './Breadcrumb';
 export { default as SearchDropdown } from './SearchDropdown';
 export { default as DashboardSidebar } from './DashboardSidebar';
 export { default as OptimizedImage } from './OptimizedImage';
+export { default as ScrollToTop } from './ScrollToTop';

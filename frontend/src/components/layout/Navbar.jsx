@@ -177,7 +177,7 @@ const Navbar = () => {
         ],
       },
     },
-    { name: "SHIP NOW", path: "/ship-now", hasSubmenu: false },
+    // { name: "SHIP NOW", path: "/ship-now", hasSubmenu: false },
     { name: "ABOUT US", path: "/about-us", hasSubmenu: false },
   ];
 

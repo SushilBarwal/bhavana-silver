@@ -1,4 +1,3 @@
-```javascript
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
@@ -36,7 +35,7 @@ const RecentlyViewedPage = () => {
   // Load more products
   const loadMore = useCallback(() => {
     if (isLoading || !hasMore) return;
-    
+
     setIsLoading(true);
     setTimeout(() => {
       setDisplayedCount(prev => Math.min(prev + PRODUCTS_PER_PAGE, products.length));
@@ -116,7 +115,7 @@ const RecentlyViewedPage = () => {
               {products.length} {products.length === 1 ? 'product' : 'products'} you've recently viewed
             </p>
           </div>
-          
+
           {products.length > 0 && (
             <button
               onClick={handleClearHistory}
@@ -209,4 +208,3 @@ const RecentlyViewedPage = () => {
 };
 
 export default RecentlyViewedPage;
-```
