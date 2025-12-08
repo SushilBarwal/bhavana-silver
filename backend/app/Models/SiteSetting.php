@@ -17,9 +17,9 @@ class SiteSetting extends Model
         'description',
     ];
 
-    protected $casts = [
-        'value' => 'array',
-    ];
+    // Removed automatic array cast to fix Orchid form compatibility
+    // JSON encoding/decoding now handled in get() and set() methods
+    protected $casts = [];
 
     /**
      * Get a setting value by key
@@ -27,7 +27,18 @@ class SiteSetting extends Model
     public static function get(string $key, mixed $default = null): mixed
     {
         $setting = static::where('key', $key)->first();
-        return $setting ? $setting->value : $default;
+        
+        if (!$setting) {
+            return $default;
+        }
+        
+        // Decode JSON if the value is a string
+        if (is_string($setting->value)) {
+            $decoded = json_decode($setting->value, true);
+            return json_last_error() === JSON_ERROR_NONE ? $decoded : $setting->value;
+        }
+        
+        return $setting->value;
     }
 
     /**
@@ -35,6 +46,11 @@ class SiteSetting extends Model
      */
     public static function set(string $key, mixed $value, string $group = 'general', string $type = 'json'): self
     {
+        // Encode arrays/objects to JSON for storage
+        if ($type === 'json' && (is_array($value) || is_object($value))) {
+            $value = json_encode($value);
+        }
+        
         return static::updateOrCreate(
             ['key' => $key],
             [
