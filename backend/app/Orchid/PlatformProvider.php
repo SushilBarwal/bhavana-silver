@@ -47,6 +47,10 @@ class PlatformProvider extends OrchidServiceProvider
                     Menu::make('Categories')
                         ->icon('bs.folder')
                         ->route('platform.categories'),
+
+                    Menu::make('Stones')
+                        ->icon('bs.gem')
+                        ->route('platform.stones'),
                 ]),
 
             Menu::make(__('Users'))
@@ -60,6 +64,19 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.systems.roles')
                 ->permission('platform.systems.roles')
                 ->divider(),
+
+            Menu::make('Site Settings')
+                ->icon('bs.gear')
+                ->title('Configuration')
+                ->list([
+                    Menu::make('Header Settings')
+                        ->icon('bs.menu-up')
+                        ->route('platform.settings.header'),
+                    
+                    Menu::make('Footer Settings')
+                        ->icon('bs.menu-down')
+                        ->route('platform.settings.footer'),
+                ]),
 
             
         ];
