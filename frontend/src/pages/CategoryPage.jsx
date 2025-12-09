@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Breadcrumb, FilterSidebar } from '../components/common';
 import { ProductGrid } from '../components/product';
 import { getProductsByCategoryAndStone } from '../utils/productData';
+import { fetchProducts } from '../api/products';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -37,9 +38,75 @@ const CategoryPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Get products based on category, stone, or collection from URL params
+  // const allProducts = useMemo(() => {
+  //   return getProductsByCategoryAndStone(category, stone, collection);
+  // }, [category, stone, collection]);
+
+  const [apiData, setApiData] = useState([]);
+
+  // Fetch data on component mount
+  useEffect(() => {
+    const loadData = async () => {
+      setIsLoading(true);
+      const data = await fetchProducts();
+
+      // Transform API data to match frontend model
+      const transformedData = data.map(product => ({
+        ...product,
+        // Map ID to ensure it's a string if needed, or keep as number
+        id: product.id,
+        // Map price to priceRange object
+        priceRange: {
+          min: parseFloat(product.price || 0),
+          max: parseFloat(product.max_price || product.price || 0)
+        },
+        // Flatten category object to slug or name
+        category: product.category?.slug || product.category?.name || '',
+        // Flatten stone object to slug or name
+        stone: product.stone?.slug || product.stone?.name || '',
+        // Map images array of objects to array of URL strings
+        images: Array.isArray(product.images)
+          ? product.images.map(img => img.url.replace('http://127.0.0.1:8000', '/api'))
+          : (product.image ? [product.image.replace('http://127.0.0.1:8000', '/api')] : []),
+        // Ensure image field also exists for backward compatibility if needed
+        image: Array.isArray(product.images) && product.images.length > 0
+          ? product.images[0].url.replace('http://127.0.0.1:8000', '/api')
+          : (product.image ? product.image.replace('http://127.0.0.1:8000', '/api') : '')
+      }));
+
+      console.log("Transformed API Data:", transformedData);
+      setApiData(transformedData);
+      setIsLoading(false);
+    };
+    loadData();
+    // Removed console.log(apiData) as it would log the empty state initial value due to closure
+  }, []);
+
+  // Filter the fetched API data matches the current category/stone
   const allProducts = useMemo(() => {
-    return getProductsByCategoryAndStone(category, stone, collection);
-  }, [category, stone, collection]);
+    console.log("Filtering products. Total:", apiData.length, "Category param:", category);
+    if (apiData.length === 0) return [];
+
+    let products = apiData;
+
+    if (category && category !== 'gold-jewelry' && category !== 'silver-jewelry' && category !== 'fashion-jewelry') {
+      // Case-insensitive comparison for category
+      products = products.filter(p => p.category.toLowerCase().includes(category.toLowerCase()));
+    }
+
+    if (stone) {
+      products = products.filter(p =>
+        (p.subcategory && p.subcategory.toLowerCase() === stone.toLowerCase()) ||
+        (p.stone && p.stone.toLowerCase() === stone.toLowerCase())
+      );
+    }
+
+    if (collection) {
+      products = products.filter(p => p.collection === collection);
+    }
+
+    return products;
+  }, [apiData, category, stone, collection]);
 
 
   // Filter products based on filters
