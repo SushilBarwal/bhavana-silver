@@ -128,6 +128,8 @@ class ProductController extends Controller
             'slug' => $product->slug,
             'name' => $product->name,
             'price' => (float) $product->price,
+            'max_price' => $product->max_price ? (float) $product->max_price : null,
+            'sale_price' => $product->sale_price ? (float) $product->sale_price : null,
             'short_description' => $product->short_description,
             'description' => $product->description,
             'details' => $product->details, // JSON object with technical details
@@ -135,6 +137,7 @@ class ProductController extends Controller
             'dimensions' => $product->dimensions,
             'plating' => $product->plating,
             'weight' => $product->weight ? (float) $product->weight : null,
+            'shop_now' => (bool) $product->available_for_ship_now,
             'category' => $product->category ? [
                 'id' => $product->category->id,
                 'name' => $product->category->name,

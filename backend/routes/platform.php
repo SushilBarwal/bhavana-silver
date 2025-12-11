@@ -147,4 +147,156 @@ Route::screen('settings/footer', FooterSettingsScreen::class)
         ->parent('platform.index')
         ->push('Footer Settings', route('platform.settings.footer')));
 
+// Homepage Management
+Route::screen('homepage/hero', \App\Orchid\Screens\Homepage\HeroSlideListScreen::class)
+    ->name('platform.homepage.hero.list')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push('Hero Slides', route('platform.homepage.hero.list')));
+
+Route::screen('homepage/hero/create', \App\Orchid\Screens\Homepage\HeroSlideEditScreen::class)
+    ->name('platform.homepage.hero.create')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.homepage.hero.list')
+        ->push('Create', route('platform.homepage.hero.create')));
+
+Route::screen('homepage/hero/{slide}/edit', \App\Orchid\Screens\Homepage\HeroSlideEditScreen::class)
+    ->name('platform.homepage.hero.edit')
+    ->breadcrumbs(fn (Trail $trail, $slide) => $trail
+        ->parent('platform.homepage.hero.list')
+        ->push($slide->title, route('platform.homepage.hero.edit', $slide)));
+
+Route::screen('homepage/collections', \App\Orchid\Screens\Homepage\CollectionListScreen::class)
+    ->name('platform.homepage.collection.list')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push('Shop By Collection', route('platform.homepage.collection.list')));
+
+Route::screen('homepage/collections/create', \App\Orchid\Screens\Homepage\CollectionEditScreen::class)
+    ->name('platform.homepage.collection.create')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.homepage.collection.list')
+        ->push('Create', route('platform.homepage.collection.create')));
+
+Route::screen('homepage/collections/{collection}/edit', \App\Orchid\Screens\Homepage\CollectionEditScreen::class)
+    ->name('platform.homepage.collection.edit')
+    ->breadcrumbs(fn (Trail $trail, $collection) => $trail
+        ->parent('platform.homepage.collection.list')
+        ->push($collection->title, route('platform.homepage.collection.edit', $collection)));
+
+Route::screen('homepage/gemstones', \App\Orchid\Screens\Homepage\GemstoneListScreen::class)
+    ->name('platform.homepage.gemstone.list')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push('Gemstones', route('platform.homepage.gemstone.list')));
+
+Route::screen('homepage/gemstones/create', \App\Orchid\Screens\Homepage\GemstoneEditScreen::class)
+    ->name('platform.homepage.gemstone.create')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.homepage.gemstone.list')
+        ->push('Create', route('platform.homepage.gemstone.create')));
+
+Route::screen('homepage/gemstones/{gemstone}/edit', \App\Orchid\Screens\Homepage\GemstoneEditScreen::class)
+    ->name('platform.homepage.gemstone.edit')
+    ->breadcrumbs(fn (Trail $trail, $gemstone) => $trail
+        ->parent('platform.homepage.gemstone.list')
+        ->push($gemstone->name, route('platform.homepage.gemstone.edit', $gemstone)));
+
+Route::screen('homepage/about', \App\Orchid\Screens\Homepage\AboutSlideListScreen::class)
+    ->name('platform.homepage.about.list')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push('About Us Slides', route('platform.homepage.about.list')));
+
+Route::screen('homepage/about/create', \App\Orchid\Screens\Homepage\AboutSlideEditScreen::class)
+    ->name('platform.homepage.about.create')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.homepage.about.list')
+        ->push('Create', route('platform.homepage.about.create')));
+
+Route::screen('homepage/about/{slide}/edit', \App\Orchid\Screens\Homepage\AboutSlideEditScreen::class)
+    ->name('platform.homepage.about.edit')
+    ->breadcrumbs(fn (Trail $trail, $slide) => $trail
+        ->parent('platform.homepage.about.list')
+        ->push($slide->title, route('platform.homepage.about.edit', $slide)));
+
+Route::screen('homepage/features', \App\Orchid\Screens\Homepage\FeatureListScreen::class)
+    ->name('platform.homepage.feature.list')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push('Why Choose Us', route('platform.homepage.feature.list')));
+
+Route::screen('homepage/features/create', \App\Orchid\Screens\Homepage\FeatureEditScreen::class)
+    ->name('platform.homepage.feature.create')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.homepage.feature.list')
+        ->push('Create', route('platform.homepage.feature.create')));
+
+Route::screen('homepage/features/{feature}/edit', \App\Orchid\Screens\Homepage\FeatureEditScreen::class)
+    ->name('platform.homepage.feature.edit')
+    ->breadcrumbs(fn (Trail $trail, $feature) => $trail
+        ->parent('platform.homepage.feature.list')
+        ->push($feature->heading, route('platform.homepage.feature.edit', $feature)));
+
+Route::screen('homepage/testimonials', \App\Orchid\Screens\Homepage\TestimonialListScreen::class)
+    ->name('platform.homepage.testimonial.list')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push('Testimonials', route('platform.homepage.testimonial.list')));
+
+Route::screen('homepage/testimonials/create', \App\Orchid\Screens\Homepage\TestimonialEditScreen::class)
+    ->name('platform.homepage.testimonial.create')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.homepage.testimonial.list')
+        ->push('Create', route('platform.homepage.testimonial.create')));
+
+Route::screen('homepage/testimonials/{testimonial}/edit', \App\Orchid\Screens\Homepage\TestimonialEditScreen::class)
+    ->name('platform.homepage.testimonial.edit')
+    ->breadcrumbs(fn (Trail $trail, $testimonial) => $trail
+        ->parent('platform.homepage.testimonial.list')
+        ->push($testimonial->name, route('platform.homepage.testimonial.edit', $testimonial)));
+
+Route::screen('homepage/certificates', \App\Orchid\Screens\Homepage\CertificateListScreen::class)
+    ->name('platform.homepage.certificate.list')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push('Certificates', route('platform.homepage.certificate.list')));
+
+Route::screen('homepage/certificates/create', \App\Orchid\Screens\Homepage\CertificateEditScreen::class)
+    ->name('platform.homepage.certificate.create')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.homepage.certificate.list')
+        ->push('Create', route('platform.homepage.certificate.create')));
+
+Route::screen('homepage/certificates/{certificate}/edit', \App\Orchid\Screens\Homepage\CertificateEditScreen::class)
+    ->name('platform.homepage.certificate.edit')
+    ->breadcrumbs(fn (Trail $trail, $certificate) => $trail
+        ->parent('platform.homepage.certificate.list')
+        ->push('Edit Certificate', route('platform.homepage.certificate.edit', $certificate)));
+
+Route::screen('homepage/settings', \App\Orchid\Screens\Homepage\HomepageSettingsScreen::class)
+    ->name('platform.homepage.settings')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push('Homepage Configuration', route('platform.homepage.settings')));
+
 // Route::screen('idea', Idea::class, 'platform.screens.idea');
+
+// Homepage Best Sellers
+Route::screen('homepage/best-sellers', \App\Orchid\Screens\Homepage\BestSellerListScreen::class)
+    ->name('platform.homepage.best_seller.list')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push('Best Sellers', route('platform.homepage.best_seller.list')));
+
+Route::screen('homepage/best-sellers/create', \App\Orchid\Screens\Homepage\BestSellerEditScreen::class)
+    ->name('platform.homepage.best_seller.create')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.homepage.best_seller.list')
+        ->push('Create', route('platform.homepage.best_seller.create')));
+
+Route::screen('homepage/best-sellers/{bestSeller}/edit', \App\Orchid\Screens\Homepage\BestSellerEditScreen::class)
+    ->name('platform.homepage.best_seller.edit')
+    ->breadcrumbs(fn (Trail $trail, $bestSeller) => $trail
+        ->parent('platform.homepage.best_seller.list')
+        ->push($bestSeller->title ?: 'Edit', route('platform.homepage.best_seller.edit', $bestSeller)));

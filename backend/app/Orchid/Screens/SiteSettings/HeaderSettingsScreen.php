@@ -42,8 +42,49 @@ class HeaderSettingsScreen extends Screen
             ],
         ]);
 
+        // Load all categories for filtering
+        $allCategories = \App\Models\Category::query()
+            ->where('is_active', true)
+            ->orderBy('level')
+            ->orderBy('order')
+            ->orderBy('name')
+            ->get()
+            ->mapWithKeys(function($category) {
+                $indent = str_repeat('— ', $category->level);
+                return [$category->id => $indent . $category->full_path];
+            })
+            ->toArray();
+
+        $rootCategories = \App\Models\Category::roots()
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->pluck('name', 'id')
+            ->toArray();
+
+        // Load products with category information for filtering
+        $allProducts = \App\Models\Product::query()
+            ->with('category')
+            ->orderBy('name')
+            ->get();
+        
+        // Create flat products array with category prefixes
+        $productsByCategory = [];
+        
+        foreach ($allProducts as $product) {
+            if ($product->category_id && $product->category) {
+                $categoryName = $product->category->name;
+                // Format: "Product Name (Category Name)"
+                $productsByCategory[$product->id] = $product->name . ' (' . $categoryName . ')';
+            } else {
+                $productsByCategory[$product->id] = $product->name . ' (No Category)';
+            }
+        }
+        
         return [
             'header' => $headerConfig,
+            'rootCategories' => $rootCategories,
+            'allCategories' => $allCategories,
+            'productsByCategory' => $productsByCategory,
         ];
     }
 
@@ -121,6 +162,8 @@ class HeaderSettingsScreen extends Screen
                             ->columns([
                                 'Label' => 'label',
                                 'URL' => 'url',
+                                'Categories' => 'category_ids',
+                                'Products' => 'product_ids',
                                 'Order' => 'order',
                             ])
                             ->fields([
@@ -128,11 +171,22 @@ class HeaderSettingsScreen extends Screen
                                     ->placeholder('Home'),
                                 'url' => Input::make()
                                     ->placeholder('/'),
+                                'category_ids' => \Orchid\Screen\Fields\Select::make()
+                                    ->options($this->query()['rootCategories'] ?? [])
+                                    ->multiple()
+                                    ->title('Select Categories')
+                                    ->help(''),
+                                'product_ids' => \Orchid\Screen\Fields\Select::make()
+                                    ->options($this->query()['productsByCategory'] ?? [])
+                                    ->multiple()
+                                    ->empty('None', '')
+                                    ->title('Select Products')
+                                    ->help('Products show their category in parentheses. Select specific products from your chosen category.'),
                                 'order' => Input::make()
                                     ->type('number')
                                     ->value(0),
                             ])
-                            ->help('Add navigation menu items. Items will be sorted by order number.'),
+                            ->help('Select categories for the menu tree, then select specific products from those categories to display as featured products.'),
                     ]),
                 ],
 
