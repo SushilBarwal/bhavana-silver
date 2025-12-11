@@ -69,8 +69,9 @@ class CategoryEditScreen extends Screen
                 Select::make('category.parent_id')
                     ->title('Parent Category')
                     ->options($parentOptions)
-                    ->empty('None (Top Level Category)', 0)
+                    ->empty('None (Top Level Category)', '')
                     ->help('Select a parent category. Maximum depth is 3 levels (Parent > Sub > Child).'),
+
 
                 TextArea::make('category.description')
                     ->rows(4)

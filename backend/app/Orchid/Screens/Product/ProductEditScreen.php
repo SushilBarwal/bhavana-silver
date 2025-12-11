@@ -11,6 +11,7 @@ use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Fields\Upload;
 use Orchid\Screen\Fields\Select;
+use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Support\Facades\Layout;
 use Orchid\Screen\Screen;
@@ -72,7 +73,26 @@ class ProductEditScreen extends Screen
                 Input::make('product.price')
                     ->type('number')
                     ->step('0.01')
-                    ->title('Price'),
+                    ->title('Price (Min)')
+                    ->placeholder('Minimum Price'),
+
+                Input::make('product.max_price')
+                    ->type('number')
+                    ->step('0.01')
+                    ->title('Max Price (Optional)')
+                    ->placeholder('Maximum Price (for range)'),
+
+                Input::make('product.sale_price')
+                    ->type('number')
+                    ->step('0.01')
+                    ->title('Sale Price (Optional)')
+                    ->placeholder('Discounted price')
+                    ->help('Optional sale/discounted price to display'),
+
+                CheckBox::make('product.available_for_ship_now')
+                    ->title('Available for Ship Now')
+                    ->placeholder('Mark as available for immediate shipping')
+                    ->sendTrueOrFalse(),
 
                 Input::make('product.stone_size')
                     ->title('Stone Size')
@@ -131,10 +151,13 @@ class ProductEditScreen extends Screen
         $request->validate([
             'product.code' => 'required|string|max:255',
             'product.name' => 'required|string|max:255',
+            'product.price' => 'nullable|numeric|min:0',
             'product.stone_size' => 'nullable|string|max:255',
             'product.dimensions' => 'nullable|string|max:255',
             'product.plating' => 'nullable|string|max:255',
             'product.weight' => 'nullable|numeric',
+            'product.max_price' => 'nullable|numeric|min:0',
+            'product.sale_price' => 'nullable|numeric|min:0',
         ]);
         
         $data = $request->get('product');
@@ -204,6 +227,9 @@ class ProductEditScreen extends Screen
             $data['stone_id'] = null;
         }
 
+        // Handle checkbox for available_for_ship_now
+        $data['available_for_ship_now'] = $request->input('product.available_for_ship_now', false);
+
         $this->product->fill($data)->save();
 
         // Attach uploaded images via Orchid attachments
@@ -219,10 +245,7 @@ class ProductEditScreen extends Screen
 
         Alert::success('Product saved successfully!');
         
-        // Refresh the product to ensure we have the latest data including ID
-        $this->product->refresh();
-        
-        return redirect()->route('platform.products.edit', $this->product->id);
+        return redirect()->route('platform.products');
     }
 
     public function remove()

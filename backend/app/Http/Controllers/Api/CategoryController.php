@@ -40,14 +40,44 @@ class CategoryController extends Controller
             ->get();
 
         // Transform categories to include full path
-        $data = $categories->map(function ($category) {
-            return $this->transformCategory($category);
-        });
+        if ($request->query('tree') === 'true') {
+            $data = $this->buildTree($categories);
+        } else {
+            $data = $categories->map(function ($category) {
+                return $this->transformCategory($category);
+            });
+        }
 
         return response()->json([
             'success' => true,
             'data' => $data,
         ]);
+    }
+
+    /**
+     * Build nested tree structure from flat categories
+     */
+    private function buildTree($categories, $parentId = null)
+    {
+        $branch = [];
+
+        foreach ($categories as $category) {
+            if ($category->parent_id == $parentId) {
+                $children = $this->buildTree($categories, $category->id);
+                
+                $node = $this->transformCategory($category);
+                
+                if (!empty($children)) {
+                    $node['children'] = $children;
+                } else {
+                    $node['children'] = [];
+                }
+
+                $branch[] = $node;
+            }
+        }
+
+        return $branch;
     }
 
     /**

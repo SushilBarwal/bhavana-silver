@@ -19,6 +19,9 @@ class Product extends Model
         'slug',
         'name',
         'price',
+        'max_price',
+        'sale_price',
+        'available_for_ship_now',
         'short_description',
         'description',
         'details',
@@ -34,7 +37,10 @@ class Product extends Model
     protected $casts = [
         'details' => 'array',
         'price' => 'decimal:2',
+        'max_price' => 'decimal:2',
+        'sale_price' => 'decimal:2',
         'weight' => 'decimal:2',
+        'available_for_ship_now' => 'boolean',
     ];
 
     protected $allowedFilters = [
@@ -57,5 +63,17 @@ class Product extends Model
     public function stone()
     {
         return $this->belongsTo(Stone::class);
+    }
+
+    /**
+     * Scope a query to only include products of a given category.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int $categoryId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByCategory($query, $categoryId)
+    {
+        return $query->where('category_id', $categoryId);
     }
 }

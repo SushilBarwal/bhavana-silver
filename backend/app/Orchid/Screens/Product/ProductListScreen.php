@@ -26,7 +26,7 @@ class ProductListScreen extends Screen
 
     public function name(): ?string
     {
-        return 'Products';
+        return 'Products4';
     }
 
     public function description(): ?string
@@ -59,6 +59,7 @@ class ProductListScreen extends Screen
                 TD::make('code','Code')->sort()->filter(TD::FILTER_TEXT),
                 TD::make('name','Name')->sort()->filter(TD::FILTER_TEXT),
                 TD::make('price','Price')->sort()->render(fn(Product $p) => $p->price ? '₹' . number_format($p->price, 2) : '-'),
+                TD::make('sale_price','Sale Price')->sort()->render(fn(Product $p) => $p->sale_price ? '₹' . number_format($p->sale_price, 2) : '-'),
                 TD::make('category.name','Category')
                     ->sort()
                     ->filter(TD::FILTER_TEXT)
