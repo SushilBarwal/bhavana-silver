@@ -22,7 +22,7 @@ const RingBuilder = () => {
   const titleRef = useRef(null);
   const gemRefs = useRef([]);
   const nameRef = useRef(null);
-  
+
   const [activeGemIndex, setActiveGemIndex] = useState(0);
 
   const gemstones = [
@@ -95,19 +95,19 @@ const RingBuilder = () => {
   useEffect(() => {
     if (nameRef.current) {
       const tl = gsap.timeline();
-      
+
       tl.to(nameRef.current, {
         opacity: 0,
         y: 20,
         duration: 0.3,
         ease: 'power2.in'
       })
-      .to(nameRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.4,
-        ease: 'power2.out'
-      });
+        .to(nameRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+          ease: 'power2.out'
+        });
     }
   }, [activeGemIndex]);
 
@@ -177,8 +177,8 @@ const RingBuilder = () => {
           {/* Static Center Ring Background */}
           <div className="flex items-center justify-center mb-8">
             <div className="relative w-56 h-56 md:w-64 md:h-64 lg:w-80 lg:h-80">
-              <img 
-                src={centerRingImg} 
+              <img
+                src={centerRingImg}
                 alt="Ring Setting"
                 className="w-full h-full object-contain drop-shadow-xl"
               />
@@ -189,7 +189,7 @@ const RingBuilder = () => {
           <div className="flex items-center justify-center gap-4 md:gap-8 lg:gap-12 flex-wrap">
             {gemstones.map((gem, index) => {
               const isActive = index === activeGemIndex;
-              
+
               return (
                 <div
                   key={gem.id}
@@ -198,14 +198,13 @@ const RingBuilder = () => {
                   onClick={() => handleGemClick(index)}
                 >
                   <div
-                    className={`w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-full overflow-hidden bg-white shadow-lg hover:shadow-xl transition-all duration-300 ${
-                      isActive
+                    className={`w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-full overflow-hidden bg-white shadow-lg hover:shadow-xl transition-all duration-300 ${isActive
                         ? 'ring-4 ring-primary scale-110'
                         : 'hover:scale-110'
-                    }`}
+                      }`}
                   >
-                    <img 
-                      src={gem.image} 
+                    <img
+                      src={gem.image}
                       alt={gem.name}
                       className="w-full h-full object-contain"
                     />

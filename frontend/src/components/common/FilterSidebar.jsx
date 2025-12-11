@@ -6,7 +6,7 @@ import { getAllProducts } from '../../utils/productData';
 /**
  * Reusable Filter Sidebar Component
  */
-const FilterSidebar = ({ 
+const FilterSidebar = ({
   filters = {},
   onFilterChange,
   onReset,
@@ -46,7 +46,7 @@ const FilterSidebar = ({
   const handleSliderChange = (e, index) => {
     const newRange = [...priceRange];
     newRange[index] = Number(e.target.value);
-    
+
     // Ensure min doesn't exceed max and vice versa
     if (index === 0 && newRange[0] > priceRange[1]) {
       newRange[0] = priceRange[1];
@@ -54,7 +54,7 @@ const FilterSidebar = ({
     if (index === 1 && newRange[1] < priceRange[0]) {
       newRange[1] = priceRange[0];
     }
-    
+
     setPriceRange(newRange);
     onFilterChange('priceMin', newRange[0]);
     onFilterChange('priceMax', newRange[1]);
@@ -69,7 +69,7 @@ const FilterSidebar = ({
   }, [filters.priceMin, filters.priceMax]);
 
   return (
-    <div className="filter-sidebar">
+    <div className="filter-sidebar sticky top-[160px] self-start">
       {/* Filter Header */}
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-[15px] font-semibold text-gray-900 uppercase tracking-wider">
@@ -101,10 +101,9 @@ const FilterSidebar = ({
             PRICE
           </span>
         </button>
-        <div 
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            expandedSection === 'price' ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
-          }`}
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedSection === 'price' ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
+            }`}
         >
           <div className="pb-6 space-y-4">
             {/* Price Input Fields */}
@@ -202,10 +201,9 @@ const FilterSidebar = ({
             COLLECTION
           </span>
         </button>
-        <div 
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            expandedSection === 'collection' ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
-          }`}
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedSection === 'collection' ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
+            }`}
         >
           <div className="pb-4 space-y-3">
             {collections.map((collection) => {
@@ -251,10 +249,9 @@ const FilterSidebar = ({
             WEIGHT
           </span>
         </button>
-        <div 
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            expandedSection === 'weight' ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'
-          }`}
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedSection === 'weight' ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'
+            }`}
         >
           <div className="pb-4 space-y-2">
             <p className="text-[13px] text-gray-500 italic">Coming soon...</p>
@@ -273,10 +270,9 @@ const FilterSidebar = ({
             STONE
           </span>
         </button>
-        <div 
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            expandedSection === 'stone' ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'
-          }`}
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedSection === 'stone' ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'
+            }`}
         >
           <div className="pb-4 space-y-2">
             <p className="text-[13px] text-gray-500 italic">Coming soon...</p>
@@ -295,10 +291,9 @@ const FilterSidebar = ({
             SHAPE
           </span>
         </button>
-        <div 
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            expandedSection === 'shape' ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'
-          }`}
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedSection === 'shape' ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'
+            }`}
         >
           <div className="pb-4 space-y-2">
             <p className="text-[13px] text-gray-500 italic">Coming soon...</p>

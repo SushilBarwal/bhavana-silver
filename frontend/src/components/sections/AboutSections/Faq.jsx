@@ -36,27 +36,25 @@ const FAQItem = React.memo(
     return (
       <motion.div
         key={faq.id}
-        className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
-        whileHover={{ y: -5 }}
+        className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden"
+        whileHover={{ y: -4 }}
+        transition={{ duration: 0.2 }}
       >
         <button
           onClick={() => toggleAccordion(index)}
-          className="flex items-center justify-between w-full text-lg font-medium text-left text-gray-900"
+          className="flex items-center justify-between w-full p-6 text-lg font-medium text-left text-gray-900"
           aria-expanded={isOpen}
           aria-controls={faq.id}
         >
-          <span className="flex-1 text-base font-semibold text-gray-800 md:text-lg">
+          <span className="flex-1 text-base font-semibold text-gray-800 md:text-lg pr-4">
             {faq.question}
           </span>
           <motion.div
             animate={{ rotate: isOpen ? 45 : 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="flex-shrink-0"
           >
-            <FaPlus
-              className={`w-6 h-6 text-gray-500 ${
-                isOpen ? 'transform rotate-45' : ''
-              }`}
-            />
+            <FaPlus className="w-5 h-5 text-primary" />
           </motion.div>
         </button>
         <AnimatePresence initial={false}>
@@ -68,15 +66,30 @@ const FAQItem = React.memo(
               animate="open"
               exit="collapsed"
               variants={{
-                open: { opacity: 1, height: 'auto' },
-                collapsed: { opacity: 0, height: 0 },
+                open: {
+                  opacity: 1,
+                  height: 'auto',
+                  marginTop: 0,
+                  marginBottom: 24
+                },
+                collapsed: {
+                  opacity: 0,
+                  height: 0,
+                  marginTop: 0,
+                  marginBottom: 0
+                },
               }}
-              transition={{ duration: 0.4, ease: 'easeInOut' }}
-              className="mt-4 text-base text-gray-600"
+              transition={{
+                duration: 0.4,
+                ease: [0.04, 0.62, 0.23, 0.98] // Custom easing for smooth animation
+              }}
+              className="overflow-hidden"
               role="region"
               aria-labelledby={`question-${faq.id}`}
             >
-              {faq.answer}
+              <div className="px-6 pb-6 text-base text-gray-600 leading-relaxed">
+                {faq.answer}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -86,7 +99,7 @@ const FAQItem = React.memo(
 );
 
 const FAQ = () => {
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);

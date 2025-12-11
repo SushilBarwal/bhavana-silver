@@ -28,7 +28,6 @@ const AboutUsPage = () => {
   const navSections = [
     { id: "our-story", label: "OUR STORY" },
     { id: "why-us", label: "WHY US" },
-    { id: "how-to-order", label: "HOW TO ORDER" },
     { id: "meet-the-team", label: "MEET THE TEAM" },
     { id: "faqs", label: "FAQs" },
     { id: "book-appointment", label: "BOOK AN APPOINTMENT" },
@@ -244,7 +243,7 @@ const AboutUsPage = () => {
         </section> */}
         <WhyChooseUs />
         {/* How to Order Section */}
-        <HowToOrder />
+       
 
         {/* Meet the Team Section */}
         <MeetTheTeam />

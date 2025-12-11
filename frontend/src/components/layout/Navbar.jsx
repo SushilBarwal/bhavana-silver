@@ -15,7 +15,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   // Menu data structure for megamenu
-  const menuItems = [
+  const [menuItems, setMenuItems] = useState([
     { name: "HOME", path: "/", hasSubmenu: false },
     {
       name: "RINGS",
@@ -177,9 +177,9 @@ const Navbar = () => {
         ],
       },
     },
-    { name: "SHIP NOW", path: "/ship-now", hasSubmenu: false },
+    // { name: "SHIP NOW", path: "/ship-now", hasSubmenu: false },
     { name: "ABOUT US", path: "/about-us", hasSubmenu: false },
-  ];
+  ]);
 
   const handleMouseEnter = (menuName) => {
     setActiveMenu(menuName);
@@ -217,6 +217,50 @@ const Navbar = () => {
       setSearchQuery('');
     }
   };
+
+  // Fetch header settings
+  const [dynamicLogo, setDynamicLogo] = useState(purpleLogo);
+
+  useEffect(() => {
+    const loadHeaderSettings = async () => {
+      try {
+        const { fetchHeaderSettings } = await import('../../api/settings');
+        const data = await fetchHeaderSettings();
+
+        if (data && data.success && data.data) {
+          // 1. Update Logo
+          if (data.data.logo) {
+            // Prepend /api to route through proxy
+            setDynamicLogo(`/api${data.data.logo}`);
+          }
+
+          // 2. Update Menu Items
+          if (Array.isArray(data.data.menu_items)) {
+            const apiMenu = data.data.menu_items.map(item => ({
+              name: item.label,
+              path: item.url || '/',
+              hasSubmenu: false, // API currently returns flat list
+              submenu: null
+            }));
+            setMenuItems(prev => {
+              // Reconstruct the menu array
+              // We can either strictly follow API or try to preserve some static logic.
+              // For now, let's trust the API + "Home" and "About Us" logic I wrote before, 
+              // or just direct map if the API has everything.
+              // API has Home, Gold, Silver, Diamond, Collections, About, Contact.
+              // This is a COMPLETE menu. So we should just use it.
+
+              return apiMenu;
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load header settings:', error);
+      }
+    };
+
+    loadHeaderSettings();
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -271,7 +315,7 @@ const Navbar = () => {
           <div className="navbar-logo">
             <Link to="/">
               <img
-                src={purpleLogo}
+                src={dynamicLogo}
                 alt="Bhavana Silver Jewellers"
                 className="logo-image"
               />

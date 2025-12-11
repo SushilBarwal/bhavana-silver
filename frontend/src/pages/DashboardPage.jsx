@@ -66,16 +66,11 @@ const DashboardPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
           {/* Sidebar */}
           <div className="lg:sticky lg:top-24 lg:self-start">
-            <DashboardSidebar activeSection="overview" />
+            <DashboardSidebar activeSection="wishlist" />
           </div>
 
           {/* Main Content */}
           <div className="dashboard-content space-y-8">
-            {/* Overview Stats */}
-            <DashboardOverview
-              wishlistCount={wishlistItems.length}
-              recentlyViewedCount={recentlyViewedCount}
-            />
 
             {/* Wishlist Section */}
             <WishlistSection
@@ -90,6 +85,12 @@ const DashboardPage = () => {
                 Quick Actions
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <Link
+                  to="/recently-viewed"
+                  className="px-6 py-4 bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 text-body uppercase tracking-wide text-center"
+                >
+                  Recently Viewed
+                </Link>
                 <Link
                   to="/support"
                   className="px-6 py-4 bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 text-body uppercase tracking-wide text-center"

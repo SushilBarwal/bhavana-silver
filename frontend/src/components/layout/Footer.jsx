@@ -16,6 +16,14 @@ const Footer = () => {
     }
   };
 
+  // Scroll to top when footer link is clicked
+  const handleLinkClick = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <footer className="footer bg-white">
       {/* Top Section with Links */}
@@ -29,27 +37,18 @@ const Footer = () => {
               </h3>
               <ul className="space-y-3">
                 <li>
-                  <Link to="/contact" className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
+                  <Link to="/contact" onClick={handleLinkClick} className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
                     CONTACT US
                   </Link>
-                </li>
+                </li>             
                 <li>
-                  <Link to="/faqs" className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
-                    FAQs
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/custom-orders" className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
+                  <Link to="/custom-orders" onClick={handleLinkClick} className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
                     CUSTOM ORDERS
                   </Link>
                 </li>
+               
                 <li>
-                  <Link to="/sample-order" className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
-                    SAMPLE ORDER REQUEST
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/client-services" className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
+                  <Link to="/client-services" onClick={handleLinkClick} className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
                     CLIENT SERVICES
                   </Link>
                 </li>
@@ -63,17 +62,17 @@ const Footer = () => {
               </h3>
               <ul className="space-y-3">
                 <li>
-                  <Link to="/about" className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
+                  <Link to="/about-us" onClick={handleLinkClick} className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
                     ABOUT US
                   </Link>
                 </li>
                 <li>
-                  <Link to="/zed-certificate" className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
+                  <Link to="/zed-certificate" onClick={handleLinkClick} className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
                     ZED-CERTIFICATE
                   </Link>
                 </li>
                 <li>
-                  <Link to="/sitemap" className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
+                  <Link to="/sitemap" onClick={handleLinkClick} className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
                     SITEMAP
                   </Link>
                 </li>
@@ -87,17 +86,17 @@ const Footer = () => {
               </h3>
               <ul className="space-y-3">
                 <li>
-                  <Link to="/terms" className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
+                  <Link to="/terms" onClick={handleLinkClick} className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
                     TERMS & CONDITIONS
                   </Link>
                 </li>
                 <li>
-                  <Link to="/shipping" className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
+                  <Link to="/shipping" onClick={handleLinkClick} className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
                     SHIPPING & DELIVERY
                   </Link>
                 </li>
                 <li>
-                  <Link to="/privacy" className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
+                  <Link to="/privacy" onClick={handleLinkClick} className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
                     PRIVACY POLICY
                   </Link>
                 </li>
@@ -111,12 +110,12 @@ const Footer = () => {
               </h3>
               <ul className="space-y-3">
                 <li>
-                  <Link to="/blog" className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
-                    BLOG
+                  <Link to="/faqs" onClick={handleLinkClick} className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
+                    FAQs
                   </Link>
                 </li>
                 <li>
-                  <Link to="/stone-stories" className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
+                  <Link to="/stone-stories" onClick={handleLinkClick} className="text-question text-gray-600 hover:text-primary transition-colors duration-300">
                     STONE STORIES
                   </Link>
                 </li>
@@ -163,7 +162,7 @@ const Footer = () => {
             <p className="text-question text-gray-600 mb-6">
               Subscribe here to receive updates, access to exclusive deals, discounts, and more.
             </p>
-            
+
             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 max-w-2xl">
               <div className="flex-1 relative">
                 <input
@@ -193,16 +192,17 @@ const Footer = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Company Description */}
             <div className="text-center lg:text-left">
-              <img 
-                src={whiteLogo} 
-                alt="Bhavan Silver Jewellery" 
+              <img
+                src={whiteLogo}
+                alt="Bhavan Silver Jewellery"
                 className="h-12 w-auto mx-auto lg:mx-0 mb-6"
               />
               <p className="text-white/80 text-body leading-relaxed max-w-xl mx-auto lg:mx-0 mb-4">
                 A legacy of refined craftsmanship in silver jewellery. Bhavan Silver Jewellery brings exquisite designs and quality gemstone jewelry to wholesale buyers worldwide.
               </p>
               <Link
-                to="/about"
+                to="/about-us"
+                onClick={handleLinkClick}
                 className="text-white hover:text-white/80 text-body font-medium underline transition-colors duration-300"
               >
                 Know more about Bhavan Silver Jewellery

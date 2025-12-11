@@ -1,5 +1,5 @@
 
-import { useState, useRef, useMemo, useEffect } from 'react';
+import { useState, useRef, useMemo, useEffect, useCallback } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
@@ -11,20 +11,23 @@ import { searchProducts } from '../utils/productData';
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
+const PRODUCTS_PER_PAGE = 12;
+
 /**
  * Search Results Page Component
- * Displays search results with filters and sorting
+ * Displays search results with filters, sorting, and infinite scroll
  */
 const SearchResultsPage = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
-  
+
   // Refs for animations
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const filterRef = useRef(null);
   const gridRef = useRef(null);
-  
+  const loadMoreRef = useRef(null);
+
   // State management
   const [filters, setFilters] = useState({
     priceMin: '',
@@ -32,6 +35,8 @@ const SearchResultsPage = () => {
     collections: [],
   });
   const [sortBy, setSortBy] = useState('new-to-old');
+  const [displayedCount, setDisplayedCount] = useState(PRODUCTS_PER_PAGE);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Get search results
   const searchResults = useMemo(() => {
@@ -47,32 +52,80 @@ const SearchResultsPage = () => {
     if (filters.priceMax && product.priceRange.max > parseFloat(filters.priceMax)) {
       return false;
     }
-    
+
     // Collection filter - only apply if collections are selected
     if (filters.collections && Array.isArray(filters.collections) && filters.collections.length > 0) {
       if (!product.collection || !filters.collections.includes(product.collection)) {
         return false;
       }
     }
-    
+
     return true;
   });
 
   // Sort products
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch (sortBy) {
-      case 'price-low-high':
-        return a.priceRange.min - b.priceRange.min;
-      case 'price-high-low':
-        return b.priceRange.min - a.priceRange.min;
-      case 'name-a-z':
-        return a.name.localeCompare(b.name);
-      case 'name-z-a':
-        return b.name.localeCompare(a.name);
-      default: // new-to-old
-        return 0;
+  const sortedProducts = useMemo(() => {
+    return [...filteredProducts].sort((a, b) => {
+      switch (sortBy) {
+        case 'price-low-high':
+          return a.priceRange.min - b.priceRange.min;
+        case 'price-high-low':
+          return b.priceRange.min - a.priceRange.min;
+        case 'name-a-z':
+          return a.name.localeCompare(b.name);
+        case 'name-z-a':
+          return b.name.localeCompare(a.name);
+        default: // new-to-old
+          return 0;
+      }
+    });
+  }, [filteredProducts, sortBy]);
+
+  // Get products to display (with pagination)
+  const displayedProducts = useMemo(() => {
+    return sortedProducts.slice(0, displayedCount);
+  }, [sortedProducts, displayedCount]);
+
+  const hasMore = displayedCount < sortedProducts.length;
+
+  // Load more products
+  const loadMore = useCallback(() => {
+    if (isLoading || !hasMore) return;
+
+    setIsLoading(true);
+    setTimeout(() => {
+      setDisplayedCount(prev => Math.min(prev + PRODUCTS_PER_PAGE, sortedProducts.length));
+      setIsLoading(false);
+    }, 300);
+  }, [isLoading, hasMore, sortedProducts.length]);
+
+  // Intersection Observer for infinite scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !isLoading) {
+          loadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const currentRef = loadMoreRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
-  });
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [hasMore, isLoading, loadMore]);
+
+  // Reset displayed count when filters, sort, or query changes
+  useEffect(() => {
+    setDisplayedCount(PRODUCTS_PER_PAGE);
+  }, [filters, sortBy, query]);
 
   // Handle filter change
   const handleFilterChange = (key, value) => {
@@ -228,7 +281,7 @@ const SearchResultsPage = () => {
               {/* Sort Bar */}
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
                 <p className="text-[14px] text-gray-600">
-                  {sortedProducts.length} products
+                  Showing {displayedProducts.length} of {sortedProducts.length} products
                 </p>
                 <div className="flex items-center gap-3">
                   <label className="text-[13px] text-gray-600 uppercase tracking-wide">
@@ -249,7 +302,28 @@ const SearchResultsPage = () => {
               </div>
 
               {/* Product Grid */}
-              <ProductGrid products={sortedProducts} />
+              <ProductGrid products={displayedProducts} />
+
+              {/* Loading Indicator */}
+              {isLoading && (
+                <div className="flex justify-center items-center py-8">
+                  <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              )}
+
+              {/* Infinite Scroll Trigger */}
+              {hasMore && !isLoading && (
+                <div ref={loadMoreRef} className="h-20 flex items-center justify-center">
+                  <p className="text-sm text-gray-500">Scroll for more products...</p>
+                </div>
+              )}
+
+              {/* End of Results */}
+              {!hasMore && sortedProducts.length > 0 && (
+                <div className="text-center py-8 border-t border-gray-200 mt-8">
+                  <p className="text-gray-600">You've viewed all {sortedProducts.length} products</p>
+                </div>
+              )}
             </div>
           </div>
         )}
