@@ -7,105 +7,77 @@ http://localhost:8000/api/v1
 
 ---
 
-## 🔐 Authentication
+## 🔐 User Authentication (Sanctum)
 
-This API uses **simple token-based authentication** powered by Laravel Sanctum.
+The API uses **Laravel Sanctum** for user authentication.
 
-### How It Works
-
-1. **Generate a token** by calling the token generation endpoint
-2. **Include the token** in the `Authorization` header for all API requests
-3. **No user registration or login required**
-
-### Quick Start
-
-```bash
-# 1. Generate a token
-curl -X POST http://localhost:8000/api/v1/auth/token \
-  -H "Content-Type: application/json"
-
-# 2. Use the token in requests
-curl http://localhost:8000/api/v1/products \
-  -H "Authorization: Bearer {your_token_here}"
+### 1. Register User
+**Endpoint:** `POST /api/register`
+**Body:**
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password",
+  "password_confirmation": "password"
+}
 ```
+**Response:** `201 Created` (Returns Token + User)
+
+### 2. Login User
+**Endpoint:** `POST /api/login`
+**Body:**
+```json
+{
+  "email": "john@example.com",
+  "password": "password"
+}
+```
+**Response:** `200 OK` (Returns Token)
+
+### 3. Get Authenticated User
+**Endpoint:** `GET /api/me`
+**Header:** `Authorization: Bearer {token}`
+**Response:** `200 OK` (Returns User details)
+
+### 4. Logout
+**Endpoint:** `POST /api/logout`
+**Header:** `Authorization: Bearer {token}`
+**Response:** `200 OK`
 
 ---
 
-## Authentication Endpoint
+## ❤️ Wishlist Endpoints
+
+### 1. Get Wishlist
+**Endpoint:** `GET /api/wishlist`
+**Header:** `Authorization: Bearer {token}`
+**Response:** Returns list of products in wishlist.
+
+### 2. Add to Wishlist
+**Endpoint:** `POST /api/wishlist`
+**Header:** `Authorization: Bearer {token}`
+**Body:**
+```json
+{
+  "product_id": 1
+}
+```
+**Response:** `200 OK`
+
+### 3. Remove from Wishlist
+**Endpoint:** `DELETE /api/wishlist/{product_id}`
+**Header:** `Authorization: Bearer {token}`
+**Response:** `200 OK`
+
+---
+
+## ℹ️ Legacy Authentication (v1)
+*The following `api/v1/auth/token` endpoint is for simple machine-to-machine interaction and does not support User Wishlists.*
 
 ### Generate API Token
-
 **Endpoint:** `POST /api/v1/auth/token`
 
-**Description:** Generates a new API access token dynamically. No user account required.
-
-**Request Headers:**
-```
-Content-Type: application/json
-```
-
-**Request Body (Optional):**
-```json
-{
-  "name": "My Application Token"
-}
-```
-
-**Parameters:**
-- `name` (optional, string): Custom name for the token. If not provided, a random name will be generated.
-
-**Example Request:**
-```bash
-curl -X POST http://localhost:8000/api/v1/auth/token \
-  -H "Content-Type: application/json" \
-  -d '{"name": "Mobile App Token"}'
-```
-
-**Success Response (201 Created):**
-```json
-{
-  "success": true,
-  "token": "6|abc123xyz456def789...",
-  "token_type": "Bearer",
-  "name": "Mobile App Token",
-  "created_at": "2025-12-08T12:00:00.000000Z"
-}
-```
-
-**Response Fields:**
-- `success` (boolean): Indicates successful token generation
-- `token` (string): The API token to use in subsequent requests
-- `token_type` (string): Always "Bearer"
-- `name` (string): The token name/identifier
-- `created_at` (datetime): When the token was created
-
-**Important Notes:**
-- ✅ Tokens are stored securely in the database
-- ✅ Tokens don't expire by default
-- ✅ You can generate multiple tokens
-- ✅ Save the token securely - it's only shown once
-
----
-
-## 🔒 Using Authentication
-
-All endpoints below require authentication. Include the token in the `Authorization` header:
-
-```
-Authorization: Bearer {your_token}
-```
-
-### Unauthorized Response (401)
-
-If you try to access a protected endpoint without a valid token:
-
-```json
-{
-  "message": "Unauthenticated."
-}
-```
-
----
 
 ## Site Settings Endpoints
 

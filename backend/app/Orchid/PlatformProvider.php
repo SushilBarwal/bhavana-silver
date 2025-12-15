@@ -53,11 +53,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->permission('platform.systems.users')
                 ->title(__('Access Controls')),
 
-            Menu::make(__('Roles'))
-                ->icon('bs.shield')
-                ->route('platform.systems.roles')
-                ->permission('platform.systems.roles')
-                ->divider(),
+
+
 
             Menu::make('Site Settings')
                 ->icon('bs.gear')
@@ -107,13 +104,15 @@ class PlatformProvider extends OrchidServiceProvider
                     Menu::make('Our Certificates')
                         ->icon('bs.award')
                         ->route('platform.homepage.certificate.list'),
-
-                    Menu::make('Configuration')
-                        ->icon('bs.sliders')
-                        ->route('platform.homepage.settings'),
                 ]),
 
+
+
             
+            Menu::make('Customer Wishlists')
+                ->icon('bs.heart')
+                ->route('platform.wishlist.list')
+                ->title('User Activity'),
         ];
     }
 
