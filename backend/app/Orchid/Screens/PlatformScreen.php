@@ -7,6 +7,11 @@ namespace App\Orchid\Screens;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 
+use App\Models\User;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Stone;
+
 class PlatformScreen extends Screen
 {
     /**
@@ -16,7 +21,12 @@ class PlatformScreen extends Screen
      */
     public function query(): iterable
     {
-        return [];
+        return [
+            'users_count'      => User::count(),
+            'products_count'   => Product::count(),
+            'categories_count' => Category::count(),
+            'stones_count'     => Stone::count(),
+        ];
     }
 
     /**
@@ -24,7 +34,7 @@ class PlatformScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'Get Started';
+        return 'Dashboard';
     }
 
     /**
@@ -32,7 +42,7 @@ class PlatformScreen extends Screen
      */
     public function description(): ?string
     {
-        return 'Welcome to your Orchid application.';
+        return 'Overview of Bhavana Silver Admin Panel';
     }
 
     /**
@@ -53,8 +63,7 @@ class PlatformScreen extends Screen
     public function layout(): iterable
     {
         return [
-            Layout::view('platform::partials.update-assets'),
-            Layout::view('platform::partials.welcome'),
+            Layout::view('brand.welcome'),
         ];
     }
 }

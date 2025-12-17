@@ -33,6 +33,11 @@
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
+.brand-logo {
+    display: block;
+    margin: 0 auto;
+}
+
 .o-header .navbar-brand,
 .o-header .navbar .nav-link.active {
     color: var(--brand-gold);
@@ -527,4 +532,42 @@ td:last-child .btn-link:last-child:hover,
 .hover-lift:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
+}
+
+/* ========================================
+   GLOBAL DASHBOARD BACKGROUND
+   ======================================== */
+body {
+    background-color: #fcf9f0 !important;
+    /* Premium Cream/Gold-White */
+    background-image: linear-gradient(135deg, #fcf9f0 0%, #fffbf5 100%) !important;
+}
+
+/* Ensure the wrapper doesn't have a white background covering the body */
+.app-wrapper,
+.workspace,
+.main-content {
+    background: transparent !important;
+}
+
+/* Make sure cards stand out against the new background */
+.card,
+.bg-white {
+    border: 1px solid rgba(212, 175, 55, 0.1) !important;
+    /* Subtle gold border */
+    box-shadow: 0 4px 15px rgba(184, 134, 11, 0.05);
+    /* Subtle gold shadow */
+}
+
+/* Enhanced Sidebar Styling */
+.aside {
+    background: linear-gradient(180deg, #232233 0%, #1a1b2e 100%) !important;
+    border-right: 1px solid rgba(255, 215, 0, 0.15) !important;
+}
+
+/* Navbar Golden Touch */
+.navbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--brand-gold) !important;
 }
