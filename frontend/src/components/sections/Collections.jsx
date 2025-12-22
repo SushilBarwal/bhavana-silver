@@ -8,13 +8,20 @@ import collectionsData from '../../data/collections.json';
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-const Collections = () => {
+const Collections = ({ collections }) => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const cardsRef = useRef([]);
 
-  // Get collections from JSON
-  const collections = collectionsData.collections;
+  // Use passed collections or fallback to static data
+  const displayCollections = collections && collections.length > 0
+    ? collections.map(col => ({
+      id: col.id,
+      name: col.title, // API uses title
+      slug: col.url || col.title.toLowerCase().replace(/\s+/g, '-'), // API uses url or fallback
+      image: col.image
+    }))
+    : collectionsData.collections;
 
   // GSAP scroll-triggered animations
   useGSAP(() => {
@@ -67,13 +74,13 @@ const Collections = () => {
   }, { scope: sectionRef });
 
   return (
-    <section 
+    <section
       ref={sectionRef}
       className="collections-section py-16 md:py-20 lg:py-24 bg-white"
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Section Title */}
-        <h2 
+        <h2
           ref={titleRef}
           className="section-heading mb-12 md:mb-16"
         >
@@ -82,7 +89,7 @@ const Collections = () => {
 
         {/* Collections Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
-          {collections.map((collection, index) => (
+          {displayCollections.map((collection, index) => (
             <div
               key={collection.id}
               ref={(el) => (cardsRef.current[index] = el)}

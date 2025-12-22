@@ -7,7 +7,6 @@ import HowToOrder from "../components/sections/AboutSections/HowToOrder";
 import MeetTheTeam from "../components/sections/AboutSections/MeetTheTeam";
 import WhyChooseUs from "../components/sections/WhyChooseUs";
 import Faq from "../components/sections/AboutSections/Faq";
-import BookAppointment from "../components/sections/BookAppointment";
 import OurStory from "../components/sections/AboutSections/OurStory";
 
 // Register ScrollTrigger plugin
@@ -273,7 +272,7 @@ const AboutUsPage = () => {
           </div>
         </section> */}
 
-        <BookAppointment />
+     
       </div>
     </div>
   );

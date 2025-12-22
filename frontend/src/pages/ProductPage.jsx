@@ -3,7 +3,7 @@ import { useParams, Navigate } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FiShoppingCart, FiTruck, FiShield } from 'react-icons/fi';
+import { FiTruck, FiShield } from 'react-icons/fi';
 import { getProductById, getRelatedProducts } from '../utils/productData';
 import { addRecentlyViewed } from '../utils/recentlyViewedData';
 
@@ -99,23 +99,7 @@ const ProductPage = () => {
 
   // Additional state for product interactions
   const [selectedStone, setSelectedStone] = useState(null);
-  const [quantity, setQuantity] = useState(1);
   const [gemstoneQuantities, setGemstoneQuantities] = useState({});
-
-  // Handle quantity change
-  const handleQuantityChange = (action) => {
-    if (action === 'increment') {
-      setQuantity(prev => prev + 1);
-    } else if (action === 'decrement' && quantity > 1) {
-      setQuantity(prev => prev - 1);
-    }
-  };
-
-  // Handle add to cart
-  const handleAddToCart = () => {
-    console.log('Added to cart:', { product, selectedStone, quantity });
-    alert('Product added to cart!');
-  };
 
   // Get related products dynamically
   const relatedProducts = getRelatedProducts(product.id, product.category, 4).map(p => ({
@@ -362,10 +346,10 @@ const ProductPage = () => {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <button
-                onClick={handleAddToCart}
+                onClick={() => setShowModal(true)}
                 className="flex-1 bg-[#A67C7C] hover:bg-[#956D6D] text-white font-sans font-medium text-[13px] px-8 py-4 transition-all duration-300 uppercase tracking-wider"
               >
-                MAKE AN ORDER
+                BOOK APPOINTMENT
               </button>
               <button
                 className="flex-1 bg-[#A67C7C] hover:bg-[#956D6D] text-white font-sans font-medium text-[13px] px-8 py-4 transition-all duration-300 uppercase tracking-wider"
