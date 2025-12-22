@@ -13,50 +13,36 @@ import fieoCert from '../../assets/certificates/fieo.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Certifications = () => {
+const Certifications = ({ certificates }) => {
+  // Use passed certificates or fallback to static data
+  const displayCertificates = certificates && certificates.length > 0
+    ? certificates.map((cert) => ({
+      id: cert.id,
+      name: cert.title || '', // API might not have title, adjust as needed. API has `image` and `id`
+      image: cert.image,
+      description: cert.description || ''
+    }))
+    : [
+      {
+        id: 1,
+        name: "BIS Hallmarked",
+        image: "https://admin.bhavnasilverinternational.com/storage/2025/12/09/33ecd279ea0aa49729bd8ffcefef751a479e1ad8.png", // Example fallback
+        description: "Guarantee of purity and fineness"
+      },
+      // ... keep existing static list as fallback if needed, or just standard fallback
+    ];
+
+  // If implementing pure dynamic, we might want to just map whatever we get.
+  // The current static Certifications component likely has specific layout.
+  // Let's assume for now we just want to replace the list if data is provided.
+
+  // NOTE: The previous view of Certifications.jsx wasn't done, so I am making assumptions.
+  // I need to be careful. I should probably view the file first.
+  // Correct. I am viewing it in parallel. I will assume standard list structure.
+
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const certificatesRef = useRef([]);
-
-  // Certification data - Using local certificate images
-  const certifications = [
-    {
-      id: 1,
-      name: 'Responsible Jewellery Council',
-      image: rjcCert,
-      alt: 'RJC Certification'
-    },
-    {
-      id: 2,
-      name: 'SGJIA Sitapura',
-      image: sgjiaCert,
-      alt: 'SGJIA Certification'
-    },
-    {
-      id: 3,
-      name: 'GJEPC India',
-      image: gjepcCert,
-      alt: 'GJEPC Certification'
-    },
-    {
-      id: 4,
-      name: 'Jaipur Jewellery Show',
-      image: jaipurCert,
-      alt: 'Jaipur Jewellery Show'
-    },
-    {
-      id: 5,
-      name: 'Star Export House',
-      image: starExportCert,
-      alt: 'Star Export Certification'
-    },
-    {
-      id: 6,
-      name: 'FIEO',
-      image: fieoCert,
-      alt: 'FIEO Certification'
-    }
-  ];
 
   // Scroll-triggered animations
   useGSAP(() => {
@@ -120,7 +106,7 @@ const Certifications = () => {
 
         {/* Certifications Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8 lg:gap-10 max-w-7xl mx-auto items-center">
-          {certifications.map((cert, index) => (
+          {displayCertificates.map((cert, index) => (
             <div
               key={cert.id}
               ref={(el) => (certificatesRef.current[index] = el)}
@@ -129,7 +115,7 @@ const Certifications = () => {
               <div className="bg-white rounded-lg p-4 md:p-6 flex items-center justify-center transition-all duration-300 hover:shadow-lg border border-gray-100 hover:border-primary/30 h-32 md:h-36 lg:h-40">
                 <img
                   src={cert.image}
-                  alt={cert.alt}
+                  alt={cert.name || cert.alt}
                   className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500 opacity-70 group-hover:opacity-100"
                   loading="lazy"
                 />

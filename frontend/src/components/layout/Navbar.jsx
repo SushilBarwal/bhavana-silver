@@ -230,8 +230,8 @@ const Navbar = () => {
         if (data && data.success && data.data) {
           // 1. Update Logo
           if (data.data.logo) {
-            // Prepend /api to route through proxy
-            setDynamicLogo(`/api${data.data.logo}`);
+            // Direct use of URL from API
+            setDynamicLogo(data.data.logo);
           }
 
           // 2. Update Menu Items
@@ -336,14 +336,7 @@ const Navbar = () => {
               </svg>
               <span className="icon-badge">0</span>
             </Link>
-            <Link to="/cart" className="nav-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <circle cx="9" cy="21" r="1" strokeWidth="2" />
-                <circle cx="20" cy="21" r="1" strokeWidth="2" />
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" strokeWidth="2" />
-              </svg>
-              <span className="icon-badge">0</span>
-            </Link>
+
             <div className="currency-selector">
               <select className="currency-select">
                 <option value="USD">USD</option>

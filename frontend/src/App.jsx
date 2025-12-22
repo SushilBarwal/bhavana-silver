@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
@@ -16,13 +16,16 @@ const ContactPage = lazy(() => import('./pages/ContactPage'))
 const FaqPage = lazy(() => import('./pages/FaqPage'))
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
 const AccountSettings = lazy(() => import('./pages/AccountSettings'))
-const CartPage = lazy(() => import('./pages/CartPage'))
-const CheckoutPage = lazy(() => import('./pages/CheckoutPage'))
 const TermsPage = lazy(() => import('./pages/TermsPage'))
 const ShippingPage = lazy(() => import('./pages/ShippingPage'))
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
 const SitemapPage = lazy(() => import('./pages/SitemapPage'))
 const RecentlyViewedPage = lazy(() => import('./pages/RecentlyViewedPage'))
+
+// Auth Pages
+const LoginPage = lazy(() => import('./pages/LoginPage'))
+const RegisterPage = lazy(() => import('./pages/RegisterPage'))
+const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'))
 
 // Loading component
 const PageLoader = () => (
@@ -37,6 +40,23 @@ const Account = () => <div style={{ padding: '40px', textAlign: 'center' }}><h1>
 const Wishlist = () => <div style={{ padding: '40px', textAlign: 'center' }}><h1>My Wishlist</h1><p>Your favorite items saved for later.</p></div>
 
 function App() {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const { fetchCategories } = await import('./api/products');
+        const data = await fetchCategories();
+        if (Array.isArray(data)) {
+          setCategories(data);
+        }
+      } catch (error) {
+        console.error("Failed to load categories for routing", error);
+      }
+    };
+    loadCategories();
+  }, []);
+
   return (
     <>
       <ScrollToTop />
@@ -46,23 +66,38 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/search" element={<SearchResultsPage />} />
           <Route path="/product/:id" element={<ProductPage />} />
+
+          {/* Dynamic Category Routes */}
+          {categories.map((category) => (
+            <Route
+              key={category.id || category.slug}
+              path={`/${category.slug}`}
+              element={<CategoryPage />}
+            />
+          ))}
+
+          {/* Fallback/Standard Category Routes */}
           <Route path="/collection/:collection" element={<CategoryPage />} />
           <Route path="/category/:category" element={<CategoryPage />} />
           <Route path="/category/:category/:stone" element={<CategoryPage />} />
+
+          {/* Pre-defined routes kept for safety/structure if API fails or for specific SEO structure */}
           <Route path="/gold-jewelry" element={<CategoryPage />} />
           <Route path="/gold-jewelry/*" element={<CategoryPage />} />
           <Route path="/silver-jewelry" element={<CategoryPage />} />
           <Route path="/silver-jewelry/*" element={<CategoryPage />} />
           <Route path="/fashion-jewelry" element={<CategoryPage />} />
           <Route path="/fashion-jewelry/*" element={<CategoryPage />} />
+
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faqs" element={<FaqPage />} />
           <Route path="/account" element={<DashboardPage />} />
           <Route path="/account/settings" element={<AccountSettings />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/recently-viewed" element={<RecentlyViewedPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/shipping" element={<ShippingPage />} />

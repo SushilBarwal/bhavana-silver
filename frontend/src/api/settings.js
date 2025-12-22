@@ -9,3 +9,12 @@ export const fetchHeaderSettings = async () => {
         return null;
     }
 };
+export const fetchFooterSettings = async () => {
+    try {
+        const response = await apiClient.get('/site-settings/footer');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching footer settings:', error);
+        return null;
+    }
+};
