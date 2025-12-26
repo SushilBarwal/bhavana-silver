@@ -1,18 +1,24 @@
-import apiClient from './client';
+import apiClient from "./client";
 
+export const fetchProducts = async (params = {}) => {
+  try {
+    // Adjust '/products' if your base URL already includes the endpoint path
+    const response = await apiClient.get("/products", { params });
 
-export const fetchProducts = async () => {
-    try {
-        // Adjust '/products' if your base URL already includes the endpoint path
-        const response = await apiClient.get('/products');
+    // Return the array of products. The API returns { success: true, data: [...] }
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
+};
 
-        // Log data to verify structure (check console)
-        console.log("API Response:", response.data);
-
-        // Return the array of products. The API returns { success: true, data: [...] }
-        return response.data.data;
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return [];
-    }
+export const fetchCategories = async () => {
+  try {
+    const response = await apiClient.get("/categories");
+    return response.data.data || [];
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
 };

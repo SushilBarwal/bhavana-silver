@@ -11,8 +11,8 @@ import Certifications from "../components/sections/Certifications";
  * Home Page Component
  * Combines all homepage sections
  */
-import { useState, useEffect } from 'react';
-import { fetchHomepageData } from '../api/homepage';
+import { useState, useEffect } from "react";
+import { fetchHomepageData } from "../api/homepage";
 
 /**
  * Home Page Component
@@ -25,6 +25,8 @@ const HomePage = () => {
     best_sellers: [],
     certificates: [],
     about_slides: [],
+    testimonials: [],
+    features: [],
   });
   const [loading, setLoading] = useState(true);
 
@@ -53,11 +55,11 @@ const HomePage = () => {
     <>
       <HeroSlider slides={homeData.hero_slides} />
       <Collections collections={homeData.collections} />
-      <RingBuilder />
+      <RingBuilder gemstones={homeData.gemstones} />
       <FeaturesSlider slides={homeData.about_slides} />
-      <BestSellers />
-      <WhyChooseUs />
-      <Testimonials />
+      <BestSellers bestSellersData={homeData.best_sellers} />
+      <WhyChooseUs features={homeData.features} />
+      <Testimonials testimonials={homeData.testimonials} />
       <Certifications certificates={homeData.certificates} />
     </>
   );

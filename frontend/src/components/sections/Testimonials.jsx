@@ -1,45 +1,118 @@
-import { useRef, useState } from 'react';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import { FiStar } from 'react-icons/fi';
-import testimonialsData from '../../data/testimonials.json';
+import { useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { FiStar } from "react-icons/fi";
+import testimonialsData from "../../data/testimonials.json";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Testimonials = () => {
+// Country code to flag emoji mapping
+const COUNTRY_FLAGS = {
+  // North America
+  US: "🇺🇸",
+  CA: "🇨🇦",
+  MX: "🇲🇽",
+  // Europe
+  GB: "🇬🇧",
+  DE: "🇩🇪",
+  FR: "🇫🇷",
+  IT: "🇮🇹",
+  ES: "🇪🇸",
+  NL: "🇳🇱",
+  BE: "🇧🇪",
+  CH: "🇨🇭",
+  AT: "🇦🇹",
+  SE: "🇸🇪",
+  NO: "🇳🇴",
+  DK: "🇩🇰",
+  FI: "🇫🇮",
+  PL: "🇵🇱",
+  CZ: "🇨🇿",
+  GR: "🇬🇷",
+  // Asia
+  IN: "🇮🇳",
+  CN: "🇨🇳",
+  JP: "🇯🇵",
+  KR: "🇰🇷",
+  SG: "🇸🇬",
+  MY: "🇲🇾",
+  TH: "🇹🇭",
+  VN: "🇻🇳",
+  PH: "🇵🇭",
+  ID: "🇮🇩",
+  AE: "🇦🇪",
+  SA: "🇸🇦",
+  // Oceania
+  AU: "🇦🇺",
+  NZ: "🇳🇿",
+  // South America
+  BR: "🇧🇷",
+  AR: "🇦🇷",
+  CL: "🇨🇱",
+  CO: "🇨🇴",
+  // Africa
+  ZA: "🇿🇦",
+  EG: "🇪🇬",
+  NG: "🇳🇬",
+  KE: "🇰🇪",
+};
+
+const getCountryFlag = (countryCode) => {
+  if (!countryCode) return "🌍";
+  const code = countryCode.toUpperCase();
+  return COUNTRY_FLAGS[code] || "🌍";
+};
+
+const Testimonials = ({ testimonials: apiTestimonials }) => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const swiperRef = useRef(null);
 
-  // Get testimonials from JSON
-  const testimonials = testimonialsData.testimonials;
+  // Use passed testimonials or fallback to static data
+  // API structure: { id, country_code, name, country, description, rating }
+  // Component needs: { id, name, country, flag, text, rating }
+  const testimonials =
+    apiTestimonials && apiTestimonials.length > 0
+      ? apiTestimonials.map((t) => ({
+          id: t.id,
+          name: t.name,
+          country: t.country,
+          flag: getCountryFlag(t.country_code),
+          text: t.description,
+          rating: t.rating,
+        }))
+      : testimonialsData.testimonials;
 
   // Scroll-triggered animations
-  useGSAP(() => {
-    gsap.fromTo(
-      titleRef.current,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 70%',
-          toggleActions: 'play none none reverse'
+  useGSAP(
+    () => {
+      if (!titleRef.current) return;
+      gsap.fromTo(
+        titleRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 70%",
+            toggleActions: "play none none reverse",
+          },
         }
-      }
-    );
-  }, { scope: sectionRef });
+      );
+    },
+    { scope: sectionRef, dependencies: [testimonials] }
+  );
 
   return (
     <section
@@ -67,42 +140,42 @@ const Testimonials = () => {
             autoplay={{
               delay: 5000,
               disableOnInteraction: false,
-              pauseOnMouseEnter: true
+              pauseOnMouseEnter: true,
             }}
             pagination={{
               clickable: true,
-              el: '.testimonial-pagination',
-              bulletClass: 'testimonial-bullet',
-              bulletActiveClass: 'testimonial-bullet-active'
+              el: ".testimonial-pagination",
+              bulletClass: "testimonial-bullet",
+              bulletActiveClass: "testimonial-bullet-active",
             }}
             navigation={{
-              nextEl: '.testimonial-button-next',
-              prevEl: '.testimonial-button-prev'
+              nextEl: ".testimonial-button-next",
+              prevEl: ".testimonial-button-prev",
             }}
             breakpoints={{
               640: {
                 slidesPerView: 1,
                 spaceBetween: 24,
-                centeredSlides: true
+                centeredSlides: true,
               },
               1024: {
                 slidesPerView: 3,
                 spaceBetween: 30,
-                centeredSlides: true
-              }
+                centeredSlides: true,
+              },
             }}
-            loop={true}
+            loop={testimonials.length >= 3}
             speed={800}
             className="testimonial-swiper pb-16 px-4 md:px-6 lg:px-20"
           >
             {testimonials.map((testimonial) => (
               <SwiperSlide key={testimonial.id}>
                 {({ isActive }) => (
-                  <div 
+                  <div
                     className={`testimonial-card bg-white shadow-lg transition-all duration-500 rounded-xl p-6 md:p-8 min-h-[300px] md:min-h-[320px] flex flex-col justify-between ${
-                      isActive 
-                        ? 'border-2 border-primary blur-none scale-100' 
-                        : 'border-0 blur-sm scale-95 opacity-80'
+                      isActive
+                        ? "border-2 border-primary blur-none scale-100"
+                        : "border-0 blur-sm scale-95 opacity-80"
                     }`}
                   >
                     {/* Flag and Name */}
@@ -149,7 +222,12 @@ const Testimonials = () => {
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </button>
 
@@ -163,7 +241,12 @@ const Testimonials = () => {
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </button>
 
@@ -172,7 +255,7 @@ const Testimonials = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .testimonial-bullet {
           width: 10px;
           height: 10px;
@@ -189,7 +272,7 @@ const Testimonials = () => {
         }
 
         .testimonial-bullet-active {
-          background-color: #997BB7 !important;
+          background-color: #997bb7 !important;
           width: 12px;
           height: 12px;
         }

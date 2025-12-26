@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { visualizer } from 'rollup-plugin-visualizer';
-import viteCompression from 'vite-plugin-compression';
+import { visualizer } from "rollup-plugin-visualizer";
+import viteCompression from "vite-plugin-compression";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -13,15 +13,15 @@ export default defineConfig({
     }),
     // Gzip compression
     viteCompression({
-      algorithm: 'gzip',
-      ext: '.gz',
+      algorithm: "gzip",
+      ext: ".gz",
       threshold: 10240, // Only compress files larger than 10kb
       deleteOriginFile: false,
     }),
     // Brotli compression
     viteCompression({
-      algorithm: 'brotliCompress',
-      ext: '.br',
+      algorithm: "brotliCompress",
+      ext: ".br",
       threshold: 10240,
       deleteOriginFile: false,
     }),
@@ -33,12 +33,12 @@ export default defineConfig({
   ],
   build: {
     // Enable production optimizations
-    minify: 'terser',
+    minify: "terser",
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info'],
+        pure_funcs: ["console.log", "console.info"],
         passes: 2,
       },
       mangle: {
@@ -53,17 +53,19 @@ export default defineConfig({
       output: {
         manualChunks: {
           // Vendor chunks
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'animation-vendor': ['gsap', 'framer-motion'],
-          'ui-vendor': ['swiper', 'react-icons'],
+          "react-vendor": ["react", "react-dom", "react-router-dom"],
+          "animation-vendor": ["gsap", "framer-motion"],
+          "ui-vendor": ["swiper", "react-icons"],
         },
         // Optimize chunk naming
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
+        chunkFileNames: "assets/js/[name]-[hash].js",
+        entryFileNames: "assets/js/[name]-[hash].js",
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.');
+          const info = assetInfo.name.split(".");
           const ext = info[info.length - 1];
-          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico|webp)$/i.test(assetInfo.name)) {
+          if (
+            /\.(png|jpe?g|svg|gif|tiff|bmp|ico|webp)$/i.test(assetInfo.name)
+          ) {
             return `assets/images/[name]-[hash].${ext}`;
           }
           if (/\.(woff2?|eot|ttf|otf)$/i.test(assetInfo.name)) {
@@ -82,13 +84,32 @@ export default defineConfig({
   },
   // Optimize dependencies
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', 'gsap'],
+    include: ["react", "react-dom", "react-router-dom", "gsap"],
     exclude: [],
   },
   // Server configuration
   server: {
     hmr: {
       overlay: false,
+    },
+    // Proxy API requests to bypass CORS during development
+    proxy: {
+      "/api": {
+        target: "https://admin.bhavnasilverinternational.com",
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, "/api"),
+        configure: (proxy, options) => {
+          proxy.on("proxyReq", (proxyReq, req, res) => {
+            // Add authorization header
+            proxyReq.setHeader(
+              "Authorization",
+              "Bearer 14|Tg7NZv1dre1ARPl4uljsELVpIJGy64NHjfuK3qpQc2dd1db8"
+            );
+            proxyReq.setHeader("ngrok-skip-browser-warning", "true");
+          });
+        },
+      },
     },
   },
 });

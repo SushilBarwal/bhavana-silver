@@ -1,9 +1,9 @@
-import { useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import collectionsData from '../../data/collections.json';
+import { useRef } from "react";
+import { Link } from "react-router-dom";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import collectionsData from "../../data/collections.json";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -14,64 +14,70 @@ const Collections = ({ collections }) => {
   const cardsRef = useRef([]);
 
   // Use passed collections or fallback to static data
-  const displayCollections = collections && collections.length > 0
-    ? collections.map(col => ({
-      id: col.id,
-      name: col.title, // API uses title
-      slug: col.url || col.title.toLowerCase().replace(/\s+/g, '-'), // API uses url or fallback
-      image: col.image
-    }))
-    : collectionsData.collections;
+  const displayCollections =
+    collections && collections.length > 0
+      ? collections.map((col) => ({
+          id: col.id,
+          name: col.title, // API uses title
+          slug: col.url || col.title.toLowerCase().replace(/\s+/g, "-"), // API uses url or fallback
+          image: col.image,
+        }))
+      : collectionsData.collections;
 
   // GSAP scroll-triggered animations
-  useGSAP(() => {
-    // Animate title
-    gsap.fromTo(
-      titleRef.current,
-      {
-        opacity: 0,
-        y: 50
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
-        }
-      }
-    );
-
-    // Animate collection cards with stagger
-    cardsRef.current.forEach((card, index) => {
-      if (card) {
+  useGSAP(
+    () => {
+      // Animate title
+      if (titleRef.current) {
         gsap.fromTo(
-          card,
+          titleRef.current,
           {
             opacity: 0,
-            y: 60,
-            scale: 0.9
+            y: 50,
           },
           {
             opacity: 1,
             y: 0,
-            scale: 1,
-            duration: 0.8,
-            ease: 'power2.out',
+            duration: 1,
+            ease: "power3.out",
             scrollTrigger: {
-              trigger: card,
-              start: 'top 85%',
-              toggleActions: 'play none none reverse'
+              trigger: sectionRef.current,
+              start: "top 80%",
+              toggleActions: "play none none reverse",
             },
-            delay: index * 0.1
           }
         );
       }
-    });
-  }, { scope: sectionRef });
+
+      // Animate collection cards with stagger
+      cardsRef.current.forEach((card, index) => {
+        if (card) {
+          gsap.fromTo(
+            card,
+            {
+              opacity: 0,
+              y: 60,
+              scale: 0.9,
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.8,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                toggleActions: "play none none reverse",
+              },
+              delay: index * 0.1,
+            }
+          );
+        }
+      });
+    },
+    { scope: sectionRef, dependencies: [displayCollections] }
+  );
 
   return (
     <section
@@ -80,10 +86,7 @@ const Collections = ({ collections }) => {
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Section Title */}
-        <h2
-          ref={titleRef}
-          className="section-heading mb-12 md:mb-16"
-        >
+        <h2 ref={titleRef} className="section-heading mb-12 md:mb-16">
           SHOP BY COLLECTION
         </h2>
 

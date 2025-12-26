@@ -1,31 +1,33 @@
-import { lazy, Suspense, useState, useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Navbar from './components/layout/Navbar'
-import Footer from './components/layout/Footer'
-import ScrollToTop from './components/common/ScrollToTop'
-import './App.css'
+import { lazy, Suspense, useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
+import ScrollToTop from "./components/common/ScrollToTop";
+import "./App.css";
 
 // Lazy load pages for better performance
-const HomePage = lazy(() => import('./pages/HomePage'))
-const ProductPage = lazy(() => import('./pages/ProductPage'))
-const CategoryPage = lazy(() => import('./pages/CategoryPage'))
-const SearchResultsPage = lazy(() => import('./pages/SearchResultsPage'))
-const ShopPage = lazy(() => import('./pages/ShopPage'))
-const AboutUsPage = lazy(() => import('./pages/AboutUsPage'))
-const ContactPage = lazy(() => import('./pages/ContactPage'))
-const FaqPage = lazy(() => import('./pages/FaqPage'))
-const DashboardPage = lazy(() => import('./pages/DashboardPage'))
-const AccountSettings = lazy(() => import('./pages/AccountSettings'))
-const TermsPage = lazy(() => import('./pages/TermsPage'))
-const ShippingPage = lazy(() => import('./pages/ShippingPage'))
-const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
-const SitemapPage = lazy(() => import('./pages/SitemapPage'))
-const RecentlyViewedPage = lazy(() => import('./pages/RecentlyViewedPage'))
+const HomePage = lazy(() => import("./pages/HomePage"));
+const ProductPage = lazy(() => import("./pages/ProductPage"));
+const CategoryPage = lazy(() => import("./pages/CategoryPage"));
+const SearchResultsPage = lazy(() => import("./pages/SearchResultsPage"));
+const ShopPage = lazy(() => import("./pages/ShopPage"));
+const AboutUsPage = lazy(() => import("./pages/AboutUsPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const FaqPage = lazy(() => import("./pages/FaqPage"));
+const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const AccountSettings = lazy(() => import("./pages/AccountSettings"));
+const TermsPage = lazy(() => import("./pages/TermsPage"));
+const ShippingPage = lazy(() => import("./pages/ShippingPage"));
+const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const SitemapPage = lazy(() => import("./pages/SitemapPage"));
+const StoneStoriesPage = lazy(() => import("./pages/StoneStoriesPage"));
+const RecentlyViewedPage = lazy(() => import("./pages/RecentlyViewedPage"));
+const CustomOrdersPage = lazy(() => import("./pages/CustomOrdersPage"));
 
 // Auth Pages
-const LoginPage = lazy(() => import('./pages/LoginPage'))
-const RegisterPage = lazy(() => import('./pages/RegisterPage'))
-const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'))
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const RegisterPage = lazy(() => import("./pages/RegisterPage"));
+const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
 
 // Loading component
 const PageLoader = () => (
@@ -35,9 +37,19 @@ const PageLoader = () => (
       <p className="text-gray-600 font-semibold">Loading...</p>
     </div>
   </div>
-)
-const Account = () => <div style={{ padding: '40px', textAlign: 'center' }}><h1>My Account</h1><p>Manage your account and orders.</p></div>
-const Wishlist = () => <div style={{ padding: '40px', textAlign: 'center' }}><h1>My Wishlist</h1><p>Your favorite items saved for later.</p></div>
+);
+const Account = () => (
+  <div style={{ padding: "40px", textAlign: "center" }}>
+    <h1>My Account</h1>
+    <p>Manage your account and orders.</p>
+  </div>
+);
+const Wishlist = () => (
+  <div style={{ padding: "40px", textAlign: "center" }}>
+    <h1>My Wishlist</h1>
+    <p>Your favorite items saved for later.</p>
+  </div>
+);
 
 function App() {
   const [categories, setCategories] = useState([]);
@@ -45,7 +57,7 @@ function App() {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const { fetchCategories } = await import('./api/products');
+        const { fetchCategories } = await import("./api/products");
         const data = await fetchCategories();
         if (Array.isArray(data)) {
           setCategories(data);
@@ -99,17 +111,23 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/recently-viewed" element={<RecentlyViewedPage />} />
+          <Route path="/custom-orders" element={<CustomOrdersPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/shipping" element={<ShippingPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/sitemap" element={<SitemapPage />} />
+          <Route path="/stone-stories" element={<StoneStoriesPage />} />
+          <Route
+            path="/stone-stories/:stoneName"
+            element={<StoneStoriesPage />}
+          />
           <Route path="/account" element={<Account />} />
           <Route path="/wishlist" element={<Wishlist />} />
         </Routes>
       </Suspense>
       <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

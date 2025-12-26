@@ -1,0 +1,574 @@
+{
+    "success": true,
+    "debug_info": {
+        "hero_count": 3,
+        "collection_count": 1,
+        "best_seller_count": 3
+    },
+    "data": {
+        "hero_slides": [
+            {
+                "id": 1,
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/21ca2188ef66ed7625a3f1901cf61dc5b19a7b5d.jfif",
+                "overlay_color": "#5ddaaa",
+                "title": "Exquisite Silver Collection",
+                "description": "Exquisite Silver Collection",
+                "button_text": "SHOP COLLECTION",
+                "button_link": "https://bhavnasilverinternational.com",
+                "order": 1,
+                "is_active": true,
+                "created_at": "2025-12-08T23:36:50.000000Z",
+                "updated_at": "2025-12-23T10:51:26.000000Z"
+            },
+            {
+                "id": 2,
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/17c3fb64ec05714a37653dbea0cd6992bceacd19.jpeg",
+                "overlay_color": "#000000",
+                "title": "Homepage Slider",
+                "description": "Homepage Description",
+                "button_text": "Read More",
+                "button_link": null,
+                "order": 2,
+                "is_active": true,
+                "created_at": "2025-12-09T00:13:00.000000Z",
+                "updated_at": "2025-12-23T05:02:15.000000Z"
+            },
+            {
+                "id": 3,
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/e6868ab02a136808618d2525f98715656ce2611c.jpeg",
+                "overlay_color": null,
+                "title": "Quis alias minus ame",
+                "description": "Unde non inventore l",
+                "button_text": "Aute quasi commodi e",
+                "button_link": "Nihil iste cupiditat",
+                "order": 3,
+                "is_active": true,
+                "created_at": "2025-12-09T00:15:12.000000Z",
+                "updated_at": "2025-12-22T04:11:04.000000Z"
+            }
+        ],
+        "collections": [
+            {
+                "id": 1,
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/28a2d669bd9495fcb885ef50656ecbe5d4d7911f.png",
+                "title": "Quam voluptatem nesc",
+                "description": "Vel dolorem quia qui",
+                "url": "test",
+                "order": 4,
+                "is_active": true,
+                "created_at": "2025-12-08T23:40:27.000000Z",
+                "updated_at": "2025-12-19T11:29:21.000000Z"
+            }
+        ],
+        "gemstones": [
+            {
+                "id": 2,
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/22be781a466858f1a5b818b8b680e53d48549580.png",
+                "main_title": "ONE DESIGN. MANY GEMSTONES.",
+                "name": "GARNET",
+                "order": 1,
+                "is_active": true,
+                "created_at": "2025-12-23T11:04:33.000000Z",
+                "updated_at": "2025-12-23T11:04:33.000000Z"
+            }
+        ],
+        "about_slides": [
+            {
+                "id": 1,
+                "title": "What is JewelPin?",
+                "subtitle": "Smart Sourcing for Global Buyers",
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/76639b382b350589df7206ce3cd8afbc152d8ae5.jpg",
+                "description": "JewelPin is a modern B2B jewelry sourcing platform built for retailers and wholesalers worldwide (except India). Whether you're a small boutique or a large-scale retailer, our platform simplifies your sourcing process with speed, variety, and convenience.",
+                "order": 1,
+                "is_active": true,
+                "created_at": "2025-12-09T01:51:01.000000Z",
+                "updated_at": "2025-12-23T09:02:32.000000Z"
+            },
+            {
+                "id": 2,
+                "title": "Why Choose Us?",
+                "subtitle": "Unmatched Quality & Selection",
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/76639b382b350589df7206ce3cd8afbc152d8ae5.jpg",
+                "description": "Access thousands of unique jewelry pieces from verified manufacturers. Our curated collection ensures you get premium quality products at competitive wholesale prices.",
+                "order": 2,
+                "is_active": true,
+                "created_at": "2025-12-23T09:00:39.000000Z",
+                "updated_at": "2025-12-23T09:01:20.000000Z"
+            },
+            {
+                "id": 3,
+                "title": "Global Reach",
+                "subtitle": "Worldwide Shipping Solutions",
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/76639b382b350589df7206ce3cd8afbc152d8ae5.jpg",
+                "description": "Fast and reliable shipping to over 100 countries. Track your orders in real-time and enjoy hassle-free international delivery with full insurance coverage.",
+                "order": 3,
+                "is_active": true,
+                "created_at": "2025-12-23T09:03:38.000000Z",
+                "updated_at": "2025-12-23T09:03:38.000000Z"
+            },
+            {
+                "id": 4,
+                "title": "Partnership",
+                "subtitle": "Trusted By Thousands",
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/76639b382b350589df7206ce3cd8afbc152d8ae5.jpg",
+                "description": "Join a network of over 5,000 satisfied retailers worldwide. Our commitment to excellence has made us a preferred sourcing partner for jewelry businesses globally.",
+                "order": 4,
+                "is_active": true,
+                "created_at": "2025-12-23T09:04:25.000000Z",
+                "updated_at": "2025-12-23T09:04:25.000000Z"
+            }
+        ],
+        "features": [
+            {
+                "id": 2,
+                "icon": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/b2b1fb673c859b0f6e219b9130f40dfb83f2430a.svg",
+                "main_title": "WHY CHOOSE US?",
+                "heading": "Simple 5-Step Ordering",
+                "description": "Browse → Select → Customize → Cart → Pay",
+                "order": 1,
+                "is_active": true,
+                "created_at": "2025-12-23T10:04:38.000000Z",
+                "updated_at": "2025-12-23T10:04:38.000000Z"
+            },
+            {
+                "id": 3,
+                "icon": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/b1fdbaa4df69bd2f554ca18690c0c7dafdc29773.svg",
+                "main_title": null,
+                "heading": "Easy Reordering",
+                "description": "Reorder bestsellers with just a few clicks",
+                "order": 2,
+                "is_active": true,
+                "created_at": "2025-12-23T10:06:01.000000Z",
+                "updated_at": "2025-12-23T10:06:01.000000Z"
+            },
+            {
+                "id": 4,
+                "icon": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/365a34a73b0c315fe34ca3d291ead2903c7a85aa.svg",
+                "main_title": null,
+                "heading": "$1000 MOV & No MOQ on Samples",
+                "description": "Start small, scale fast — perfect for all business sizes.",
+                "order": 3,
+                "is_active": true,
+                "created_at": "2025-12-23T10:08:24.000000Z",
+                "updated_at": "2025-12-23T10:08:24.000000Z"
+            },
+            {
+                "id": 5,
+                "icon": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/e4e390192460da0740604a888798e56074e8026d.svg",
+                "main_title": null,
+                "heading": "Worldwide Shipping",
+                "description": "Quick and trackable (except India)",
+                "order": 4,
+                "is_active": true,
+                "created_at": "2025-12-23T10:09:15.000000Z",
+                "updated_at": "2025-12-23T10:09:15.000000Z"
+            },
+            {
+                "id": 6,
+                "icon": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/3039fbeaf43aceceaac2b697ea41a9970004ac6b.svg",
+                "main_title": null,
+                "heading": "Multiple Gemstone Options",
+                "description": "One design, many stone choices",
+                "order": 5,
+                "is_active": true,
+                "created_at": "2025-12-23T10:09:48.000000Z",
+                "updated_at": "2025-12-23T10:10:24.000000Z"
+            },
+            {
+                "id": 7,
+                "icon": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/d30e712e2b49af6ea1ce4276d074636e3415588a.svg",
+                "main_title": null,
+                "heading": "Custom Branding Available",
+                "description": "Put your logo on jewelry & packaging",
+                "order": 6,
+                "is_active": true,
+                "created_at": "2025-12-23T10:16:37.000000Z",
+                "updated_at": "2025-12-23T10:16:37.000000Z"
+            },
+            {
+                "id": 8,
+                "icon": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/ec38508b0c20892eba7a4d1b0df59bc7b9a34c1e.svg",
+                "main_title": null,
+                "heading": "Ship-Now Styles",
+                "description": "Fast delivery in just 7 days on ship now items",
+                "order": 7,
+                "is_active": true,
+                "created_at": "2025-12-23T10:18:02.000000Z",
+                "updated_at": "2025-12-23T10:18:02.000000Z"
+            },
+            {
+                "id": 9,
+                "icon": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/8e8173b7805f08d6edb896a601ac33a6ff01ddbb.svg",
+                "main_title": null,
+                "heading": "Trusted Exporter",
+                "description": "Years of experience + RJC Certified",
+                "order": 8,
+                "is_active": true,
+                "created_at": "2025-12-23T10:23:00.000000Z",
+                "updated_at": "2025-12-23T10:23:00.000000Z"
+            },
+            {
+                "id": 10,
+                "icon": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/53fea942a511787f9b752419db0b5838c9cae1fc.svg",
+                "main_title": null,
+                "heading": "Dedicated Account Manager",
+                "description": "Get personalized support for quotes, queries & orders",
+                "order": 9,
+                "is_active": true,
+                "created_at": "2025-12-23T10:23:34.000000Z",
+                "updated_at": "2025-12-23T10:23:34.000000Z"
+            },
+            {
+                "id": 11,
+                "icon": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/8e8173b7805f08d6edb896a601ac33a6ff01ddbb.svg",
+                "main_title": null,
+                "heading": "Secure Online Payments",
+                "description": "Safe and smooth transactions for global buyers",
+                "order": 10,
+                "is_active": true,
+                "created_at": "2025-12-23T10:24:12.000000Z",
+                "updated_at": "2025-12-23T10:24:12.000000Z"
+            },
+            {
+                "id": 12,
+                "icon": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/dc73f4c44ddc853e2c4618bc1494cbea15c30042.svg",
+                "main_title": null,
+                "heading": "Transparent Pricing",
+                "description": "No hidden fees — what you see is what you pay",
+                "order": 11,
+                "is_active": true,
+                "created_at": "2025-12-23T10:24:46.000000Z",
+                "updated_at": "2025-12-23T10:24:46.000000Z"
+            },
+            {
+                "id": 13,
+                "icon": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/02207e0094440e8c3c4c11549985d79faa8b6610.svg",
+                "main_title": null,
+                "heading": "High-Quality Product Images & Videos",
+                "description": "Professional visuals provided for easy listing on your store",
+                "order": 12,
+                "is_active": true,
+                "created_at": "2025-12-23T10:25:28.000000Z",
+                "updated_at": "2025-12-23T10:25:28.000000Z"
+            }
+        ],
+        "testimonials": [
+            {
+                "id": 3,
+                "country_code": "IN",
+                "name": "Priya Sharma",
+                "country": "India",
+                "description": "Beautiful designs at competitive prices. The gemstone quality is excellent and the delivery is always on time. A pleasure to work with!",
+                "rating": 5,
+                "order": 1,
+                "is_active": true,
+                "created_at": "2025-12-23T10:27:00.000000Z",
+                "updated_at": "2025-12-23T10:27:00.000000Z"
+            },
+            {
+                "id": 4,
+                "country_code": "US",
+                "name": "Sarah Johnson",
+                "country": "USA",
+                "description": "Bhavana Silver Jewellers has been our trusted supplier for over 5 years. Their quality is unmatched and their customer service is exceptional. Highly recommended!",
+                "rating": 5,
+                "order": 2,
+                "is_active": true,
+                "created_at": "2025-12-23T10:28:24.000000Z",
+                "updated_at": "2025-12-23T10:28:24.000000Z"
+            },
+            {
+                "id": 5,
+                "country_code": "CA",
+                "name": "David Miller",
+                "country": "Canada",
+                "description": "Their wholesale program is fantastic. Great variety, excellent quality, and the minimum order quantities are very reasonable for small businesses.",
+                "rating": 5,
+                "order": 3,
+                "is_active": true,
+                "created_at": "2025-12-23T10:29:32.000000Z",
+                "updated_at": "2025-12-23T10:29:32.000000Z"
+            },
+            {
+                "id": 6,
+                "country_code": "UK",
+                "name": "Michel Chen",
+                "country": "GB",
+                "description": "The craftsmanship and attention to detail in every piece is remarkable. We've never had any quality issues and our customers love their jewelry.",
+                "rating": 5,
+                "order": 4,
+                "is_active": true,
+                "created_at": "2025-12-23T10:32:13.000000Z",
+                "updated_at": "2025-12-23T10:32:13.000000Z"
+            },
+            {
+                "id": 7,
+                "country_code": "FR",
+                "name": "Sophie Martin",
+                "country": "France",
+                "description": "Beautiful designs and fast shipping. The quality is remarkable and the pricing is very competitive. Very happy with my purchase!",
+                "rating": 5,
+                "order": 5,
+                "is_active": true,
+                "created_at": "2025-12-23T10:33:33.000000Z",
+                "updated_at": "2025-12-23T10:33:44.000000Z"
+            }
+        ],
+        "certificates": [
+            {
+                "id": 3,
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/87e70f35dd0dd24c3735e9e8091fb57b9a759d61.webp",
+                "order": 1,
+                "is_active": true,
+                "created_at": "2025-12-23T10:41:20.000000Z",
+                "updated_at": "2025-12-23T10:54:51.000000Z"
+            },
+            {
+                "id": 4,
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/273b99f9b7ac7c72f471245c4d1e17ee7f7ea27f.png",
+                "order": 2,
+                "is_active": true,
+                "created_at": "2025-12-23T10:42:34.000000Z",
+                "updated_at": "2025-12-23T10:42:34.000000Z"
+            },
+            {
+                "id": 5,
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/e4d29f062a402ab0867197159953e9a545b56051.png",
+                "order": 3,
+                "is_active": true,
+                "created_at": "2025-12-23T10:43:21.000000Z",
+                "updated_at": "2025-12-23T10:43:21.000000Z"
+            },
+            {
+                "id": 6,
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/32a7d23ef821e7308063f486a89360bc41650161.png",
+                "order": 4,
+                "is_active": true,
+                "created_at": "2025-12-23T10:45:41.000000Z",
+                "updated_at": "2025-12-23T10:45:53.000000Z"
+            },
+            {
+                "id": 7,
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/3db18205de263f8b66d2110b7b31c8cbe95059b0.png",
+                "order": 5,
+                "is_active": true,
+                "created_at": "2025-12-23T10:46:07.000000Z",
+                "updated_at": "2025-12-23T10:46:07.000000Z"
+            },
+            {
+                "id": 9,
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/23/b99d579a311746cc8ec98d6da46680de31b30475.png",
+                "order": 6,
+                "is_active": true,
+                "created_at": "2025-12-23T11:09:21.000000Z",
+                "updated_at": "2025-12-23T11:09:21.000000Z"
+            }
+        ],
+        "best_sellers": [
+            {
+                "id": 4,
+                "title": "GOLD JEWELRY",
+                "main_title": "Best Seller",
+                "collection_id": [
+                    "6",
+                    "7"
+                ],
+                "order": 1,
+                "is_active": true,
+                "created_at": "2025-12-24T04:44:18.000000Z",
+                "updated_at": "2025-12-24T07:30:35.000000Z",
+                "products": [
+                    {
+                        "id": 434,
+                        "collection_id": 6,
+                        "code": "1212",
+                        "slug": "wholesale-14k-gold-sapphire-ring-three-stone",
+                        "name": "Wholesale 14K Gold SAPPHIRE Ring - Three Stone",
+                        "price": null,
+                        "max_price": null,
+                        "sale_price": null,
+                        "available_for_ship_now": false,
+                        "short_description": null,
+                        "description": null,
+                        "details": null,
+                        "category_id": null,
+                        "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/df8330fd227b1599d8ed97c46cb182fc242f7f1f.jfif",
+                        "created_at": "2025-12-24T07:30:01.000000Z",
+                        "updated_at": "2025-12-24T07:30:01.000000Z",
+                        "stone_id": null,
+                        "stone_size": null,
+                        "dimensions": null,
+                        "plating": null,
+                        "weight": null,
+                        "attachment": [
+                            {
+                                "id": 607,
+                                "name": "df8330fd227b1599d8ed97c46cb182fc242f7f1f",
+                                "original_name": "img (2).png",
+                                "mime": "image/jpeg",
+                                "extension": "jfif",
+                                "size": 78858,
+                                "sort": 0,
+                                "path": "2025/12/24/",
+                                "description": null,
+                                "alt": null,
+                                "hash": "35cfe9fe520602d3d9c31287c0bbe9997c7008cf",
+                                "disk": "public",
+                                "user_id": 3,
+                                "group": "product_images",
+                                "created_at": "2025-12-24T07:29:57.000000Z",
+                                "updated_at": "2025-12-24T07:29:57.000000Z",
+                                "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/df8330fd227b1599d8ed97c46cb182fc242f7f1f.jfif",
+                                "relativeUrl": "/laravel/public/storage/2025/12/24/df8330fd227b1599d8ed97c46cb182fc242f7f1f.jfif",
+                                "pivot": {
+                                    "attachmentable_type": "App\\Models\\Product",
+                                    "attachmentable_id": 434,
+                                    "attachment_id": 607
+                                }
+                            }
+                        ],
+                        "stone": null,
+                        "category": null
+                    }
+                ],
+                "collections": [
+                    {
+                        "id": 6,
+                        "name": "Wholesale 14K Gold SAPPHIRE Ring - Three Stone",
+                        "slug": "Wholesale 14K Gold SAPPHIRE Ring - Three Stone",
+                        "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/df8330fd227b1599d8ed97c46cb182fc242f7f1f.jfif",
+                        "description": "Wholesale 14K Gold SAPPHIRE Ring - Three Stone",
+                        "is_active": true,
+                        "created_at": "2025-12-24T07:21:05.000000Z",
+                        "updated_at": "2025-12-24T07:21:05.000000Z"
+                    },
+                    {
+                        "id": 7,
+                        "name": "Wholesale 14K Gold RUBY Ring - Hoop",
+                        "slug": "Wholesale 14K Gold RUBY Ring - Hoop",
+                        "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/9e861925c53ad3221e8ef759929d83d6eaca7e10.jfif",
+                        "description": "Wholesale 14K Gold RUBY Ring - Hoop",
+                        "is_active": true,
+                        "created_at": "2025-12-24T07:21:31.000000Z",
+                        "updated_at": "2025-12-24T07:21:40.000000Z"
+                    }
+                ]
+            },
+            {
+                "id": 5,
+                "title": "SILVER JEWELRY",
+                "main_title": null,
+                "collection_id": [
+                    "9",
+                    "8"
+                ],
+                "order": 2,
+                "is_active": true,
+                "created_at": "2025-12-24T05:13:56.000000Z",
+                "updated_at": "2025-12-24T07:31:48.000000Z",
+                "products": [],
+                "collections": [
+                    {
+                        "id": 8,
+                        "name": "Wholesale Sterling Silver MOONSTONE Ring - Pendant",
+                        "slug": "Wholesale Sterling Silver MOONSTONE Ring - Pendant",
+                        "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/c609390de9e8788be796eda5bd09103a58c7a381.jfif",
+                        "description": "Wholesale Sterling Silver MOONSTONE Ring - Pendant",
+                        "is_active": true,
+                        "created_at": "2025-12-24T07:22:23.000000Z",
+                        "updated_at": "2025-12-24T07:22:29.000000Z"
+                    },
+                    {
+                        "id": 9,
+                        "name": "Wholesale Sterling Silver PERIDOT Ring - Stud",
+                        "slug": "Wholesale Sterling Silver PERIDOT Ring - Stud",
+                        "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/72a725c01339bd25d8b55dfa0c8b1fec2f4c09fb.jfif",
+                        "description": "Wholesale Sterling Silver PERIDOT Ring - Stud",
+                        "is_active": true,
+                        "created_at": "2025-12-24T07:23:42.000000Z",
+                        "updated_at": "2025-12-24T07:23:42.000000Z"
+                    }
+                ]
+            },
+            {
+                "id": 6,
+                "title": "FASHION JEWELRY",
+                "main_title": null,
+                "collection_id": [
+                    "10"
+                ],
+                "order": 3,
+                "is_active": true,
+                "created_at": "2025-12-24T05:14:22.000000Z",
+                "updated_at": "2025-12-24T07:34:21.000000Z",
+                "products": [
+                    {
+                        "id": 437,
+                        "collection_id": 10,
+                        "code": "0111",
+                        "slug": "wholesale-fashion-cubic-zirconia-ring-drop",
+                        "name": "Wholesale Fashion CUBIC ZIRCONIA Ring - Drop",
+                        "price": null,
+                        "max_price": null,
+                        "sale_price": null,
+                        "available_for_ship_now": false,
+                        "short_description": null,
+                        "description": null,
+                        "details": null,
+                        "category_id": null,
+                        "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/c609390de9e8788be796eda5bd09103a58c7a381.jfif",
+                        "created_at": "2025-12-24T07:34:03.000000Z",
+                        "updated_at": "2025-12-24T07:34:03.000000Z",
+                        "stone_id": null,
+                        "stone_size": null,
+                        "dimensions": null,
+                        "plating": null,
+                        "weight": null,
+                        "attachment": [
+                            {
+                                "id": 610,
+                                "name": "c609390de9e8788be796eda5bd09103a58c7a381",
+                                "original_name": "img2.png",
+                                "mime": "image/jpeg",
+                                "extension": "jfif",
+                                "size": 70577,
+                                "sort": 0,
+                                "path": "2025/12/24/",
+                                "description": null,
+                                "alt": null,
+                                "hash": "59d2f47a5fa3bc6408a4329af1672abae248633f",
+                                "disk": "public",
+                                "user_id": 3,
+                                "group": "product_images",
+                                "created_at": "2025-12-24T07:34:01.000000Z",
+                                "updated_at": "2025-12-24T07:34:01.000000Z",
+                                "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/c609390de9e8788be796eda5bd09103a58c7a381.jfif",
+                                "relativeUrl": "/laravel/public/storage/2025/12/24/c609390de9e8788be796eda5bd09103a58c7a381.jfif",
+                                "pivot": {
+                                    "attachmentable_type": "App\\Models\\Product",
+                                    "attachmentable_id": 437,
+                                    "attachment_id": 610
+                                }
+                            }
+                        ],
+                        "stone": null,
+                        "category": null
+                    }
+                ],
+                "collections": [
+                    {
+                        "id": 10,
+                        "name": "Wholesale Fashion CUBIC ZIRCONIA Ring - Drop",
+                        "slug": "Wholesale Fashion CUBIC ZIRCONIA Ring - Drop",
+                        "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/c609390de9e8788be796eda5bd09103a58c7a381.jfif",
+                        "description": "Wholesale Fashion CUBIC ZIRCONIA Ring - Drop",
+                        "is_active": true,
+                        "created_at": "2025-12-24T07:26:08.000000Z",
+                        "updated_at": "2025-12-24T07:26:08.000000Z"
+                    }
+                ]
+            }
+        ],
+        "settings": []
+    }
+}

@@ -1,36 +1,38 @@
-import { useRef } from 'react';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // Import certificate images
-import rjcCert from '../../assets/certificates/responsible-jewellery-council.png';
-import sgjiaCert from '../../assets/certificates/sgjia.png';
-import gjepcCert from '../../assets/certificates/gjepc.png';
-import jaipurCert from '../../assets/certificates/jaiput-jewellary-show.png';
-import starExportCert from '../../assets/certificates/star-export.png';
-import fieoCert from '../../assets/certificates/fieo.png';
+import rjcCert from "../../assets/certificates/responsible-jewellery-council.png";
+import sgjiaCert from "../../assets/certificates/sgjia.png";
+import gjepcCert from "../../assets/certificates/gjepc.png";
+import jaipurCert from "../../assets/certificates/jaiput-jewellary-show.png";
+import starExportCert from "../../assets/certificates/star-export.png";
+import fieoCert from "../../assets/certificates/fieo.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Certifications = ({ certificates }) => {
   // Use passed certificates or fallback to static data
-  const displayCertificates = certificates && certificates.length > 0
-    ? certificates.map((cert) => ({
-      id: cert.id,
-      name: cert.title || '', // API might not have title, adjust as needed. API has `image` and `id`
-      image: cert.image,
-      description: cert.description || ''
-    }))
-    : [
-      {
-        id: 1,
-        name: "BIS Hallmarked",
-        image: "https://admin.bhavnasilverinternational.com/storage/2025/12/09/33ecd279ea0aa49729bd8ffcefef751a479e1ad8.png", // Example fallback
-        description: "Guarantee of purity and fineness"
-      },
-      // ... keep existing static list as fallback if needed, or just standard fallback
-    ];
+  const displayCertificates =
+    certificates && certificates.length > 0
+      ? certificates.map((cert) => ({
+          id: cert.id,
+          name: cert.title || "", // API might not have title, adjust as needed. API has `image` and `id`
+          image: cert.image,
+          description: cert.description || "",
+        }))
+      : [
+          {
+            id: 1,
+            name: "BIS Hallmarked",
+            image:
+              "https://admin.bhavnasilverinternational.com/storage/2025/12/09/33ecd279ea0aa49729bd8ffcefef751a479e1ad8.png", // Example fallback
+            description: "Guarantee of purity and fineness",
+          },
+          // ... keep existing static list as fallback if needed, or just standard fallback
+        ];
 
   // If implementing pure dynamic, we might want to just map whatever we get.
   // The current static Certifications component likely has specific layout.
@@ -45,50 +47,55 @@ const Certifications = ({ certificates }) => {
   const certificatesRef = useRef([]);
 
   // Scroll-triggered animations
-  useGSAP(() => {
-    gsap.fromTo(
-      titleRef.current,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 70%',
-          toggleActions: 'play none none reverse'
-        }
-      }
-    );
-
-    // Animate certificates with stagger
-    certificatesRef.current.forEach((cert, index) => {
-      if (cert) {
+  useGSAP(
+    () => {
+      if (titleRef.current) {
         gsap.fromTo(
-          cert,
-          {
-            opacity: 0,
-            y: 30,
-            scale: 0.9
-          },
+          titleRef.current,
+          { opacity: 0, y: 30 },
           {
             opacity: 1,
             y: 0,
-            scale: 1,
-            duration: 0.6,
-            ease: 'power2.out',
+            duration: 0.8,
+            ease: "power3.out",
             scrollTrigger: {
-              trigger: cert,
-              start: 'top 85%',
-              toggleActions: 'play none none reverse'
+              trigger: sectionRef.current,
+              start: "top 70%",
+              toggleActions: "play none none reverse",
             },
-            delay: index * 0.1
           }
         );
       }
-    });
-  }, { scope: sectionRef });
+
+      // Animate certificates with stagger
+      certificatesRef.current.forEach((cert, index) => {
+        if (cert) {
+          gsap.fromTo(
+            cert,
+            {
+              opacity: 0,
+              y: 30,
+              scale: 0.9,
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.6,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: cert,
+                start: "top 85%",
+                toggleActions: "play none none reverse",
+              },
+              delay: index * 0.1,
+            }
+          );
+        }
+      });
+    },
+    { scope: sectionRef, dependencies: [displayCertificates] }
+  );
 
   return (
     <section
@@ -97,10 +104,7 @@ const Certifications = ({ certificates }) => {
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Section Title */}
-        <h2
-          ref={titleRef}
-          className="section-heading mb-12 md:mb-16"
-        >
+        <h2 ref={titleRef} className="section-heading mb-12 md:mb-16">
           OUR CERTIFICATES
         </h2>
 

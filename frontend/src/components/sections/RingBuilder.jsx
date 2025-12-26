@@ -1,226 +1,167 @@
-import { useRef, useState, useEffect } from 'react';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef, useState, useEffect } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  EffectCoverflow,
+  Pagination,
+  Navigation,
+  Autoplay,
+} from "swiper/modules";
 
-// Import gemstone images
-import peridotImg from '../../assets/gemstones/Peridot.png';
-import labradoriteImg from '../../assets/gemstones/Labradorite.png';
-import malachiteImg from '../../assets/gemstones/Malachite.png';
-import blueTopazImg from '../../assets/gemstones/Blue-Topaz.png';
-import tanzaniteImg from '../../assets/gemstones/Tanzanite.png';
-import amethystImg from '../../assets/gemstones/Amethyst.png';
-import garnetImg from '../../assets/gemstones/Garnet.png';
-import citrineImg from '../../assets/gemstones/Citrine.png';
-import opalImg from '../../assets/gemstones/Ethiopian-Opal.png';
-import centerRingImg from '../../assets/gemstones/center-image.png';
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const RingBuilder = () => {
+const RingBuilder = ({ gemstones: apiGemstones }) => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
-  const gemRefs = useRef([]);
   const nameRef = useRef(null);
 
   const [activeGemIndex, setActiveGemIndex] = useState(0);
 
-  const gemstones = [
-    {
-      id: 1,
-      name: 'PERIDOT',
-      color: '#9ACD32',
-      image: peridotImg
-    },
-    {
-      id: 2,
-      name: 'LABRADORITE',
-      color: '#4A5568',
-      image: labradoriteImg
-    },
-    {
-      id: 3,
-      name: 'MALACHITE',
-      color: '#047857',
-      image: malachiteImg
-    },
-    {
-      id: 4,
-      name: 'BLUE TOPAZ',
-      color: '#0EA5E9',
-      image: blueTopazImg
-    },
-    {
-      id: 5,
-      name: 'TANZANITE',
-      color: '#6366F1',
-      image: tanzaniteImg
-    },
-    {
-      id: 6,
-      name: 'AMETHYST',
-      color: '#9333EA',
-      image: amethystImg
-    },
-    {
-      id: 7,
-      name: 'GARNET',
-      color: '#DC2626',
-      image: garnetImg
-    },
-    {
-      id: 8,
-      name: 'CITRINE',
-      color: '#F59E0B',
-      image: citrineImg
-    },
-    {
-      id: 9,
-      name: 'OPAL',
-      color: '#E0E7FF',
-      image: opalImg
-    }
-  ];
+  // Use API gemstones directly, or empty array if not available
+  const gemstones =
+    apiGemstones && apiGemstones.length > 0
+      ? apiGemstones.map((g) => ({
+          id: g.id,
+          name: g.name.toUpperCase(),
+          image: g.image,
+        }))
+      : [];
 
-  // Auto-rotate gemstones
+  // Animate gemstone name change
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveGemIndex((prev) => (prev + 1) % gemstones.length);
-    }, 3000);
+    if (gemstones.length === 0) return;
 
-    return () => clearInterval(interval);
-  }, [gemstones.length]);
-
-  // Animate gemstone change - just update the name
-  useEffect(() => {
     if (nameRef.current) {
       const tl = gsap.timeline();
-
       tl.to(nameRef.current, {
         opacity: 0,
         y: 20,
+        duration: 0.2,
+        ease: "power2.in",
+      }).to(nameRef.current, {
+        opacity: 1,
+        y: 0,
         duration: 0.3,
-        ease: 'power2.in'
-      })
-        .to(nameRef.current, {
+        ease: "power2.out",
+      });
+    }
+  }, [activeGemIndex, gemstones.length]);
+
+  // Initial scroll animations for title
+  useGSAP(
+    () => {
+      if (!titleRef.current) return;
+      gsap.fromTo(
+        titleRef.current,
+        { opacity: 0, y: 50 },
+        {
           opacity: 1,
           y: 0,
-          duration: 0.4,
-          ease: 'power2.out'
-        });
-    }
-  }, [activeGemIndex]);
-
-  // Initial scroll animations
-  useGSAP(() => {
-    // Animate title
-    gsap.fromTo(
-      titleRef.current,
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 70%',
-          toggleActions: 'play none none reverse'
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 70%",
+            toggleActions: "play none none reverse",
+          },
         }
-      }
-    );
+      );
+    },
+    { scope: sectionRef, dependencies: [gemstones] }
+  );
 
-    // Animate ring and gemstones together
-    gsap.fromTo(
-      gemRefs.current,
-      {
-        opacity: 0,
-        y: 30,
-        scale: 0.8
-      },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.8,
-        ease: 'back.out(1.5)',
-        stagger: 0.08,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 70%',
-          toggleActions: 'play none none reverse'
-        }
-      }
-    );
-  }, { scope: sectionRef });
-
-  const handleGemClick = (index) => {
-    setActiveGemIndex(index);
-  };
+  // If no gemstones available, don't render the section
+  if (!gemstones || gemstones.length === 0) return null;
 
   return (
     <section
       ref={sectionRef}
-      className="ring-builder-section py-16 md:py-20 lg:py-24 bg-white"
+      className="ring-builder-section py-16 md:py-20 lg:py-24 bg-white overflow-hidden"
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Section Title */}
         <h2
           ref={titleRef}
-          className="section-heading mb-12 md:mb-16"
+          className="section-heading mb-12 md:mb-16 text-center"
         >
           ONE DESIGN. MANY GEMSTONES.
         </h2>
 
         {/* Ring Builder Container */}
         <div className="relative max-w-7xl mx-auto">
-          {/* Static Center Ring Background */}
-          <div className="flex items-center justify-center mb-8">
-            <div className="relative w-56 h-56 md:w-64 md:h-64 lg:w-80 lg:h-80">
-              <img
-                src={centerRingImg}
-                alt="Ring Setting"
-                className="w-full h-full object-contain drop-shadow-xl"
-              />
-            </div>
-          </div>
-
-          {/* Animated Gemstones in Horizontal Layout */}
-          <div className="flex items-center justify-center gap-4 md:gap-8 lg:gap-12 flex-wrap">
-            {gemstones.map((gem, index) => {
-              const isActive = index === activeGemIndex;
-
-              return (
-                <div
+          {/* Swiper Slider */}
+          <div className="gemstone-slider py-8">
+            <Swiper
+              effect={"coverflow"}
+              grabCursor={true}
+              centeredSlides={true}
+              slidesPerView={"auto"}
+              loop={gemstones.length >= 3}
+              coverflowEffect={{
+                rotate: 0,
+                stretch: 0,
+                depth: 100,
+                modifier: 2.5,
+                slideShadows: false,
+              }}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+              }}
+              onSlideChange={(swiper) => setActiveGemIndex(swiper.realIndex)}
+              modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
+              className="w-full"
+              breakpoints={{
+                320: {
+                  slidesPerView: 3,
+                },
+                640: {
+                  slidesPerView: 3,
+                },
+                768: {
+                  slidesPerView: 5,
+                },
+                1024: {
+                  slidesPerView: 5,
+                },
+              }}
+            >
+              {gemstones.map((gem) => (
+                <SwiperSlide
                   key={gem.id}
-                  ref={(el) => (gemRefs.current[index] = el)}
-                  className="cursor-pointer transition-all duration-500"
-                  onClick={() => handleGemClick(index)}
+                  className="!w-32 !h-32 md:!w-40 md:!h-40 flex items-center justify-center"
                 >
-                  <div
-                    className={`w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-full overflow-hidden bg-white shadow-lg hover:shadow-xl transition-all duration-300 ${isActive
-                        ? 'ring-4 ring-primary scale-110'
-                        : 'hover:scale-110'
+                  {({ isActive }) => (
+                    <div
+                      className={`relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden transition-all duration-300 ${
+                        isActive
+                          ? "scale-125 shadow-2xl ring-4 ring-primary z-10"
+                          : "scale-90 opacity-60 grayscale-[50%]"
                       }`}
-                  >
-                    <img
-                      src={gem.image}
-                      alt={gem.name}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                </div>
-              );
-            })}
+                    >
+                      <img
+                        src={gem.image}
+                        alt={gem.name}
+                        className="w-full h-full object-contain bg-white"
+                      />
+                    </div>
+                  )}
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
 
           {/* Gemstone Name */}
-          <div
-            ref={nameRef}
-            className="mt-8 md:mt-12 text-center"
-          >
-            <p className="font-sans text-heading font-semibold tracking-widest text-gray-900">
-              {gemstones[activeGemIndex].name}
+          <div ref={nameRef} className="mt-8 md:mt-12 text-center h-12">
+            <p className="font-sans text-heading font-semibold tracking-widest text-gray-900 border-b-2 border-primary/50 inline-block pb-1 px-4">
+              {gemstones[activeGemIndex]?.name}
             </p>
           </div>
         </div>
