@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import purpleLogo from "../../assets/logos/purple-logo.png";
 import { SearchDropdown } from "../common";
 import { searchProducts } from "../../utils/productData";
+import { useAuth } from "../../context/AuthContext";
+import { fetchWishlist } from "../../api/wishlist";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -11,11 +13,21 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+  const [wishlistCount, setWishlistCount] = useState(0);
   const searchRef = useRef(null);
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
+  // Default Menu Items (Fallback)
+  const defaultMenuItems = [
+    { name: "HOME", path: "/", hasSubmenu: false },
+    { name: "SHOP", path: "/shop", hasSubmenu: false },
+    { name: "ABOUT US", path: "/about-us", hasSubmenu: false },
+    { name: "CONTACT", path: "/contact", hasSubmenu: false },
+  ];
 
   // Menu data structure for megamenu
-  const [menuItems, setMenuItems] = useState([]);
+  const [menuItems, setMenuItems] = useState(defaultMenuItems);
 
   const handleMouseEnter = (menuName) => {
     setActiveMenu(menuName);
@@ -66,37 +78,56 @@ const Navbar = () => {
         if (data && data.success && data.data) {
           // 1. Update Logo
           if (data.data.logo) {
-            // Direct use of URL from API
             setDynamicLogo(data.data.logo);
           }
 
           // 2. Update Menu Items
-          if (Array.isArray(data.data.menu_items)) {
+          if (
+            Array.isArray(data.data.menu_items) &&
+            data.data.menu_items.length > 0
+          ) {
             const apiMenu = data.data.menu_items.map((item) => ({
               name: item.label,
               path: item.url || "/",
               hasSubmenu: false, // API currently returns flat list
               submenu: null,
             }));
-            setMenuItems((prev) => {
-              // Reconstruct the menu array
-              // We can either strictly follow API or try to preserve some static logic.
-              // For now, let's trust the API + "Home" and "About Us" logic I wrote before,
-              // or just direct map if the API has everything.
-              // API has Home, Gold, Silver, Diamond, Collections, About, Contact.
-              // This is a COMPLETE menu. So we should just use it.
-
-              return apiMenu;
-            });
+            setMenuItems(apiMenu);
           }
         }
       } catch (error) {
         console.error("Failed to load header settings:", error);
+        // Keep default menu items on error
       }
     };
 
     loadHeaderSettings();
   }, []);
+
+  // Fetch wishlist count for authenticated users
+  useEffect(() => {
+    const loadWishlistCount = async () => {
+      if (!isAuthenticated) {
+        setWishlistCount(0);
+        return;
+      }
+
+      try {
+        const data = await fetchWishlist();
+        setWishlistCount(Array.isArray(data) ? data.length : 0);
+      } catch (error) {
+        console.error("Failed to load wishlist count:", error);
+        setWishlistCount(0);
+      }
+    };
+
+    loadWishlistCount();
+
+    // Set up interval to refresh wishlist count every 30 seconds
+    const interval = setInterval(loadWishlistCount, 30000);
+
+    return () => clearInterval(interval);
+  }, [isAuthenticated]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -182,21 +213,26 @@ const Navbar = () => {
                 <circle cx="12" cy="7" r="4" strokeWidth="2" />
               </svg>
             </Link>
-            <Link to="/wishlist" className="nav-icon">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-              >
-                <path
-                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                  strokeWidth="2"
-                />
-              </svg>
-              <span className="icon-badge">0</span>
-            </Link>
+            {/* Wishlist Icon - Only show for authenticated users */}
+            {isAuthenticated && (
+              <Link to="/account" className="nav-icon">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                    strokeWidth="2"
+                  />
+                </svg>
+                {wishlistCount > 0 && (
+                  <span className="icon-badge">{wishlistCount}</span>
+                )}
+              </Link>
+            )}
 
             <div className="currency-selector">
               <select className="currency-select">

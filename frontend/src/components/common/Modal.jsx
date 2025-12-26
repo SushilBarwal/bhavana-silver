@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { FiX } from "react-icons/fi";
 
 /**
- * Reusable Modal component
+ * Custom Modal Component
+ * Built without external packages for full control
  */
 const Modal = ({
   isOpen,
@@ -16,27 +17,29 @@ const Modal = ({
   // Lock body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
-      // Save current scroll position
-      const scrollY = window.scrollY;
-
-      // Lock body scroll
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = "100%";
+      // Prevent body scroll
       document.body.style.overflow = "hidden";
 
       return () => {
         // Restore body scroll
-        document.body.style.position = "";
-        document.body.style.top = "";
-        document.body.style.width = "";
         document.body.style.overflow = "";
-
-        // Restore scroll position
-        window.scrollTo(0, scrollY);
       };
     }
   }, [isOpen]);
+
+  // Close on ESC key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape);
+      return () => document.removeEventListener("keydown", handleEscape);
+    }
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -50,10 +53,24 @@ const Modal = ({
     "4xl": "max-w-4xl",
   };
 
+  // Handle overlay click
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 h-screen overflow-hidden">
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black bg-opacity-50 overflow-y-auto"
+      onClick={handleOverlayClick}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={title ? "modal-title" : undefined}
+    >
       <div
-        className={`bg-white rounded-lg shadow-2xl ${maxWidthClasses[maxWidth]} w-full max-h-full overflow-hidden relative flex flex-col`}
+        className={`relative ${maxWidthClasses[maxWidth]} w-full bg-white rounded-lg shadow-2xl max-h-[90vh] flex flex-col my-auto`}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         {showCloseButton && (
@@ -67,8 +84,12 @@ const Modal = ({
         )}
 
         {/* Modal Content - Scrollable */}
-        <div className="p-6 md:p-8 lg:p-10 overflow-y-auto flex-1">
-          {title && <h2 className="section-heading mb-8">{title}</h2>}
+        <div className="p-6 md:p-8 lg:p-10 overflow-y-auto">
+          {title && (
+            <h2 id="modal-title" className="section-heading mb-8">
+              {title}
+            </h2>
+          )}
           {children}
         </div>
       </div>

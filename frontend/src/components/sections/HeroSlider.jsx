@@ -321,10 +321,12 @@ const NavButton = ({ direction, onClick }) => {
   );
 };
 
+import SkeletonLoader from "../common/SkeletonLoader";
+
 /**
  * Main HeroSlider Component
  */
-const HeroSlider = ({ slides }) => {
+const HeroSlider = ({ slides, loading }) => {
   const swiperRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isReady, setIsReady] = useState(false);
@@ -375,74 +377,82 @@ const HeroSlider = ({ slides }) => {
 
   return (
     <div className="hero-slider relative w-full h-screen overflow-hidden bg-black">
-      {isReady && activeSlides.length > 0 && (
-        <>
-          <Swiper
-            ref={swiperRef}
-            modules={[Navigation, Pagination, Autoplay, EffectCreative]}
-            effect="creative"
-            creativeEffect={{
-              prev: {
-                translate: ["-100%", 0, -500],
-                opacity: 0,
-              },
-              next: {
-                translate: ["100%", 0, -500],
-                opacity: 0,
-              },
-            }}
-            speed={1200}
-            loop={activeSlides.length >= 2}
-            autoplay={{
-              delay: 6000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            pagination={{
-              clickable: true,
-              el: ".custom-pagination",
-              bulletClass: "custom-bullet",
-              bulletActiveClass: "custom-bullet-active",
-            }}
-            onSlideChange={handleSlideChange}
-            className="w-full h-full"
-          >
-            {activeSlides.map((slide, index) => (
-              <SwiperSlide key={slide.id}>
-                <SlideContent slide={slide} isActive={activeIndex === index} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-
-          {/* Custom Navigation */}
-          <NavButton direction="prev" onClick={goPrev} />
-          <NavButton direction="next" onClick={goNext} />
-
-          {/* Custom Pagination */}
-          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-30 flex gap-3 custom-pagination" />
-
-          {/* Progress Indicator */}
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10 z-30">
-            <div
-              className="h-full bg-white transition-all duration-300"
-              style={{
-                width: `${((activeIndex + 1) / activeSlides.length) * 100}%`,
-                transition: "width 0.3s ease-out",
+      {loading ? (
+        <SkeletonLoader type="hero" />
+      ) : (
+        isReady &&
+        activeSlides.length > 0 && (
+          <>
+            <Swiper
+              ref={swiperRef}
+              modules={[Navigation, Pagination, Autoplay, EffectCreative]}
+              effect="creative"
+              creativeEffect={{
+                prev: {
+                  translate: ["-100%", 0, -500],
+                  opacity: 0,
+                },
+                next: {
+                  translate: ["100%", 0, -500],
+                  opacity: 0,
+                },
               }}
-            />
-          </div>
+              speed={1200}
+              loop={activeSlides.length >= 2}
+              autoplay={{
+                delay: 6000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              pagination={{
+                clickable: true,
+                el: ".custom-pagination",
+                bulletClass: "custom-bullet",
+                bulletActiveClass: "custom-bullet-active",
+              }}
+              onSlideChange={handleSlideChange}
+              className="w-full h-full"
+            >
+              {activeSlides.map((slide, index) => (
+                <SwiperSlide key={slide.id}>
+                  <SlideContent
+                    slide={slide}
+                    isActive={activeIndex === index}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
 
-          {/* Slide Counter */}
-          <div className="absolute top-8 right-8 z-30 flex items-center gap-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20">
-            <span className="text-white text-2xl font-bold">
-              {String(activeIndex + 1).padStart(2, "0")}
-            </span>
-            <span className="text-white/60 text-sm">/</span>
-            <span className="text-white/60 text-sm">
-              {String(activeSlides.length).padStart(2, "0")}
-            </span>
-          </div>
-        </>
+            {/* Custom Navigation */}
+            <NavButton direction="prev" onClick={goPrev} />
+            <NavButton direction="next" onClick={goNext} />
+
+            {/* Custom Pagination */}
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-30 flex gap-3 custom-pagination" />
+
+            {/* Progress Indicator */}
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10 z-30">
+              <div
+                className="h-full bg-white transition-all duration-300"
+                style={{
+                  width: `${((activeIndex + 1) / activeSlides.length) * 100}%`,
+                  transition: "width 0.3s ease-out",
+                }}
+              />
+            </div>
+
+            {/* Slide Counter */}
+            <div className="absolute top-8 right-8 z-30 flex items-center gap-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20">
+              <span className="text-white text-2xl font-bold">
+                {String(activeIndex + 1).padStart(2, "0")}
+              </span>
+              <span className="text-white/60 text-sm">/</span>
+              <span className="text-white/60 text-sm">
+                {String(activeSlides.length).padStart(2, "0")}
+              </span>
+            </div>
+          </>
+        )
       )}
 
       {/* Custom Pagination Styles */}

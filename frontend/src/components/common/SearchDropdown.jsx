@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 /**
  * Search Results Dropdown Component
@@ -15,7 +15,9 @@ const SearchDropdown = ({ results, query, onClose }) => {
       {/* Header */}
       <div className="px-4 py-3 border-b border-gray-200 bg-gray-50">
         <p className="text-sm text-gray-600">
-          Found <span className="font-semibold text-gray-900">{results.length}</span> results for "{query}"
+          Found{" "}
+          <span className="font-semibold text-gray-900">{results.length}</span>{" "}
+          results for "{query}"
         </p>
       </div>
 
@@ -24,7 +26,7 @@ const SearchDropdown = ({ results, query, onClose }) => {
         {results.slice(0, 8).map((product) => (
           <Link
             key={product.id}
-            to={`/product/${product.id}`}
+            to={`/product/${product.slug || product.id}`}
             onClick={onClose}
             className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors group"
           >
@@ -46,14 +48,26 @@ const SearchDropdown = ({ results, query, onClose }) => {
                 {product.subcategory} • {product.material}
               </p>
               <p className="text-sm font-semibold text-primary mt-1">
-                ${product.priceRange.min.toFixed(2)} - ${product.priceRange.max.toFixed(2)}
+                ${product.priceRange.min.toFixed(2)} - $
+                {product.priceRange.max.toFixed(2)}
               </p>
             </div>
 
             {/* Arrow Icon */}
             <div className="flex-shrink-0 text-gray-400 group-hover:text-primary transition-colors">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M9 18l6-6-6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  d="M9 18l6-6-6-6"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </div>
           </Link>

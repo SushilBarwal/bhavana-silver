@@ -4,11 +4,12 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import collectionsData from "../../data/collections.json";
+import SkeletonLoader from "../common/SkeletonLoader";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-const Collections = ({ collections }) => {
+const Collections = ({ collections, loading }) => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const cardsRef = useRef([]);
@@ -92,32 +93,36 @@ const Collections = ({ collections }) => {
 
         {/* Collections Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
-          {displayCollections.map((collection, index) => (
-            <div
-              key={collection.id}
-              ref={(el) => (cardsRef.current[index] = el)}
-              className="collection-card group cursor-pointer"
-            >
-              <Link to={`/collection/${collection.slug}`} className="block">
-                {/* Image Container */}
-                <div className="relative overflow-hidden bg-gray-100 aspect-square mb-4 shadow-md hover:shadow-xl transition-shadow duration-500">
-                  <img
-                    src={collection.image}
-                    alt={collection.name}
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
-                    loading="lazy"
-                  />
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
-                </div>
+          {loading ? (
+            <SkeletonLoader type="collection" count={5} />
+          ) : (
+            displayCollections.map((collection, index) => (
+              <div
+                key={collection.id}
+                ref={(el) => (cardsRef.current[index] = el)}
+                className="collection-card group cursor-pointer"
+              >
+                <Link to={`/collection/${collection.slug}`} className="block">
+                  {/* Image Container */}
+                  <div className="relative overflow-hidden bg-gray-100 aspect-square mb-4 shadow-md hover:shadow-xl transition-shadow duration-500">
+                    <img
+                      src={collection.image}
+                      alt={collection.name}
+                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
+                      loading="lazy"
+                    />
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
+                  </div>
 
-                {/* Collection Name */}
-                <h3 className="text-center text-body font-medium tracking-wide text-gray-800 group-hover:text-primary transition-colors duration-300">
-                  {collection.name}
-                </h3>
-              </Link>
-            </div>
-          ))}
+                  {/* Collection Name */}
+                  <h3 className="text-center text-body font-medium tracking-wide text-gray-800 group-hover:text-primary transition-colors duration-300">
+                    {collection.name}
+                  </h3>
+                </Link>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </section>

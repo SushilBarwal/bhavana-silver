@@ -1,0 +1,65 @@
+{
+    "success": true,
+    "data": {
+        "settings": {
+            "id": 1,
+            "meta_title": "About Us Page",
+            "meta_keywords": "About Us Page",
+            "meta_description": "About Us Page",
+            "banner_title": "OUR STORY",
+            "banner_subtitle": "Crafting timeless elegance since decades, where tradition meets modern artistry",
+            "banner_image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/269b5377e3e7105755954c8cbb8682fae5252059.jpeg",
+            "story_title": "Bhawna Silver International",
+            "story_description_1": "We're a B2B jewelry sourcing platform helping retailers and wholesalers find luxury at the right price — hassle-free, with endless design and gemstone options.",
+            "story_description_2": "Born in 2019, JewelPin was created with one clear goal — to solve a recurring challenge faced by retailers and wholesalers: finding small-batch, high-quality jewelry in a variety of gemstones without the usual sourcing hassles. We saw how time-consuming and rigid the traditional process could be, and set out to change that.",
+            "story_image_1": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/c7c10576e4c67fcfdbcc3cf8ea64818bc05d3d42.jpeg",
+            "story_image_2": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/17c3fb64ec05714a37653dbea0cd6992bceacd19.jpeg",
+            "monthly_production": "4000+",
+            "countries_count": "45+",
+            "partners_count": "1000+",
+            "faq_title": "Frequently Asked Questions",
+            "faq_subtitle": "Find answers to common questions about our products, shipping, and returns.",
+            "created_at": "2025-12-19T09:00:32.000000Z",
+            "updated_at": "2025-12-19T09:41:38.000000Z"
+        },
+        "why_choose_us": [
+            {
+                "id": 1,
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/18/2414523203c8f41e249f6e8dea775b198b4ec853.png",
+                "title": "Cumque tenetur omnis",
+                "description": "Quos vel molestiae i",
+                "sort_order": 1,
+                "is_active": true,
+                "created_at": "2025-12-19T09:01:13.000000Z",
+                "updated_at": "2025-12-23T04:15:12.000000Z"
+            }
+        ],
+        "team_members": [
+            {
+                "id": 1,
+                "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/d5b794ef4535d3c549836bce648f2f8e9f7fe9f6.jpeg",
+                "name": "Justine Smith",
+                "position": "Non nisi nemo nulla",
+                "linkedin_link": "https://admin.bhavnasilverinternational.com",
+                "twitter_link": "https://admin.bhavnasilverinternational.com",
+                "instagram_link": "https://admin.bhavnasilverinternational.com",
+                "facebook_link": "https://admin.bhavnasilverinternational.com",
+                "sort_order": 1,
+                "is_active": true,
+                "created_at": "2025-12-19T09:01:41.000000Z",
+                "updated_at": "2025-12-23T04:15:49.000000Z"
+            }
+        ],
+        "faqs": [
+            {
+                "id": 1,
+                "question": "Quia omnis non nostr",
+                "answer": "Harum necessitatibus",
+                "sort_order": 1,
+                "is_active": true,
+                "created_at": "2025-12-19T09:00:55.000000Z",
+                "updated_at": "2025-12-19T09:00:55.000000Z"
+            }
+        ]
+    }
+}

@@ -1,23 +1,32 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FiFacebook, FiInstagram, FiMail } from "react-icons/fi";
+import {
+  FiFacebook,
+  FiInstagram,
+  FiMail,
+  FiTwitter,
+  FiYoutube,
+} from "react-icons/fi";
+import { FaPinterest, FaYoutube } from "react-icons/fa";
 import whiteLogo from "../../assets/logos/white-logo.png";
+import SkeletonLoader from "../common/SkeletonLoader";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [footerData, setFooterData] = useState({
-    logo: whiteLogo,
+    logo: "",
     contact_info: {
       address: "",
       phone: "",
       email: "",
     },
     social_links: {
-      facebook: "",
-      instagram: "",
-      twitter: "",
-      pinterest: "",
-      youtube: "",
+      facebook: null,
+      instagram: null,
+      twitter: null,
+      pinterest: null,
+      youtube: null,
     },
     copyright: "",
     columns: [],
@@ -32,26 +41,21 @@ const Footer = () => {
         if (data && data.success && data.data) {
           setFooterData((prev) => ({
             ...prev,
-            logo: data.data.logo || prev.logo,
+            logo: data.data.logo || "",
             contact_info: {
-              address:
-                data.data.contact_info?.address || prev.contact_info.address,
-              phone: data.data.contact_info?.phone || prev.contact_info.phone,
-              email: data.data.contact_info?.email || prev.contact_info.email,
+              address: data.data.contact_info?.address || "",
+              phone: data.data.contact_info?.phone || "",
+              email: data.data.contact_info?.email || "",
             },
-            social_links: {
-              ...prev.social_links,
-              ...data.data.social_links,
-            },
-            copyright: data.data.copyright || prev.copyright,
-            columns:
-              data.data.columns && data.data.columns.length >= 4
-                ? data.data.columns
-                : prev.columns,
+            social_links: data.data.social_links || {},
+            copyright: data.data.copyright || "",
+            columns: data.data.columns || [],
           }));
         }
       } catch (error) {
         console.error("Failed to load footer settings", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     loadFooterSettings();
@@ -60,20 +64,22 @@ const Footer = () => {
   const handleSubscribe = (e) => {
     e.preventDefault();
     if (email) {
-      // Newsletter subscription logic (will be replaced with API call)
       console.log("Subscribed:", email);
       alert("Thank you for subscribing to our newsletter!");
       setEmail("");
     }
   };
 
-  // Scroll to top when footer link is clicked
   const handleLinkClick = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: "instant", // Updated to instant to match ScrollToTop behavior
     });
   };
+
+  if (isLoading) {
+    return <SkeletonLoader type="footer" />;
+  }
 
   return (
     <footer className="footer bg-white">
@@ -81,172 +87,29 @@ const Footer = () => {
       <div className="border-t border-gray-200 py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
-            {/* Column 1: Customer Care */}
-            <div>
-              <h3 className="font-sans text-body font-semibold text-gray-900 mb-4 uppercase tracking-wider">
-                {footerData.columns[1]?.title || "CUSTOMER CARE"}
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <Link
-                    to="/contact"
-                    onClick={handleLinkClick}
-                    className="text-question text-gray-600 hover:text-primary transition-colors duration-300"
-                  >
-                    CONTACT US
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/custom-orders"
-                    onClick={handleLinkClick}
-                    className="text-question text-gray-600 hover:text-primary transition-colors duration-300"
-                  >
-                    CUSTOM ORDERS
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="/client-services"
-                    onClick={handleLinkClick}
-                    className="text-question text-gray-600 hover:text-primary transition-colors duration-300"
-                  >
-                    CLIENT SERVICES
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 2: Information */}
-            <div>
-              <h3 className="font-sans text-body font-semibold text-gray-900 mb-4 uppercase tracking-wider">
-                {footerData.columns[0]?.title || "INFORMATION"}
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <Link
-                    to="/about-us"
-                    onClick={handleLinkClick}
-                    className="text-question text-gray-600 hover:text-primary transition-colors duration-300"
-                  >
-                    ABOUT US
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/zed-certificate"
-                    onClick={handleLinkClick}
-                    className="text-question text-gray-600 hover:text-primary transition-colors duration-300"
-                  >
-                    ZED-CERTIFICATE
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/sitemap"
-                    onClick={handleLinkClick}
-                    className="text-question text-gray-600 hover:text-primary transition-colors duration-300"
-                  >
-                    SITEMAP
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 3: Policies */}
-            <div>
-              <h3 className="font-sans text-body font-semibold text-gray-900 mb-4 uppercase tracking-wider">
-                {footerData.columns[2]?.title || "POLICIES"}
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <Link
-                    to="/terms"
-                    onClick={handleLinkClick}
-                    className="text-question text-gray-600 hover:text-primary transition-colors duration-300"
-                  >
-                    TERMS & CONDITIONS
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/shipping"
-                    onClick={handleLinkClick}
-                    className="text-question text-gray-600 hover:text-primary transition-colors duration-300"
-                  >
-                    SHIPPING & DELIVERY
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/privacy"
-                    onClick={handleLinkClick}
-                    className="text-question text-gray-600 hover:text-primary transition-colors duration-300"
-                  >
-                    PRIVACY POLICY
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 4: Resources */}
-            <div>
-              <h3 className="font-sans text-body font-semibold text-gray-900 mb-4 uppercase tracking-wider">
-                {footerData.columns[3]?.title || "RESOURCES"}
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <Link
-                    to="/faqs"
-                    onClick={handleLinkClick}
-                    className="text-question text-gray-600 hover:text-primary transition-colors duration-300"
-                  >
-                    FAQs
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/stone-stories"
-                    onClick={handleLinkClick}
-                    className="text-question text-gray-600 hover:text-primary transition-colors duration-300"
-                  >
-                    STONE STORIES
-                  </Link>
-                </li>
-              </ul>
-
-              {/* Social Media */}
-              <div className="mt-6">
-                <h4 className="font-sans text-body font-semibold text-gray-900 mb-4 uppercase tracking-wider">
-                  CONNECT US
-                </h4>
-                <div className="flex gap-4">
-                  {footerData.social_links.facebook && (
-                    <a
-                      href={footerData.social_links.facebook}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-primary transition-colors duration-300"
-                      aria-label="Facebook"
-                    >
-                      <FiFacebook className="w-5 h-5" />
-                    </a>
+            {/* Dynamic Columns */}
+            {footerData.columns.map((column, colIndex) => (
+              <div key={colIndex}>
+                <h3 className="font-sans text-body font-semibold text-gray-900 mb-4 uppercase tracking-wider">
+                  {column.title}
+                </h3>
+                <ul className="space-y-3">
+                  {(column.links || column.items || []).map(
+                    (link, linkIndex) => (
+                      <li key={linkIndex}>
+                        <Link
+                          to={link.url || link.path || "#"}
+                          onClick={handleLinkClick}
+                          className="text-question text-gray-600 hover:text-primary transition-colors duration-300"
+                        >
+                          {link.label || link.name || link.title}
+                        </Link>
+                      </li>
+                    )
                   )}
-                  {footerData.social_links.instagram && (
-                    <a
-                      href={footerData.social_links.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-primary transition-colors duration-300"
-                      aria-label="Instagram"
-                    >
-                      <FiInstagram className="w-5 h-5" />
-                    </a>
-                  )}
-                </div>
+                </ul>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
@@ -262,7 +125,6 @@ const Footer = () => {
               Subscribe here to receive updates, access to exclusive deals,
               discounts, and more.
             </p>
-
             <form
               onSubmit={handleSubscribe}
               className="flex flex-col sm:flex-row gap-4 max-w-2xl"
@@ -295,22 +157,24 @@ const Footer = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Company Description */}
             <div className="text-center lg:text-left">
-              <img
-                src={footerData.logo}
-                alt="Bhavan Silver Jewellery"
-                className="h-12 w-auto mx-auto lg:mx-0 mb-6"
-              />
-              <p className="text-white/80 text-body leading-relaxed max-w-xl mx-auto lg:mx-0 mb-4">
-                A legacy of refined craftsmanship in silver jewellery. Bhavan
-                Silver Jewellery brings exquisite designs and quality gemstone
-                jewelry to wholesale buyers worldwide.
-              </p>
+              {footerData.logo && (
+                <img
+                  src={footerData.logo}
+                  alt="Bhavana Silver Jewelry"
+                  className="h-12 w-auto mx-auto lg:mx-0 mb-6 object-contain brightness-0 invert"
+                />
+              )}
+              {footerData.description && (
+                <p className="text-white/80 text-body leading-relaxed max-w-xl mx-auto lg:mx-0 mb-4">
+                  {footerData.description}
+                </p>
+              )}
               <Link
                 to="/about-us"
                 onClick={handleLinkClick}
                 className="text-white hover:text-white/80 text-body font-medium underline transition-colors duration-300"
               >
-                Know more about Bhavan Silver Jewellery
+                Know more about Bhavana Silver Jewellers
               </Link>
             </div>
 
@@ -320,7 +184,7 @@ const Footer = () => {
                 CONTACT
               </h3>
               <div className="text-white/90 text-body space-y-2">
-                <p className="font-medium">Bhavan Silver Jewellery</p>
+                <p className="font-medium">Bhavana Silver Jewellers</p>
                 <div className="text-white/80 leading-relaxed whitespace-pre-line">
                   {footerData.contact_info.address}
                 </div>

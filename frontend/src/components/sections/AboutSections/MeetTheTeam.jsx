@@ -1,46 +1,12 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaLinkedin, FaTwitter, FaGithub } from "react-icons/fa";
+import { FaLinkedin, FaTwitter, FaFacebook, FaInstagram } from "react-icons/fa";
+import PropTypes from "prop-types";
 
-const teamMembers = [
-  {
-    name: "Arjun Sonkia",
-    role: "Director",
-    image:
-      "https://plus.unsplash.com/premium_photo-1689629941068-d63f36e8bb8d?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      github: "#",
-    },
-  },
-  {
-    name: "Gaurav Jain",
-    role: "Director Former President SGJIA",
-    image:
-      "https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      github: "#",
-    },
-  },
+const MeetTheTeam = ({ members }) => {
+  if (!members || members.length === 0) {
+    return null;
+  }
 
-  {
-    name: "Gaurav Jain",
-    role: "Director Former President SGJIA",
-    image:
-      "https://plus.unsplash.com/premium_photo-1689629941068-d63f36e8bb8d?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      github: "#",
-    },
-  },
-  // Add more team members as needed
-];
-
-const MeetTheTeam = () => {
   return (
     <section id="meet-the-team" className="py-16 md:py-24 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
@@ -48,9 +14,9 @@ const MeetTheTeam = () => {
           Meet the Team
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {teamMembers.map((member, index) => (
+          {members.map((member, index) => (
             <motion.div
-              key={index}
+              key={member.id || index}
               className="bg-white rounded-lg shadow-lg p-6 text-center group"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
@@ -63,29 +29,52 @@ const MeetTheTeam = () => {
                 className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-transparent group-hover:border-primary transition-all duration-300 object-cover"
               />
               <h3 className="text-xl font-serif mb-2">{member.name}</h3>
-              <p className="text-gray-600 mb-4">{member.role}</p>
+              <p className="text-gray-600 mb-4">{member.position}</p>
               <div className="flex justify-center space-x-4">
-                <motion.a
-                  href={member.social.linkedin}
-                  className="text-gray-400 hover:text-primary transition-colors duration-300"
-                  whileHover={{ scale: 1.2, rotate: 5 }}
-                >
-                  <FaLinkedin size={24} />
-                </motion.a>
-                <motion.a
-                  href={member.social.twitter}
-                  className="text-gray-400 hover:text-primary transition-colors duration-300"
-                  whileHover={{ scale: 1.2, rotate: -5 }}
-                >
-                  <FaTwitter size={24} />
-                </motion.a>
-                <motion.a
-                  href={member.social.github}
-                  className="text-gray-400 hover:text-primary transition-colors duration-300"
-                  whileHover={{ scale: 1.2, rotate: 5 }}
-                >
-                  <FaGithub size={24} />
-                </motion.a>
+                {member.linkedin_link && (
+                  <motion.a
+                    href={member.linkedin_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-primary transition-colors duration-300"
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                  >
+                    <FaLinkedin size={24} />
+                  </motion.a>
+                )}
+                {member.twitter_link && (
+                  <motion.a
+                    href={member.twitter_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-primary transition-colors duration-300"
+                    whileHover={{ scale: 1.2, rotate: -5 }}
+                  >
+                    <FaTwitter size={24} />
+                  </motion.a>
+                )}
+                {member.instagram_link && (
+                  <motion.a
+                    href={member.instagram_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-primary transition-colors duration-300"
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                  >
+                    <FaInstagram size={24} />
+                  </motion.a>
+                )}
+                {member.facebook_link && (
+                  <motion.a
+                    href={member.facebook_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-primary transition-colors duration-300"
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                  >
+                    <FaFacebook size={24} />
+                  </motion.a>
+                )}
               </div>
             </motion.div>
           ))}
@@ -93,6 +82,21 @@ const MeetTheTeam = () => {
       </div>
     </section>
   );
+};
+
+MeetTheTeam.propTypes = {
+  members: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      image: PropTypes.string,
+      name: PropTypes.string,
+      position: PropTypes.string,
+      linkedin_link: PropTypes.string,
+      twitter_link: PropTypes.string,
+      instagram_link: PropTypes.string,
+      facebook_link: PropTypes.string,
+    })
+  ),
 };
 
 export default MeetTheTeam;

@@ -46,21 +46,18 @@ const HomePage = () => {
     loadData();
   }, []);
 
-  if (loading) {
-    // Optional: Render a loading skeleton or just return null/layout-placeholder
-    // For now, we can just render the structure, components handle empty states gracefully or show defaults
-  }
+  // Loading state is now handled by individual components via the loading prop
 
   return (
     <>
-      <HeroSlider slides={homeData.hero_slides} />
-      <Collections collections={homeData.collections} />
-      <RingBuilder gemstones={homeData.gemstones} />
-      <FeaturesSlider slides={homeData.about_slides} />
-      <BestSellers bestSellersData={homeData.best_sellers} />
-      <WhyChooseUs features={homeData.features} />
-      <Testimonials testimonials={homeData.testimonials} />
-      <Certifications certificates={homeData.certificates} />
+      <HeroSlider slides={homeData.hero_slides} loading={loading} />
+      <Collections collections={homeData.collections} loading={loading} />
+      <RingBuilder gemstones={homeData.gemstones} loading={loading} />
+      <FeaturesSlider slides={homeData.about_slides} loading={loading} />
+      <BestSellers bestSellersData={homeData.best_sellers} loading={loading} />
+      <WhyChooseUs features={homeData.features} loading={loading} />
+      <Testimonials testimonials={homeData.testimonials} loading={loading} />
+      <Certifications certificates={homeData.certificates} loading={loading} />
     </>
   );
 };

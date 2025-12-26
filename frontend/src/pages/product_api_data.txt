@@ -1,0 +1,594 @@
+{
+    "success": true,
+    "data": [
+        {
+            "id": 437,
+            "code": "0111",
+            "sku": "0111",
+            "slug": "wholesale-fashion-cubic-zirconia-ring-drop",
+            "name": "Wholesale Fashion CUBIC ZIRCONIA Ring - Drop",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": null,
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/c609390de9e8788be796eda5bd09103a58c7a381.jfif",
+            "images": [
+                {
+                    "id": 610,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/c609390de9e8788be796eda5bd09103a58c7a381.jfif",
+                    "name": "c609390de9e8788be796eda5bd09103a58c7a381",
+                    "extension": "jfif",
+                    "size": 70577
+                }
+            ],
+            "created_at": "2025-12-24T07:34:03.000000Z",
+            "updated_at": "2025-12-24T07:34:03.000000Z"
+        },
+        {
+            "id": 436,
+            "code": "12122",
+            "sku": "12122",
+            "slug": "wholesale-sterling-silver-moonstone-ring-pendant",
+            "name": "Wholesale Sterling Silver MOONSTONE Ring - Pendant",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": null,
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/c609390de9e8788be796eda5bd09103a58c7a381.jfif",
+            "images": [
+                {
+                    "id": 609,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/c609390de9e8788be796eda5bd09103a58c7a381.jfif",
+                    "name": "c609390de9e8788be796eda5bd09103a58c7a381",
+                    "extension": "jfif",
+                    "size": 70577
+                }
+            ],
+            "created_at": "2025-12-24T07:32:48.000000Z",
+            "updated_at": "2025-12-24T07:32:48.000000Z"
+        },
+        {
+            "id": 435,
+            "code": "1122",
+            "sku": "1122",
+            "slug": "wholesale-14k-gold-ruby-ring-hoop",
+            "name": "Wholesale 14K Gold RUBY Ring - Hoop",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": null,
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/9e861925c53ad3221e8ef759929d83d6eaca7e10.jfif",
+            "images": [
+                {
+                    "id": 608,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/9e861925c53ad3221e8ef759929d83d6eaca7e10.jfif",
+                    "name": "9e861925c53ad3221e8ef759929d83d6eaca7e10",
+                    "extension": "jfif",
+                    "size": 62743
+                }
+            ],
+            "created_at": "2025-12-24T07:31:17.000000Z",
+            "updated_at": "2025-12-24T07:31:17.000000Z"
+        },
+        {
+            "id": 434,
+            "code": "1212",
+            "sku": "1212",
+            "slug": "wholesale-14k-gold-sapphire-ring-three-stone",
+            "name": "Wholesale 14K Gold SAPPHIRE Ring - Three Stone",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": null,
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/df8330fd227b1599d8ed97c46cb182fc242f7f1f.jfif",
+            "images": [
+                {
+                    "id": 607,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/df8330fd227b1599d8ed97c46cb182fc242f7f1f.jfif",
+                    "name": "df8330fd227b1599d8ed97c46cb182fc242f7f1f",
+                    "extension": "jfif",
+                    "size": 78858
+                }
+            ],
+            "created_at": "2025-12-24T07:30:01.000000Z",
+            "updated_at": "2025-12-24T07:30:01.000000Z"
+        },
+        {
+            "id": 433,
+            "code": "12133",
+            "sku": "12133",
+            "slug": "wholesale-sterling-silver-peridot-ring-stud",
+            "name": "Wholesale Sterling Silver PERIDOT Ring - Stud",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": null,
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/72a725c01339bd25d8b55dfa0c8b1fec2f4c09fb.jfif",
+            "images": [
+                {
+                    "id": 601,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/24/72a725c01339bd25d8b55dfa0c8b1fec2f4c09fb.jfif",
+                    "name": "72a725c01339bd25d8b55dfa0c8b1fec2f4c09fb",
+                    "extension": "jfif",
+                    "size": 80420
+                }
+            ],
+            "created_at": "2025-12-24T07:05:01.000000Z",
+            "updated_at": "2025-12-24T07:05:01.000000Z"
+        },
+        {
+            "id": 431,
+            "code": "367",
+            "sku": "367",
+            "slug": "product-367",
+            "name": "product-367",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": {
+                "id": 32,
+                "name": "Stone Silver Oxidised Ring",
+                "slug": "stone-silver-oxidised-ring",
+                "level": 1,
+                "level_name": "Sub-category",
+                "full_path": "Rings > Stone Silver Oxidised Ring",
+                "parent_id": 33
+            },
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/18/2414523203c8f41e249f6e8dea775b198b4ec853.png",
+            "images": [
+                {
+                    "id": 502,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/ba560d902bcb4d76768d2f6c6e32a4fc1de9c108.webp",
+                    "name": "ba560d902bcb4d76768d2f6c6e32a4fc1de9c108",
+                    "extension": "webp",
+                    "size": 11180
+                },
+                {
+                    "id": 535,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/18/2414523203c8f41e249f6e8dea775b198b4ec853.png",
+                    "name": "2414523203c8f41e249f6e8dea775b198b4ec853",
+                    "extension": "png",
+                    "size": 7780
+                },
+                {
+                    "id": 536,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/09/0bf8f033e8f6373b5a1407af7e0cd821c28a516a.png",
+                    "name": "0bf8f033e8f6373b5a1407af7e0cd821c28a516a",
+                    "extension": "png",
+                    "size": 938
+                },
+                {
+                    "id": 537,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/17/b6bbb03988ff2c53cca9d94b2a45fb6da6f52016.png",
+                    "name": "b6bbb03988ff2c53cca9d94b2a45fb6da6f52016",
+                    "extension": "png",
+                    "size": 21072
+                }
+            ],
+            "created_at": "2025-12-19T09:49:33.000000Z",
+            "updated_at": "2025-12-23T09:33:00.000000Z"
+        },
+        {
+            "id": 430,
+            "code": "366",
+            "sku": "366",
+            "slug": "product-366",
+            "name": "product-366",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": {
+                "id": 32,
+                "name": "Stone Silver Oxidised Ring",
+                "slug": "stone-silver-oxidised-ring",
+                "level": 1,
+                "level_name": "Sub-category",
+                "full_path": "Rings > Stone Silver Oxidised Ring",
+                "parent_id": 33
+            },
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/f38f6b5dd877e3d56f7ed99ab470917dc99be733.webp",
+            "images": [
+                {
+                    "id": 501,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/f38f6b5dd877e3d56f7ed99ab470917dc99be733.webp",
+                    "name": "f38f6b5dd877e3d56f7ed99ab470917dc99be733",
+                    "extension": "webp",
+                    "size": 9140
+                }
+            ],
+            "created_at": "2025-12-19T09:49:07.000000Z",
+            "updated_at": "2025-12-19T09:49:07.000000Z"
+        },
+        {
+            "id": 429,
+            "code": "365",
+            "sku": "365",
+            "slug": "product-365",
+            "name": "product-365",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": {
+                "id": 32,
+                "name": "Stone Silver Oxidised Ring",
+                "slug": "stone-silver-oxidised-ring",
+                "level": 1,
+                "level_name": "Sub-category",
+                "full_path": "Rings > Stone Silver Oxidised Ring",
+                "parent_id": 33
+            },
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/d1147e328a81e6bd9e52bb0bd00f477e26e6e479.webp",
+            "images": [
+                {
+                    "id": 500,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/d1147e328a81e6bd9e52bb0bd00f477e26e6e479.webp",
+                    "name": "d1147e328a81e6bd9e52bb0bd00f477e26e6e479",
+                    "extension": "webp",
+                    "size": 15752
+                }
+            ],
+            "created_at": "2025-12-19T09:48:40.000000Z",
+            "updated_at": "2025-12-19T09:48:40.000000Z"
+        },
+        {
+            "id": 428,
+            "code": "364",
+            "sku": "364",
+            "slug": "product-364",
+            "name": "product-364",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": {
+                "id": 32,
+                "name": "Stone Silver Oxidised Ring",
+                "slug": "stone-silver-oxidised-ring",
+                "level": 1,
+                "level_name": "Sub-category",
+                "full_path": "Rings > Stone Silver Oxidised Ring",
+                "parent_id": 33
+            },
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/400f3b78ffb899fddfc8ba5ed55ab8fea16da7bf.webp",
+            "images": [
+                {
+                    "id": 499,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/400f3b78ffb899fddfc8ba5ed55ab8fea16da7bf.webp",
+                    "name": "400f3b78ffb899fddfc8ba5ed55ab8fea16da7bf",
+                    "extension": "webp",
+                    "size": 15758
+                }
+            ],
+            "created_at": "2025-12-19T09:48:16.000000Z",
+            "updated_at": "2025-12-19T09:48:16.000000Z"
+        },
+        {
+            "id": 427,
+            "code": "363",
+            "sku": "363",
+            "slug": "product-363",
+            "name": "product-363",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": {
+                "id": 32,
+                "name": "Stone Silver Oxidised Ring",
+                "slug": "stone-silver-oxidised-ring",
+                "level": 1,
+                "level_name": "Sub-category",
+                "full_path": "Rings > Stone Silver Oxidised Ring",
+                "parent_id": 33
+            },
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/b754199bdc8f0093babc5053743c69591d3f69ee.webp",
+            "images": [
+                {
+                    "id": 498,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/b754199bdc8f0093babc5053743c69591d3f69ee.webp",
+                    "name": "b754199bdc8f0093babc5053743c69591d3f69ee",
+                    "extension": "webp",
+                    "size": 10174
+                }
+            ],
+            "created_at": "2025-12-19T09:47:27.000000Z",
+            "updated_at": "2025-12-19T09:47:40.000000Z"
+        },
+        {
+            "id": 426,
+            "code": "362",
+            "sku": "362",
+            "slug": "product-362",
+            "name": "product-362",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": {
+                "id": 32,
+                "name": "Stone Silver Oxidised Ring",
+                "slug": "stone-silver-oxidised-ring",
+                "level": 1,
+                "level_name": "Sub-category",
+                "full_path": "Rings > Stone Silver Oxidised Ring",
+                "parent_id": 33
+            },
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/d57fb6229675601d8e348d620612fef521796007.webp",
+            "images": [
+                {
+                    "id": 497,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/d57fb6229675601d8e348d620612fef521796007.webp",
+                    "name": "d57fb6229675601d8e348d620612fef521796007",
+                    "extension": "webp",
+                    "size": 8298
+                }
+            ],
+            "created_at": "2025-12-19T09:46:58.000000Z",
+            "updated_at": "2025-12-19T09:46:58.000000Z"
+        },
+        {
+            "id": 425,
+            "code": "361",
+            "sku": "361",
+            "slug": "product-361",
+            "name": "product-361",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": {
+                "id": 32,
+                "name": "Stone Silver Oxidised Ring",
+                "slug": "stone-silver-oxidised-ring",
+                "level": 1,
+                "level_name": "Sub-category",
+                "full_path": "Rings > Stone Silver Oxidised Ring",
+                "parent_id": 33
+            },
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/6b493c703663865255ac5a35a197eca86cded658.webp",
+            "images": [
+                {
+                    "id": 496,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/6b493c703663865255ac5a35a197eca86cded658.webp",
+                    "name": "6b493c703663865255ac5a35a197eca86cded658",
+                    "extension": "webp",
+                    "size": 11156
+                }
+            ],
+            "created_at": "2025-12-19T09:46:26.000000Z",
+            "updated_at": "2025-12-19T09:46:26.000000Z"
+        },
+        {
+            "id": 424,
+            "code": "360",
+            "sku": "360",
+            "slug": "product-360",
+            "name": "product-360",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": {
+                "id": 32,
+                "name": "Stone Silver Oxidised Ring",
+                "slug": "stone-silver-oxidised-ring",
+                "level": 1,
+                "level_name": "Sub-category",
+                "full_path": "Rings > Stone Silver Oxidised Ring",
+                "parent_id": 33
+            },
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/a7feffa4f622ebb5f57b729fb385ddc2583203d8.webp",
+            "images": [
+                {
+                    "id": 494,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/a7feffa4f622ebb5f57b729fb385ddc2583203d8.webp",
+                    "name": "a7feffa4f622ebb5f57b729fb385ddc2583203d8",
+                    "extension": "webp",
+                    "size": 11084
+                }
+            ],
+            "created_at": "2025-12-19T09:40:06.000000Z",
+            "updated_at": "2025-12-19T09:40:06.000000Z"
+        },
+        {
+            "id": 423,
+            "code": "359",
+            "sku": "359",
+            "slug": "product-359",
+            "name": "product-359",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": {
+                "id": 32,
+                "name": "Stone Silver Oxidised Ring",
+                "slug": "stone-silver-oxidised-ring",
+                "level": 1,
+                "level_name": "Sub-category",
+                "full_path": "Rings > Stone Silver Oxidised Ring",
+                "parent_id": 33
+            },
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/2eda70db0bccc3c95b5cdf8d5f4791079b696457.webp",
+            "images": [
+                {
+                    "id": 493,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/2eda70db0bccc3c95b5cdf8d5f4791079b696457.webp",
+                    "name": "2eda70db0bccc3c95b5cdf8d5f4791079b696457",
+                    "extension": "webp",
+                    "size": 9318
+                }
+            ],
+            "created_at": "2025-12-19T09:39:28.000000Z",
+            "updated_at": "2025-12-19T09:39:28.000000Z"
+        },
+        {
+            "id": 422,
+            "code": "358",
+            "sku": "358",
+            "slug": "product-358",
+            "name": "product-358",
+            "price": 0,
+            "max_price": null,
+            "sale_price": null,
+            "short_description": null,
+            "description": null,
+            "details": null,
+            "stone_size": null,
+            "dimensions": null,
+            "plating": null,
+            "weight": null,
+            "shop_now": false,
+            "category": {
+                "id": 32,
+                "name": "Stone Silver Oxidised Ring",
+                "slug": "stone-silver-oxidised-ring",
+                "level": 1,
+                "level_name": "Sub-category",
+                "full_path": "Rings > Stone Silver Oxidised Ring",
+                "parent_id": 33
+            },
+            "stone": null,
+            "image": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/6e0ac9db0a5458254d205a234fb9f8efc5f46558.webp",
+            "images": [
+                {
+                    "id": 492,
+                    "url": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/6e0ac9db0a5458254d205a234fb9f8efc5f46558.webp",
+                    "name": "6e0ac9db0a5458254d205a234fb9f8efc5f46558",
+                    "extension": "webp",
+                    "size": 10610
+                }
+            ],
+            "created_at": "2025-12-19T09:38:58.000000Z",
+            "updated_at": "2025-12-19T09:38:58.000000Z"
+        }
+    ],
+    "meta": {
+        "current_page": 1,
+        "last_page": 25,
+        "per_page": 15,
+        "total": 372,
+        "from": 1,
+        "to": 15
+    }
+}

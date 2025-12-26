@@ -22,3 +22,16 @@
   color: #666;
   line-height: 1.8;
 }
+
+/* Toast Notifications - Fixed to Viewport */
+.toast-container-fixed,
+[data-hot-toast-container] {
+  position: fixed !important;
+  z-index: 9999 !important;
+}
+
+.toast-container-fixed[data-position="bottom-right"],
+[data-hot-toast-container][data-position="bottom-right"] {
+  bottom: 20px !important;
+  right: 20px !important;
+}

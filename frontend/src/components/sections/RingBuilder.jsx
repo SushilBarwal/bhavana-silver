@@ -17,7 +17,9 @@ import "swiper/css/pagination";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const RingBuilder = ({ gemstones: apiGemstones }) => {
+import SkeletonLoader from "../common/SkeletonLoader";
+
+const RingBuilder = ({ gemstones: apiGemstones, loading }) => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const nameRef = useRef(null);
@@ -77,7 +79,8 @@ const RingBuilder = ({ gemstones: apiGemstones }) => {
     { scope: sectionRef, dependencies: [gemstones] }
   );
 
-  // If no gemstones available, don't render the section
+  // If no gemstones available, don't render the section unless loading
+  if (loading) return <SkeletonLoader type="ring-builder" />;
   if (!gemstones || gemstones.length === 0) return null;
 
   return (

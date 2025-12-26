@@ -13,7 +13,9 @@ import fieoCert from "../../assets/certificates/fieo.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Certifications = ({ certificates }) => {
+import SkeletonLoader from "../common/SkeletonLoader";
+
+const Certifications = ({ certificates, loading }) => {
   // Use passed certificates or fallback to static data
   const displayCertificates =
     certificates && certificates.length > 0
@@ -110,22 +112,26 @@ const Certifications = ({ certificates }) => {
 
         {/* Certifications Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8 lg:gap-10 max-w-7xl mx-auto items-center">
-          {displayCertificates.map((cert, index) => (
-            <div
-              key={cert.id}
-              ref={(el) => (certificatesRef.current[index] = el)}
-              className="certification-item group"
-            >
-              <div className="bg-white rounded-lg p-4 md:p-6 flex items-center justify-center transition-all duration-300 hover:shadow-lg border border-gray-100 hover:border-primary/30 h-32 md:h-36 lg:h-40">
-                <img
-                  src={cert.image}
-                  alt={cert.name || cert.alt}
-                  className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500 opacity-70 group-hover:opacity-100"
-                  loading="lazy"
-                />
+          {loading ? (
+            <SkeletonLoader type="certification" count={6} />
+          ) : (
+            displayCertificates.map((cert, index) => (
+              <div
+                key={cert.id}
+                ref={(el) => (certificatesRef.current[index] = el)}
+                className="certification-item group"
+              >
+                <div className="bg-white rounded-lg p-4 md:p-6 flex items-center justify-center transition-all duration-300 hover:shadow-lg border border-gray-100 hover:border-primary/30 h-32 md:h-36 lg:h-40">
+                  <img
+                    src={cert.image}
+                    alt={cert.name || cert.alt}
+                    className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500 opacity-70 group-hover:opacity-100"
+                    loading="lazy"
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </section>

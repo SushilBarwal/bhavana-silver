@@ -1,9 +1,9 @@
-import { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { FiHeart, FiShoppingCart, FiX, FiCalendar } from 'react-icons/fi';
+import { useState, useRef } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { FiHeart, FiShoppingCart, FiX, FiCalendar } from "react-icons/fi";
 
 /**
  * Wishlist Item Card Component
@@ -15,16 +15,16 @@ const WishlistItemCard = ({ item, onRemove, onAddToCart }) => {
 
   const handleRemove = () => {
     setIsRemoving(true);
-    
+
     // Animate out before removing
     gsap.to(cardRef.current, {
       opacity: 0,
       x: 50,
       duration: 0.4,
-      ease: 'power2.in',
+      ease: "power2.in",
       onComplete: () => {
         onRemove(item.id);
-      }
+      },
     });
   };
 
@@ -43,7 +43,10 @@ const WishlistItemCard = ({ item, onRemove, onAddToCart }) => {
     >
       <div className="flex flex-col md:flex-row gap-4 p-4">
         {/* Product Image */}
-        <Link to={`/product/${product.id}`} className="flex-shrink-0">
+        <Link
+          to={`/product/${product.slug || product.id}`}
+          className="flex-shrink-0"
+        >
           <div className="w-full md:w-32 h-32 overflow-hidden bg-gray-100">
             <img
               src={product.images[0]}
@@ -56,7 +59,7 @@ const WishlistItemCard = ({ item, onRemove, onAddToCart }) => {
 
         {/* Product Details */}
         <div className="flex-1 min-w-0">
-          <Link to={`/product/${product.id}`}>
+          <Link to={`/product/${product.slug || product.id}`}>
             <h3 className="text-lg font-semibold text-gray-900 group-hover:text-primary transition-colors mb-2 line-clamp-2">
               {product.name}
             </h3>
@@ -81,7 +84,9 @@ const WishlistItemCard = ({ item, onRemove, onAddToCart }) => {
               {product.stone && (
                 <>
                   <span>•</span>
-                  <span className="capitalize">{product.stone.replace('-', ' ')}</span>
+                  <span className="capitalize">
+                    {product.stone.replace("-", " ")}
+                  </span>
                 </>
               )}
             </div>
@@ -105,9 +110,9 @@ const WishlistItemCard = ({ item, onRemove, onAddToCart }) => {
           <div className="hidden md:flex items-center gap-2 text-question text-gray-500 mb-auto">
             <FiCalendar className="w-4 h-4" />
             <span>
-              {new Date(item.addedDate).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric'
+              {new Date(item.addedDate).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
               })}
             </span>
           </div>
@@ -119,8 +124,8 @@ const WishlistItemCard = ({ item, onRemove, onAddToCart }) => {
               disabled={!product.inStock}
               className={`flex items-center justify-center gap-2 px-4 py-2 text-question font-semibold uppercase tracking-wide transition-all duration-300 ${
                 product.inStock
-                  ? 'bg-primary text-white hover:bg-primary/90 shadow-md hover:shadow-lg'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  ? "bg-primary text-white hover:bg-primary/90 shadow-md hover:shadow-lg"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
             >
               <FiShoppingCart className="w-4 h-4" />
@@ -152,15 +157,15 @@ WishlistItemCard.propTypes = {
       images: PropTypes.arrayOf(PropTypes.string).isRequired,
       priceRange: PropTypes.shape({
         min: PropTypes.number.isRequired,
-        max: PropTypes.number.isRequired
+        max: PropTypes.number.isRequired,
       }).isRequired,
       material: PropTypes.string.isRequired,
       stone: PropTypes.string,
-      inStock: PropTypes.bool.isRequired
-    }).isRequired
+      inStock: PropTypes.bool.isRequired,
+    }).isRequired,
   }).isRequired,
   onRemove: PropTypes.func.isRequired,
-  onAddToCart: PropTypes.func.isRequired
+  onAddToCart: PropTypes.func.isRequired,
 };
 
 /**
@@ -171,23 +176,26 @@ const WishlistSection = ({ wishlistItems, onRemove, onAddToCart }) => {
   const sectionRef = useRef(null);
   const itemsRef = useRef([]);
 
-  useGSAP(() => {
-    itemsRef.current.forEach((item, index) => {
-      if (item) {
-        gsap.fromTo(
-          item,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            ease: 'power2.out',
-            delay: index * 0.1
-          }
-        );
-      }
-    });
-  }, { scope: sectionRef, dependencies: [wishlistItems.length] });
+  useGSAP(
+    () => {
+      itemsRef.current.forEach((item, index) => {
+        if (item) {
+          gsap.fromTo(
+            item,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: "power2.out",
+              delay: index * 0.1,
+            }
+          );
+        }
+      });
+    },
+    { scope: sectionRef, dependencies: [wishlistItems.length] }
+  );
 
   return (
     <section ref={sectionRef} className="wishlist-section">
@@ -198,7 +206,8 @@ const WishlistSection = ({ wishlistItems, onRemove, onAddToCart }) => {
             My Wishlist
           </h2>
           <p className="text-body text-gray-600">
-            {wishlistItems.length} {wishlistItems.length === 1 ? 'item' : 'items'} saved for later
+            {wishlistItems.length}{" "}
+            {wishlistItems.length === 1 ? "item" : "items"} saved for later
           </p>
         </div>
         <FiHeart className="w-8 h-8 text-primary" />
@@ -208,10 +217,7 @@ const WishlistSection = ({ wishlistItems, onRemove, onAddToCart }) => {
       {wishlistItems.length > 0 ? (
         <div className="space-y-4">
           {wishlistItems.map((item, index) => (
-            <div
-              key={item.id}
-              ref={(el) => (itemsRef.current[index] = el)}
-            >
+            <div key={item.id} ref={(el) => (itemsRef.current[index] = el)}>
               <WishlistItemCard
                 item={item}
                 onRemove={onRemove}
@@ -227,7 +233,8 @@ const WishlistSection = ({ wishlistItems, onRemove, onAddToCart }) => {
             Your Wishlist is Empty
           </h3>
           <p className="text-body text-gray-600 mb-8 max-w-md mx-auto">
-            Start adding your favorite jewelry pieces to your wishlist and find them easily later!
+            Start adding your favorite jewelry pieces to your wishlist and find
+            them easily later!
           </p>
           <Link
             to="/category/gold-jewelry"
@@ -246,11 +253,11 @@ WishlistSection.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       addedDate: PropTypes.string.isRequired,
-      product: PropTypes.object.isRequired
+      product: PropTypes.object.isRequired,
     })
   ).isRequired,
   onRemove: PropTypes.func.isRequired,
-  onAddToCart: PropTypes.func.isRequired
+  onAddToCart: PropTypes.func.isRequired,
 };
 
 export default WishlistSection;

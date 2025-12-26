@@ -8,6 +8,7 @@ import MeetTheTeam from "../components/sections/AboutSections/MeetTheTeam";
 import WhyChooseUs from "../components/sections/WhyChooseUs";
 import Faq from "../components/sections/AboutSections/Faq";
 import OurStory from "../components/sections/AboutSections/OurStory";
+import { fetchAboutData } from "../api/about";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -22,6 +23,21 @@ const AboutUsPage = () => {
   const stickyNavRef = useRef(null);
   const [activeSection, setActiveSection] = useState("our-story");
   const [navbarHeight, setNavbarHeight] = useState(0);
+  const [aboutData, setAboutData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch data
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      const data = await fetchAboutData();
+      if (data) {
+        setAboutData(data);
+      }
+      setLoading(false);
+    };
+    loadData();
+  }, []);
 
   // Navigation sections
   const navSections = [
@@ -38,21 +54,29 @@ const AboutUsPage = () => {
     { label: "ABOUT US", active: true },
   ];
 
-  // Calculate navbar height dynamically
+  // Calculate navbar height dynamically with ResizeObserver
   useEffect(() => {
-    const calculateNavbarHeight = () => {
-      const navbar = document.querySelector(".navbar");
+    const navbar = document.querySelector(".navbar");
+
+    const updateHeight = () => {
       if (navbar) {
         setNavbarHeight(navbar.offsetHeight);
       }
     };
 
-    // Calculate on mount
-    calculateNavbarHeight();
+    // Initial calculation
+    updateHeight();
 
-    // Recalculate on window resize
-    window.addEventListener("resize", calculateNavbarHeight);
-    return () => window.removeEventListener("resize", calculateNavbarHeight);
+    if (navbar) {
+      const resizeObserver = new ResizeObserver(() => {
+        updateHeight();
+      });
+      resizeObserver.observe(navbar);
+
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }
   }, []);
 
   // Scroll to section
@@ -100,21 +124,41 @@ const AboutUsPage = () => {
   // GSAP animations
   useGSAP(
     () => {
+      if (loading) return; // Wait for loading
+
       // Fade in overlay content
-      gsap.fromTo(
-        overlayContentRef.current,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          delay: 0.3,
-          ease: "power3.out",
-        }
-      );
+      if (overlayContentRef.current) {
+        gsap.fromTo(
+          overlayContentRef.current,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            delay: 0.3,
+            ease: "power3.out",
+          }
+        );
+      }
     },
-    { scope: sectionRef }
+    { scope: sectionRef, dependencies: [loading] }
   );
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  // Fallback for settings if API fails or returns partial data
+  const settings = aboutData?.settings || {};
+  const bannerTitle = settings.banner_title || "OUR STORY";
+  const bannerSubtitle =
+    settings.banner_subtitle ||
+    "Crafting timeless elegance since decades, where tradition meets modern artistry";
+  const bannerImage = settings.banner_image;
 
   return (
     <div ref={sectionRef} className="about-us-page">
@@ -123,33 +167,39 @@ const AboutUsPage = () => {
         <Breadcrumb items={breadcrumbItems} />
       </div>
 
-      {/* Video Banner Section */}
+      {/* Video Banner Section - Now Dynamic Image/Video */}
       <section
         ref={videoBannerRef}
         className="relative w-full h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden bg-black"
       >
-        {/* Video Background */}
+        {/* Banner Media */}
         <div className="absolute inset-0">
-          <video
-            className="w-full h-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=1920&h=1080&fit=crop"
-          >
-            {/* Multiple video sources for better compatibility */}
-            <source
-              src="https://assets.mixkit.co/videos/preview/mixkit-woman-working-on-a-piece-of-jewelry-5036-large.mp4"
-              type="video/mp4"
+          {bannerImage ? (
+            <img
+              src={bannerImage}
+              alt={bannerTitle}
+              className="w-full h-full object-cover"
             />
-            <source
-              src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-hands-working-on-jewelry-5037-large.mp4"
-              type="video/mp4"
-            />
-            {/* Fallback image if video doesn't load */}
-            Your browser does not support the video tag.
-          </video>
+          ) : (
+            <video
+              className="w-full h-full object-cover"
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=1920&h=1080&fit=crop"
+            >
+              <source
+                src="https://assets.mixkit.co/videos/preview/mixkit-woman-working-on-a-piece-of-jewelry-5036-large.mp4"
+                type="video/mp4"
+              />
+              <source
+                src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-hands-working-on-jewelry-5037-large.mp4"
+                type="video/mp4"
+              />
+              Your browser does not support the video tag.
+            </video>
+          )}
 
           {/* Strong Black Overlay for text readability */}
           <div className="absolute inset-0 bg-black bg-opacity-60"></div>
@@ -162,12 +212,11 @@ const AboutUsPage = () => {
         >
           <div className="container mx-auto px-4 md:px-6 lg:px-8 text-center">
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light mb-6 tracking-wide text-white drop-shadow-lg">
-              OUR STORY
+              {bannerTitle}
             </h1>
             <div className="w-24 h-0.5 bg-white mx-auto mb-6 opacity-90"></div>
             <p className="text-lg md:text-xl lg:text-2xl font-light max-w-3xl mx-auto leading-relaxed text-white drop-shadow-md">
-              Crafting timeless elegance since decades, where tradition meets
-              modern artistry
+              {bannerSubtitle}
             </p>
           </div>
         </div>
@@ -226,53 +275,23 @@ const AboutUsPage = () => {
       <div className="bg-white">
         {/* Our Story Section */}
         <section id="our-story" className="pt-16 md:pt-12">
-          <OurStory />
+          <OurStory data={aboutData?.settings} />
         </section>
 
         {/* Why Us Section */}
-        {/* <section id="why-us" className="py-16 md:py-24 bg-gray-50">
-          <div className="container mx-auto px-4 md:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-serif text-center mb-8">
-              Why Us
-            </h2>
-            <p className="text-center text-gray-600 max-w-3xl mx-auto">
-              Content for Why Us section...
-            </p>
-          </div>
-        </section> */}
-        <WhyChooseUs />
-        {/* How to Order Section */}
-       
+        {aboutData?.why_choose_us && aboutData.why_choose_us.length > 0 && (
+          <WhyChooseUs items={aboutData.why_choose_us} />
+        )}
 
         {/* Meet the Team Section */}
-        <MeetTheTeam />
+        <MeetTheTeam members={aboutData?.team_members} />
 
         {/* FAQs Section */}
-        {/* <section id="faqs" className="py-16 md:py-24">
-          <div className="container mx-auto px-4 md:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-serif text-center mb-8">
-              FAQs
-            </h2>
-            <p className="text-center text-gray-600 max-w-3xl mx-auto">
-              Content for FAQs section...
-            </p>
-          </div>
-        </section> */}
-        <Faq />
-
-        {/* Book an Appointment Section */}
-        {/* <section id="book-appointment" className="py-16 md:py-24 bg-gray-50">
-          <div className="container mx-auto px-4 md:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-serif text-center mb-8">
-              Book an Appointment
-            </h2>
-            <p className="text-center text-gray-600 max-w-3xl mx-auto">
-              Content for Book an Appointment section...
-            </p>
-          </div>
-        </section> */}
-
-     
+        <Faq
+          items={aboutData?.faqs}
+          title={settings.faq_title}
+          subtitle={settings.faq_subtitle}
+        />
       </div>
     </div>
   );

@@ -1,12 +1,13 @@
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { FiStar, FiTruck } from 'react-icons/fi';
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { FiStar, FiTruck, FiHeart } from "react-icons/fi";
 
 /**
  * Reusable Product Card Component
  */
-const ProductCard = ({ 
+const ProductCard = ({
   id,
+  slug, // Add slug prop
   image,
   name,
   category,
@@ -15,14 +16,22 @@ const ProductCard = ({
   rating = 0,
   isNew = false,
   onSale = false,
-  readyToShip = false
+  readyToShip = false,
+  isInWishlist = false,
+  onWishlistToggle = null,
 }) => {
+  // Use slug for link if available, otherwise fallback to id (though slug is preferred)
+  const linkTarget = slug ? `/product/${slug}` : `/product/${id}`;
+
   // Calculate discount percentage if on sale
-  const discountPercent = onSale && originalPrice 
-    ? Math.round(((originalPrice.min - priceRange.min) / originalPrice.min) * 100)
-    : null;
+  const discountPercent =
+    onSale && originalPrice
+      ? Math.round(
+          ((originalPrice.min - priceRange.min) / originalPrice.min) * 100
+        )
+      : null;
   return (
-    <Link to={`/product/${id}`}>
+    <Link to={linkTarget}>
       <div className="group bg-white border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-xl">
         {/* Product Image */}
         <div className="relative aspect-square overflow-hidden bg-gray-50">
@@ -32,9 +41,32 @@ const ProductCard = ({
             className="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-110"
             loading="lazy"
           />
-          
-          {/* Badges - Top Left */}
-          <div className="absolute top-4 left-4 flex flex-col gap-2">
+
+          {/* Wishlist Heart Button */}
+          {onWishlistToggle && (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onWishlistToggle(id);
+              }}
+              className="absolute top-4 left-4 p-2 bg-white/90 hover:bg-white shadow-md hover:shadow-lg transition-all duration-300 rounded-full z-10"
+              aria-label={
+                isInWishlist ? "Remove from wishlist" : "Add to wishlist"
+              }
+            >
+              <FiHeart
+                className={`w-5 h-5 transition-colors ${
+                  isInWishlist
+                    ? "fill-red-500 text-red-500"
+                    : "text-gray-600 hover:text-red-500"
+                }`}
+              />
+            </button>
+          )}
+
+          {/* Badges - Top Left (moved to accommodate wishlist button) */}
+          <div className="absolute top-4 left-16 flex flex-col gap-2">
             {isNew && (
               <span className="bg-primary text-white text-xs px-3 py-1 uppercase tracking-wider font-semibold shadow-md">
                 New
@@ -52,7 +84,9 @@ const ProductCard = ({
             <div className="absolute top-4 right-4">
               <div className="bg-green-500 text-white text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
                 <FiTruck className="w-3 h-3" />
-                <span className="font-semibold uppercase tracking-wide">Ships Now</span>
+                <span className="font-semibold uppercase tracking-wide">
+                  Ships Now
+                </span>
               </div>
             </div>
           )}
@@ -77,7 +111,7 @@ const ProductCard = ({
                 <FiStar
                   key={i}
                   className={`w-3 h-3 ${
-                    i < rating ? 'fill-primary text-primary' : 'text-gray-300'
+                    i < rating ? "fill-primary text-primary" : "text-gray-300"
                   }`}
                 />
               ))}
@@ -102,16 +136,24 @@ const ProductCard = ({
                 )}
               </div>
             )}
-            
+
             {/* Current Price */}
             <div className="flex items-center gap-2">
-              <p className={`text-lg font-light ${onSale ? 'text-red-600 font-semibold' : 'text-gray-900'}`}>
+              <p
+                className={`text-lg font-light ${
+                  onSale ? "text-red-600 font-semibold" : "text-gray-900"
+                }`}
+              >
                 ${priceRange.min.toFixed(2)}
               </p>
               {priceRange.max !== priceRange.min && (
                 <>
                   <span className="text-gray-400">-</span>
-                  <p className={`text-lg font-light ${onSale ? 'text-red-600 font-semibold' : 'text-gray-900'}`}>
+                  <p
+                    className={`text-lg font-light ${
+                      onSale ? "text-red-600 font-semibold" : "text-gray-900"
+                    }`}
+                  >
                     ${priceRange.max.toFixed(2)}
                   </p>
                 </>
@@ -126,6 +168,7 @@ const ProductCard = ({
 
 ProductCard.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  slug: PropTypes.string, // Add propType for slug
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
@@ -141,6 +184,8 @@ ProductCard.propTypes = {
   isNew: PropTypes.bool,
   onSale: PropTypes.bool,
   readyToShip: PropTypes.bool,
+  isInWishlist: PropTypes.bool,
+  onWishlistToggle: PropTypes.func,
 };
 
 export default ProductCard;

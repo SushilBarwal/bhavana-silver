@@ -5,7 +5,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const FeaturesSlider = ({ slides }) => {
+import SkeletonLoader from "../common/SkeletonLoader";
+
+const FeaturesSlider = ({ slides, loading }) => {
   const sectionRef = useRef(null);
   const contentRef = useRef(null);
   const imageRef = useRef(null);
@@ -126,61 +128,65 @@ const FeaturesSlider = ({ slides }) => {
       ref={sectionRef}
       className="features-slider-section py-16 md:py-20 lg:py-24 bg-gradient-to-b from-gray-50 to-white"
     >
-      <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left Side - Features Slider */}
-          <div ref={contentRef} className="space-y-6">
-            {/* Slide Number & Subtitle */}
-            <div className="space-y-2">
-              <p className="text-question text-gray-600 font-light tracking-wide">
-                {features[activeSlide].slideNumber}
+      {loading ? (
+        <SkeletonLoader type="feature-slider" />
+      ) : (
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left Side - Features Slider */}
+            <div ref={contentRef} className="space-y-6">
+              {/* Slide Number & Subtitle */}
+              <div className="space-y-2">
+                <p className="text-question text-gray-600 font-light tracking-wide">
+                  {features[activeSlide].slideNumber}
+                </p>
+                <p className="text-primary text-question font-semibold tracking-wider uppercase">
+                  {features[activeSlide].subtitle}
+                </p>
+              </div>
+
+              {/* Title */}
+              <h2 className="font-sans text-[20px] font-semibold text-gray-900 leading-tight text-left">
+                {features[activeSlide].title}
+              </h2>
+
+              {/* Description */}
+              <p className="text-body text-gray-700 leading-relaxed max-w-xl">
+                {features[activeSlide].description}
               </p>
-              <p className="text-primary text-question font-semibold tracking-wider uppercase">
-                {features[activeSlide].subtitle}
-              </p>
+
+              {/* Pagination Dots */}
+              <div className="flex gap-3 pt-4">
+                {features.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleDotClick(index)}
+                    className={`transition-all duration-300 rounded-full ${
+                      activeSlide === index
+                        ? "w-8 h-3 bg-primary"
+                        : "w-3 h-3 bg-gray-300 hover:bg-gray-400"
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
 
-            {/* Title */}
-            <h2 className="font-sans text-[20px] font-semibold text-gray-900 leading-tight text-left">
-              {features[activeSlide].title}
-            </h2>
-
-            {/* Description */}
-            <p className="text-body text-gray-700 leading-relaxed max-w-xl">
-              {features[activeSlide].description}
-            </p>
-
-            {/* Pagination Dots */}
-            <div className="flex gap-3 pt-4">
-              {features.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleDotClick(index)}
-                  className={`transition-all duration-300 rounded-full ${
-                    activeSlide === index
-                      ? "w-8 h-3 bg-primary"
-                      : "w-3 h-3 bg-gray-300 hover:bg-gray-400"
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
+            {/* Right Side - Image */}
+            <div ref={imageRef} className="relative h-full">
+              <div className="relative overflow-hidden shadow-2xl h-[500px] md:h-[600px] lg:h-[700px]">
+                <img
+                  src={features[activeSlide].image}
+                  alt={features[activeSlide].title}
+                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                 />
-              ))}
-            </div>
-          </div>
-
-          {/* Right Side - Image */}
-          <div ref={imageRef} className="relative h-full">
-            <div className="relative overflow-hidden shadow-2xl h-[500px] md:h-[600px] lg:h-[700px]">
-              <img
-                src={features[activeSlide].image}
-                alt={features[activeSlide].title}
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-              />
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent pointer-events-none"></div>
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent pointer-events-none"></div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 };

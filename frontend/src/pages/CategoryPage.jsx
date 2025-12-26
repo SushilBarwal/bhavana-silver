@@ -1,12 +1,21 @@
-import { useState, useRef, useMemo, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Breadcrumb, FilterSidebar } from '../components/common';
-import { ProductGrid } from '../components/product';
-import { getProductsByCategoryAndStone } from '../utils/productData';
-import { fetchProducts } from '../api/products';
+import { useState, useRef, useMemo, useEffect, useCallback } from "react";
+import { useParams } from "react-router-dom";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Breadcrumb, FilterSidebar } from "../components/common";
+import { ProductGrid } from "../components/product";
+import { getProductsByCategoryAndStone } from "../utils/productData";
+import { fetchProducts } from "../api/products";
+import {
+  fetchWishlist,
+  addToWishlist,
+  removeFromWishlist,
+  isProductInWishlist,
+} from "../api/wishlist";
+import { useAuth } from "../context/AuthContext";
+import SkeletonLoader from "../components/common/SkeletonLoader";
+import toast from "react-hot-toast";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -17,8 +26,15 @@ const PRODUCTS_PER_PAGE = 12;
  * Category/Archive Page Component
  * Displays products with filters, sorting, and infinite scroll
  */
-const CategoryPage = () => {
-  const { category, stone, collection } = useParams();
+const CategoryPage = ({ fixedCategory, categoryId }) => {
+  const params = useParams();
+  const category = fixedCategory || params.category;
+  const { stone, collection } = params;
+
+  // Debugging props
+  useEffect(() => {
+    console.log("CategoryPage mounted. Category:", category, "ID:", categoryId);
+  }, [category, categoryId]);
 
   // Refs for animations
   const sectionRef = useRef(null);
@@ -29,13 +45,15 @@ const CategoryPage = () => {
 
   // State management
   const [filters, setFilters] = useState({
-    priceMin: '',
-    priceMax: '',
+    priceMin: "",
+    priceMax: "",
     collections: [],
   });
-  const [sortBy, setSortBy] = useState('new-to-old');
+  const [sortBy, setSortBy] = useState("new-to-old");
   const [displayedCount, setDisplayedCount] = useState(PRODUCTS_PER_PAGE);
   const [isLoading, setIsLoading] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const [wishlistItems, setWishlistItems] = useState([]);
 
   // Get products based on category, stone, or collection from URL params
   // const allProducts = useMemo(() => {
@@ -48,30 +66,42 @@ const CategoryPage = () => {
   useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
-      const data = await fetchProducts();
+      // Fetch a larger set of products to ensure client-side filtering works across subcategories
+      // Since we need to start with the "Parent" category logic which might not be supported natively by the API's category_id filter (based on 0 products in parent),
+      // we fetch all (or many) and filter in memory.
+      const data = await fetchProducts({ per_page: 1000 });
 
       // Transform API data to match frontend model
-      const transformedData = data.map(product => ({
+      const transformedData = data.map((product) => ({
         ...product,
         // Map ID to ensure it's a string if needed, or keep as number
         id: product.id,
         // Map price to priceRange object
         priceRange: {
           min: parseFloat(product.price || 0),
-          max: parseFloat(product.max_price || product.price || 0)
+          max: parseFloat(product.max_price || product.price || 0),
         },
+        // Preserve full category object for hierarchy filtering
+        categoryObj: product.category,
         // Flatten category object to slug or name
-        category: product.category?.slug || product.category?.name || '',
+        category: product.category?.slug || product.category?.name || "",
         // Flatten stone object to slug or name
-        stone: product.stone?.slug || product.stone?.name || '',
+        stone: product.stone?.slug || product.stone?.name || "",
         // Map images array of objects to array of URL strings
         images: Array.isArray(product.images)
-          ? product.images.map(img => img.url.replace('http://127.0.0.1:8000', '/api'))
-          : (product.image ? [product.image.replace('http://127.0.0.1:8000', '/api')] : []),
+          ? product.images.map((img) =>
+              img.url.replace("http://127.0.0.1:8000", "/api")
+            )
+          : product.image
+          ? [product.image.replace("http://127.0.0.1:8000", "/api")]
+          : [],
         // Ensure image field also exists for backward compatibility if needed
-        image: Array.isArray(product.images) && product.images.length > 0
-          ? product.images[0].url.replace('http://127.0.0.1:8000', '/api')
-          : (product.image ? product.image.replace('http://127.0.0.1:8000', '/api') : '')
+        image:
+          Array.isArray(product.images) && product.images.length > 0
+            ? product.images[0].url.replace("http://127.0.0.1:8000", "/api")
+            : product.image
+            ? product.image.replace("http://127.0.0.1:8000", "/api")
+            : "",
       }));
 
       console.log("Transformed API Data:", transformedData);
@@ -82,46 +112,98 @@ const CategoryPage = () => {
     // Removed console.log(apiData) as it would log the empty state initial value due to closure
   }, []);
 
+  // Fetch wishlist data
+  useEffect(() => {
+    const loadWishlist = async () => {
+      if (!isAuthenticated) return;
+
+      try {
+        const data = await fetchWishlist();
+        setWishlistItems(data);
+      } catch (error) {
+        console.error("Failed to load wishlist:", error);
+      }
+    };
+
+    loadWishlist();
+  }, [isAuthenticated]);
+
   // Filter the fetched API data matches the current category/stone
   const allProducts = useMemo(() => {
-    console.log("Filtering products. Total:", apiData.length, "Category param:", category);
+    console.log(
+      "Filtering products. Total:",
+      apiData.length,
+      "Category param:",
+      category
+    );
     if (apiData.length === 0) return [];
 
     let products = apiData;
 
-    if (category && category !== 'gold-jewelry' && category !== 'silver-jewelry' && category !== 'fashion-jewelry') {
-      // Case-insensitive comparison for category
-      products = products.filter(p => p.category.toLowerCase().includes(category.toLowerCase()));
+    if (categoryId) {
+      // Filter by strict hierarchy if categoryId is available
+      const targetId = Number(categoryId);
+      products = products.filter(
+        (p) =>
+          // Match product's direct category ID
+          p.categoryObj?.id === targetId ||
+          // Match product's parent category ID (Subcategory items show in Parent)
+          p.categoryObj?.parent_id === targetId
+      );
+    } else if (
+      category &&
+      category !== "gold-jewelry" &&
+      category !== "silver-jewelry" &&
+      category !== "fashion-jewelry"
+    ) {
+      // Fallback: Case-insensitive comparison for category slug/name
+      products = products.filter((p) =>
+        p.category.toLowerCase().includes(category.toLowerCase())
+      );
     }
 
     if (stone) {
-      products = products.filter(p =>
-        (p.subcategory && p.subcategory.toLowerCase() === stone.toLowerCase()) ||
-        (p.stone && p.stone.toLowerCase() === stone.toLowerCase())
+      products = products.filter(
+        (p) =>
+          (p.subcategory &&
+            p.subcategory.toLowerCase() === stone.toLowerCase()) ||
+          (p.stone && p.stone.toLowerCase() === stone.toLowerCase())
       );
     }
 
     if (collection) {
-      products = products.filter(p => p.collection === collection);
+      products = products.filter((p) => p.collection === collection);
     }
 
     return products;
   }, [apiData, category, stone, collection]);
 
-
   // Filter products based on filters
-  const filteredProducts = allProducts.filter(product => {
+  const filteredProducts = allProducts.filter((product) => {
     // Price filter
-    if (filters.priceMin && product.priceRange.min < parseFloat(filters.priceMin)) {
+    if (
+      filters.priceMin &&
+      product.priceRange.min < parseFloat(filters.priceMin)
+    ) {
       return false;
     }
-    if (filters.priceMax && product.priceRange.max > parseFloat(filters.priceMax)) {
+    if (
+      filters.priceMax &&
+      product.priceRange.max > parseFloat(filters.priceMax)
+    ) {
       return false;
     }
 
     // Collection filter - only apply if collections are selected
-    if (filters.collections && Array.isArray(filters.collections) && filters.collections.length > 0) {
-      if (!product.collection || !filters.collections.includes(product.collection)) {
+    if (
+      filters.collections &&
+      Array.isArray(filters.collections) &&
+      filters.collections.length > 0
+    ) {
+      if (
+        !product.collection ||
+        !filters.collections.includes(product.collection)
+      ) {
         return false;
       }
     }
@@ -133,13 +215,13 @@ const CategoryPage = () => {
   const sortedProducts = useMemo(() => {
     return [...filteredProducts].sort((a, b) => {
       switch (sortBy) {
-        case 'price-low-high':
+        case "price-low-high":
           return a.priceRange.min - b.priceRange.min;
-        case 'price-high-low':
+        case "price-high-low":
           return b.priceRange.min - a.priceRange.min;
-        case 'name-a-z':
+        case "name-a-z":
           return a.name.localeCompare(b.name);
-        case 'name-z-a':
+        case "name-z-a":
           return b.name.localeCompare(a.name);
         default: // new-to-old
           return 0;
@@ -160,7 +242,9 @@ const CategoryPage = () => {
 
     setIsLoading(true);
     setTimeout(() => {
-      setDisplayedCount(prev => Math.min(prev + PRODUCTS_PER_PAGE, sortedProducts.length));
+      setDisplayedCount((prev) =>
+        Math.min(prev + PRODUCTS_PER_PAGE, sortedProducts.length)
+      );
       setIsLoading(false);
     }, 300);
   }, [isLoading, hasMore, sortedProducts.length]);
@@ -195,56 +279,89 @@ const CategoryPage = () => {
 
   // Handle filter change
   const handleFilterChange = (key, value) => {
-    setFilters(prev => ({
+    setFilters((prev) => ({
       ...prev,
-      [key]: value
+      [key]: value,
     }));
   };
 
   // Handle filter reset
   const handleFilterReset = () => {
     setFilters({
-      priceMin: '',
-      priceMax: '',
+      priceMin: "",
+      priceMax: "",
       collections: [],
     });
+  };
+
+  // Handle wishlist toggle
+  const handleWishlistToggle = async (productId) => {
+    if (!isAuthenticated) {
+      // Show error message but don't redirect
+      toast.error("Please log in to add items to your wishlist");
+      return;
+    }
+
+    try {
+      const isCurrentlyWishlisted = isProductInWishlist(
+        productId,
+        wishlistItems
+      );
+
+      if (isCurrentlyWishlisted) {
+        // Remove from wishlist
+        await removeFromWishlist(productId);
+        toast.success("Removed from wishlist");
+      } else {
+        // Add to wishlist
+        await addToWishlist(productId);
+        toast.success("Added to wishlist");
+      }
+
+      // Refresh wishlist
+      const data = await fetchWishlist();
+      setWishlistItems(data);
+    } catch (error) {
+      console.error("Failed to toggle wishlist:", error);
+      toast.error("Failed to update wishlist. Please try again.");
+    }
   };
 
   // Get page title
   const pageTitle = useMemo(() => {
     if (collection) {
-      return `${collection.replace('-', ' ').toUpperCase()} COLLECTION`;
+      return `${collection.replace("-", " ").toUpperCase()} COLLECTION`;
     }
     if (stone) {
-      return `ALL ${stone.replace('-', ' ').toUpperCase()}`;
+      return `ALL ${stone.replace("-", " ").toUpperCase()}`;
     }
     if (category) {
-      return category.replace('-', ' ').toUpperCase();
+      return category.replace("-", " ").toUpperCase();
     }
-    return 'ALL PRODUCTS';
+    return "ALL PRODUCTS";
   }, [category, stone, collection]);
 
   // Generate breadcrumb items
   const breadcrumbItems = useMemo(() => {
-    const items = [{ label: 'HOME', link: '/' }];
+    const items = [{ label: "HOME", link: "/" }];
 
     if (collection) {
       items.push({
-        label: collection.replace('-', ' ').toUpperCase(),
-        active: true
+        label: collection.replace("-", " ").toUpperCase(),
+        active: true,
       });
     } else {
       if (category) {
         items.push({
-          label: category.replace('-', ' ').toUpperCase(),
+          label: category.replace("-", " ").toUpperCase(),
           link: stone ? `/category/${category}` : undefined,
-          active: !stone
+          active: !stone,
         });
       }
       if (stone) {
         items.push({
-          label: stone.replace('-', ' ').toUpperCase(),
-          active: true
+          label: stone.replace("-", " ").toUpperCase(),
+          active: true,
         });
       }
     }
@@ -253,59 +370,62 @@ const CategoryPage = () => {
   }, [category, stone, collection]);
 
   // GSAP scroll animations
-  useGSAP(() => {
-    // Animate title
-    gsap.fromTo(
-      titleRef.current,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: titleRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
+  useGSAP(
+    () => {
+      // Animate title
+      gsap.fromTo(
+        titleRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
         }
-      }
-    );
+      );
 
-    // Animate filter sidebar
-    gsap.fromTo(
-      filterRef.current,
-      { opacity: 0, x: -30 },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: filterRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
+      // Animate filter sidebar
+      gsap.fromTo(
+        filterRef.current,
+        { opacity: 0, x: -30 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: filterRef.current,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
         }
-      }
-    );
+      );
 
-    // Animate product grid
-    gsap.fromTo(
-      gridRef.current,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: 0.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: gridRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
+      // Animate product grid
+      gsap.fromTo(
+        gridRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: 0.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
         }
-      }
-    );
-  }, { scope: sectionRef });
+      );
+    },
+    { scope: sectionRef }
+  );
 
   return (
     <section ref={sectionRef} className="category-page py-8 md:py-12 bg-white">
@@ -336,7 +456,8 @@ const CategoryPage = () => {
             {/* Sort Bar */}
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
               <p className="text-[14px] text-gray-600">
-                Showing {displayedProducts.length} of {sortedProducts.length} products
+                Showing {displayedProducts.length} of {sortedProducts.length}{" "}
+                products
               </p>
               <div className="flex items-center gap-3">
                 <label className="text-[13px] text-gray-600 uppercase tracking-wide">
@@ -357,26 +478,45 @@ const CategoryPage = () => {
             </div>
 
             {/* Product Grid */}
-            <ProductGrid products={displayedProducts} columns={3} gap={6} />
+            {isLoading && displayedProducts.length === 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <SkeletonLoader type="product" count={6} />
+              </div>
+            ) : (
+              <ProductGrid
+                products={displayedProducts}
+                columns={3}
+                gap={6}
+                wishlistItems={wishlistItems}
+                onWishlistToggle={handleWishlistToggle}
+              />
+            )}
 
-            {/* Loading Indicator */}
-            {isLoading && (
+            {/* Loading Indicator for Infinite Scroll */}
+            {isLoading && displayedProducts.length > 0 && (
               <div className="flex justify-center items-center py-8">
-                <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
               </div>
             )}
 
             {/* Infinite Scroll Trigger */}
             {hasMore && !isLoading && (
-              <div ref={loadMoreRef} className="h-20 flex items-center justify-center">
-                <p className="text-sm text-gray-500">Scroll for more products...</p>
+              <div
+                ref={loadMoreRef}
+                className="h-20 flex items-center justify-center"
+              >
+                <p className="text-sm text-gray-500">
+                  Scroll for more products...
+                </p>
               </div>
             )}
 
             {/* End of Results */}
             {!hasMore && sortedProducts.length > 0 && (
               <div className="text-center py-8 border-t border-gray-200 mt-8">
-                <p className="text-gray-600">You've viewed all {sortedProducts.length} products</p>
+                <p className="text-gray-600">
+                  You've viewed all {sortedProducts.length} products
+                </p>
               </div>
             )}
 

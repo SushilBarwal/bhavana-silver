@@ -71,7 +71,9 @@ const getCountryFlag = (countryCode) => {
   return COUNTRY_FLAGS[code] || "🌍";
 };
 
-const Testimonials = ({ testimonials: apiTestimonials }) => {
+import SkeletonLoader from "../common/SkeletonLoader";
+
+const Testimonials = ({ testimonials: apiTestimonials, loading }) => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const swiperRef = useRef(null);
@@ -137,11 +139,15 @@ const Testimonials = ({ testimonials: apiTestimonials }) => {
             centeredSlides={true}
             slidesPerView={1}
             spaceBetween={20}
-            autoplay={{
-              delay: 5000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
+            autoplay={
+              loading
+                ? false
+                : {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                  }
+            }
             pagination={{
               clickable: true,
               el: ".testimonial-pagination",
@@ -164,51 +170,62 @@ const Testimonials = ({ testimonials: apiTestimonials }) => {
                 centeredSlides: true,
               },
             }}
-            loop={testimonials.length >= 3}
+            loop={!loading && testimonials.length >= 3}
             speed={800}
             className="testimonial-swiper pb-16 px-4 md:px-6 lg:px-20"
           >
-            {testimonials.map((testimonial) => (
-              <SwiperSlide key={testimonial.id}>
-                {({ isActive }) => (
-                  <div
-                    className={`testimonial-card bg-white shadow-lg transition-all duration-500 rounded-xl p-6 md:p-8 min-h-[300px] md:min-h-[320px] flex flex-col justify-between ${
-                      isActive
-                        ? "border-2 border-primary blur-none scale-100"
-                        : "border-0 blur-sm scale-95 opacity-80"
-                    }`}
-                  >
-                    {/* Flag and Name */}
-                    <div className="text-center mb-6">
-                      <div className="text-5xl md:text-6xl mb-4">
-                        {testimonial.flag}
-                      </div>
-                      <h3 className="font-sans text-[15px] md:text-body font-semibold text-gray-900 mb-1">
-                        {testimonial.name}
-                      </h3>
-                      <p className="text-question text-gray-500">
-                        {testimonial.country}
-                      </p>
-                    </div>
-
-                    {/* Testimonial Text */}
-                    <p className="text-question md:text-body text-center leading-relaxed mb-6 text-gray-700">
-                      {testimonial.text}
-                    </p>
-
-                    {/* Rating */}
-                    <div className="flex justify-center gap-1">
-                      {[...Array(testimonial.rating)].map((_, index) => (
-                        <FiStar
-                          key={index}
-                          className="w-4 h-4 fill-primary text-primary"
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
+            {loading ? (
+              <SwiperSlide>
+                <SkeletonLoader type="testimonial" count={1} />
               </SwiperSlide>
-            ))}
+            ) : (
+              // We might need multiple slides for skeleton if we want to show a carousel of skeletons,
+              // but Swiper might be tricky with skeletons.
+              // Better to just render a grid of skeletons or a single skeleton depending on view.
+              // Actually, let's just replace the Swiper content with skeletons if loading,
+              // or render a separate skeleton container.
+              testimonials.map((testimonial) => (
+                <SwiperSlide key={testimonial.id}>
+                  {({ isActive }) => (
+                    <div
+                      className={`testimonial-card bg-white shadow-lg transition-all duration-500 rounded-xl p-6 md:p-8 min-h-[300px] md:min-h-[320px] flex flex-col justify-between ${
+                        isActive
+                          ? "border-2 border-primary blur-none scale-100"
+                          : "border-0 blur-sm scale-95 opacity-80"
+                      }`}
+                    >
+                      {/* Flag and Name */}
+                      <div className="text-center mb-6">
+                        <div className="text-5xl md:text-6xl mb-4">
+                          {testimonial.flag}
+                        </div>
+                        <h3 className="font-sans text-[15px] md:text-body font-semibold text-gray-900 mb-1">
+                          {testimonial.name}
+                        </h3>
+                        <p className="text-question text-gray-500">
+                          {testimonial.country}
+                        </p>
+                      </div>
+
+                      {/* Testimonial Text */}
+                      <p className="text-question md:text-body text-center leading-relaxed mb-6 text-gray-700">
+                        {testimonial.text}
+                      </p>
+
+                      {/* Rating */}
+                      <div className="flex justify-center gap-1">
+                        {[...Array(testimonial.rating)].map((_, index) => (
+                          <FiStar
+                            key={index}
+                            className="w-4 h-4 fill-primary text-primary"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </SwiperSlide>
+              ))
+            )}
           </Swiper>
 
           {/* Navigation Buttons */}

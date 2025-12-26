@@ -4,13 +4,14 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { fetchProducts } from "../../api/products";
+import SkeletonLoader from "../common/SkeletonLoader";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const BestSellers = ({ bestSellersData = [] }) => {
+const BestSellers = ({ bestSellersData = [], loading: parentLoading }) => {
   const [activeTab, setActiveTab] = useState(null);
   const [productsMap, setProductsMap] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const tabsRef = useRef(null);
@@ -26,80 +27,62 @@ const BestSellers = ({ bestSellersData = [] }) => {
     }
   }, [bestSellersData, activeTab]);
 
-  // Fetch products and populate map (Hybrid: Embedded + Collection Search)
+  // Fetch products when activeTab changes
   useEffect(() => {
-    const loadProducts = async () => {
-      setLoading(true);
-      // Fetches all products to filter by collection_id since API response might be incomplete
-      let allProducts = [];
-      try {
-        allProducts = await fetchProducts({ per_page: 100, limit: 100 });
-      } catch (error) {
-        console.error(
-          "Failed to load products for BestSellers fallback",
-          error
-        );
+    const fetchCategoryProducts = async () => {
+      if (!activeTab || !bestSellersData) return;
+
+      const currentCategory = bestSellersData.find(
+        (cat) => cat.id === activeTab
+      );
+      if (!currentCategory) return;
+
+      // If we already have products for this tab (and it's not empty), don't re-fetch
+      // unless we want to force refresh. For now, caching is fine.
+      if (productsMap[activeTab]) {
+        return;
       }
 
-      const newProductsMap = {};
+      // Dynamic fetching using collection_id
+      if (currentCategory.collection_id) {
+        setLoading(true);
+        try {
+          const params = {
+            collection_id: currentCategory.collection_id,
+            per_page: 8, // Fetch enough for the grid
+          };
 
-      bestSellersData.forEach((category) => {
-        // 1. Start with products explicitly provided in the endpoint
-        let combinedProducts = category.products || [];
+          console.log("Fetching products with params:", params);
 
-        // 2. If 'collection_id' is present, find products from allProducts that match
-        if (category.collection_id && Array.isArray(category.collection_id)) {
-          // Convert collection IDs to strings for comparison
-          const requiredCollectionIds = category.collection_id.map((id) =>
-            String(id)
+          const fetchedProducts = await fetchProducts(params);
+
+          setProductsMap((prev) => ({
+            ...prev,
+            [activeTab]: fetchedProducts,
+          }));
+        } catch (error) {
+          console.error(
+            `Failed to fetch products for category ${activeTab}`,
+            error
           );
-
-          const productsFromCollections = allProducts.filter((p) => {
-            // Check if product has collection_id matching required IDs
-            // The product structure from API might have 'collection_id' (single) or 'collections' (array)
-            // Checking both to be safe
-            const pCollectionId = p.collection_id
-              ? String(p.collection_id)
-              : null;
-
-            if (
-              pCollectionId &&
-              requiredCollectionIds.includes(pCollectionId)
-            ) {
-              return true;
-            }
-
-            // Also check if product has collections array
-            if (p.collections && Array.isArray(p.collections)) {
-              return p.collections.some((c) =>
-                requiredCollectionIds.includes(String(c.id))
-              );
-            }
-
-            return false;
-          });
-
-          combinedProducts = [...combinedProducts, ...productsFromCollections];
+          setProductsMap((prev) => ({
+            ...prev,
+            [activeTab]: [],
+          }));
+        } finally {
+          setLoading(false);
         }
-
-        // 3. Deduplicate by ID
-        const uniqueProducts = Array.from(
-          new Map(combinedProducts.map((item) => [item.id, item])).values()
-        );
-
-        newProductsMap[category.id] = uniqueProducts;
-      });
-
-      setProductsMap(newProductsMap);
-      setLoading(false);
+      } else {
+        // No collection ID and no embedded products
+        setProductsMap((prev) => ({
+          ...prev,
+          [activeTab]: [],
+        }));
+      }
     };
 
-    if (bestSellersData && bestSellersData.length > 0) {
-      loadProducts();
-    } else {
-      setLoading(false);
-    }
-  }, [bestSellersData]);
+    fetchCategoryProducts();
+  }, [activeTab, bestSellersData, productsMap]);
 
   // Scroll-triggered animations
   useGSAP(
@@ -165,7 +148,13 @@ const BestSellers = ({ bestSellersData = [] }) => {
     { scope: sectionRef, dependencies: [activeTab, productsMap] }
   );
 
-  if (!bestSellersData || bestSellersData.length === 0) return null;
+  // If no data and not loading, return null (or handle as empty)
+  // But if loading (which might be true if parent passed it, though here we use local loading), we want to show skeleton.
+  // Actually, bestSellersData comes from parent. If parent is loading, this might be empty.
+  // We'll trust the parent to pass data or we'll handle empty state in render.
+
+  if ((!bestSellersData || bestSellersData.length === 0) && !loading)
+    return null;
 
   // Get current products from map
   const currentProducts = productsMap[activeTab] || [];
@@ -203,21 +192,13 @@ const BestSellers = ({ bestSellersData = [] }) => {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8 min-h-[300px]">
-          {loading ? (
-            // Loading State
-            Array(5)
-              .fill(0)
-              .map((_, i) => (
-                <div
-                  key={i}
-                  className="animate-pulse bg-gray-100 aspect-square rounded-lg"
-                ></div>
-              ))
+          {loading || parentLoading ? (
+            <SkeletonLoader type="product" count={5} />
           ) : currentProducts.length > 0 ? (
             currentProducts.slice(0, 5).map((product, index) => (
               <Link
                 key={product.id}
-                to={`/product/${product.id}`}
+                to={`/product/${product.slug || product.id}`}
                 ref={(el) => (productsRef.current[index] = el)}
                 className="product-card group cursor-pointer block"
               >

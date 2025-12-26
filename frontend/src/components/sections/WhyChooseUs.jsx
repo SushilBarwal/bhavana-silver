@@ -35,7 +35,9 @@ const iconMap = {
   12: FiImage,
 };
 
-const WhyChooseUs = ({ features: apiFeatures }) => {
+import SkeletonLoader from "../common/SkeletonLoader";
+
+const WhyChooseUs = ({ items: apiFeatures, loading }) => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const cardsRef = useRef([]);
@@ -206,46 +208,52 @@ const WhyChooseUs = ({ features: apiFeatures }) => {
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
-          {features.map((feature, index) => {
-            // For API features, use iconUrl; for static features, use icon component
-            const hasIconUrl = feature.iconUrl;
-            const IconComponent = feature.icon;
+          {loading ? (
+            <SkeletonLoader type="feature" count={6} />
+          ) : (
+            features.map((feature, index) => {
+              // For API features, use iconUrl; for static features, use icon component
+              const hasIconUrl = feature.iconUrl;
+              const IconComponent = feature.icon;
 
-            return (
-              <div
-                key={feature.id}
-                ref={(el) => (cardsRef.current[index] = el)}
-                className="feature-card group"
-              >
-                <div className="bg-white rounded-lg p-6 md:p-8 border border-gray-100 hover:border-primary/30 transition-all duration-300 hover:shadow-lg h-full">
-                  {/* Icon */}
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 bg-gray-50 rounded-lg flex items-center justify-center group-hover:bg-primary/10 transition-colors duration-300">
-                      {hasIconUrl ? (
-                        <img
-                          src={feature.iconUrl}
-                          alt={feature.title}
-                          className="w-6 h-6 md:w-7 md:h-7 object-contain"
-                        />
-                      ) : (
-                        <IconComponent className="w-6 h-6 md:w-7 md:h-7 text-gray-700 group-hover:text-primary transition-colors duration-300" />
-                      )}
-                    </div>
+              return (
+                <div
+                  key={feature.id}
+                  ref={(el) => (cardsRef.current[index] = el)}
+                  className="feature-card group"
+                >
+                  <div className="bg-white rounded-lg p-6 md:p-8 border border-gray-100 hover:border-primary/30 transition-all duration-300 hover:shadow-lg h-full">
+                    {/* Icon */}
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 bg-gray-50 rounded-lg flex items-center justify-center group-hover:bg-primary/10 transition-colors duration-300">
+                        {hasIconUrl ? (
+                          <img
+                            src={feature.iconUrl}
+                            alt={feature.title}
+                            className="w-6 h-6 md:w-7 md:h-7 object-contain"
+                          />
+                        ) : IconComponent ? (
+                          <IconComponent className="w-6 h-6 md:w-7 md:h-7 text-gray-700 group-hover:text-primary transition-colors duration-300" />
+                        ) : (
+                          <FiAward className="w-6 h-6 md:w-7 md:h-7 text-gray-400 group-hover:text-primary transition-colors duration-300" />
+                        )}
+                      </div>
 
-                    {/* Content */}
-                    <div className="flex-1">
-                      <h3 className="text-body md:text-[15px] font-semibold text-gray-900 mb-2 leading-snug">
-                        {feature.title}
-                      </h3>
-                      <p className="text-question text-gray-600 leading-relaxed">
-                        {feature.description}
-                      </p>
+                      {/* Content */}
+                      <div className="flex-1">
+                        <h3 className="text-body md:text-[15px] font-semibold text-gray-900 mb-2 leading-snug">
+                          {feature.title}
+                        </h3>
+                        <p className="text-question text-gray-600 leading-relaxed">
+                          {feature.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
     </section>
