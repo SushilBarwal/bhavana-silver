@@ -380,7 +380,9 @@ const ProductPage = () => {
 
   // Event handlers
   const handleFormSubmit = (formData) => {
-    toast.success("Appointment request submitted successfully!");
+    toast.success(
+      "Product enquiry submitted successfully! We'll contact you soon."
+    );
     setShowOffcanvas(false);
   };
 
@@ -664,10 +666,10 @@ const ProductPage = () => {
                 onClick={handleOpenOffcanvas}
                 className="flex-1 bg-[#A67C7C] hover:bg-[#956D6D] text-white font-sans font-medium text-[13px] px-8 py-4 transition-all duration-300 uppercase tracking-wider"
               >
-                BOOK APPOINTMENT
+                ENQUIRE ABOUT THIS PRODUCT
               </button>
               <button className="flex-1 bg-[#A67C7C] hover:bg-[#956D6D] text-white font-sans font-medium text-[13px] px-8 py-4 transition-all duration-300 uppercase tracking-wider">
-                ALL STONE CUSTOMIZATION
+                REQUEST CUSTOMIZATION
               </button>
             </div>
           </div>
@@ -680,15 +682,20 @@ const ProductPage = () => {
         <CertificationGrid certifications={certifications} />
       </div>
 
-      {/* Lead Form Offcanvas */}
+      {/* Product Enquiry Form Offcanvas */}
       <Offcanvas
         isOpen={showOffcanvas}
         onClose={() => setShowOffcanvas(false)}
-        title="BOOK AN APPOINTMENT"
+        title="PRODUCT ENQUIRY"
         position="right"
         scrollPosition={scrollPosition}
       >
-        <LeadForm onSubmit={handleFormSubmit} />
+        <LeadForm
+          onSubmit={handleFormSubmit}
+          formType="enquiry"
+          productName={product?.name}
+          productSku={product?.sku}
+        />
       </Offcanvas>
     </section>
   );

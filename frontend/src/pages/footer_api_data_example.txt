@@ -1,0 +1,103 @@
+{
+    "success": true,
+    "data": {
+        "footer_logo": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/19/010e96c3247ae2e1bd4d4bcaf20716d51802ee54.png",
+        "description": "A legacy of refined craftsmanship in silver jewellery. Bhavan Silver Jewellery brings exquisite designs and quality gemstone jewelry to wholesale buyers worldwide.",
+        "know_more_text": "Know more about Bhavan Silver Jewellery",
+        "know_more_url": "/about-us",
+        "copyright_text": "© 2025 Bhavan Silver Jewellery. All rights reserved.",
+        "newsletter_title": "NEWSLETTER",
+        "newsletter_description": "Subscribe here to receive updates, access to exclusive deals, discounts, and more.",
+        "contact_title": "CONTACT",
+        "contact_business_name": "Bhavan Silver Jewellery",
+        "contact_address": "G-34-35, SEZ Phase 2, Sitapura Industrial Area, Jaipur,\r\nRajasthan 302022 (India)",
+        "contact_email": "sales@bhavanjewellery.com",
+        "contact_phone": "91 81072 87333",
+        "columns": [
+            {
+                "title": "CUSTOMER CARE",
+                "links": {
+                    "1": {
+                        "text": "CONTACT US",
+                        "url": "/contact-us"
+                    },
+                    "2": {
+                        "text": "FAQs",
+                        "url": "/faq"
+                    },
+                    "3": {
+                        "text": "CUSTOM ORDERS",
+                        "url": "/custom-orders"
+                    },
+                    "4": {
+                        "text": "SAMPLE ORDER REQUEST",
+                        "url": "/sample-order"
+                    },
+                    "5": {
+                        "text": "CLIENT SERVICES",
+                        "url": "/client-services"
+                    }
+                }
+            },
+            {
+                "title": "INFORMATION",
+                "links": {
+                    "1": {
+                        "text": "ABOUT US",
+                        "url": "/about-us"
+                    },
+                    "2": {
+                        "text": "ZED-CERTIFICATE",
+                        "url": "/zed-certificate-"
+                    },
+                    "3": {
+                        "text": "SITEMAP",
+                        "url": "/sitemap"
+                    }
+                }
+            },
+            {
+                "title": "POLICIES",
+                "links": {
+                    "1": {
+                        "text": "TERMS & CONDITIONS",
+                        "url": "/terms-conditions"
+                    },
+                    "2": {
+                        "text": "SHIPPING & DELIVERY",
+                        "url": "/shipping"
+                    },
+                    "3": {
+                        "text": "PRIVACY POLICY",
+                        "url": "/privacy-policy"
+                    }
+                }
+            },
+            {
+                "title": "RESOURCES",
+                "links": {
+                    "2": {
+                        "text": "BLOG",
+                        "url": "/blog"
+                    },
+                    "4": {
+                        "text": "STONE STORIES",
+                        "url": "/stone-stories"
+                    }
+                }
+            }
+        ],
+        "social_links": [
+            {
+                "id": "3d75f399-0f57-4440-b08e-e67a342a3bf2",
+                "icon": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/26/c39ed60f50bfb370139a1305ebeef8cec9e0ce2e.png",
+                "url": "https://bhavnasilverinternational.com"
+            },
+            {
+                "id": "a9bc2e18-5b0b-451e-b6cc-d08a61f12702",
+                "icon": "https://admin.bhavnasilverinternational.com/laravel/public/storage/2025/12/26/f81a0ee9291e557580065ff16b134c19ce79c9f6.png",
+                "url": "https://bhavnasilverinternational.com/"
+            }
+        ]
+    }
+}

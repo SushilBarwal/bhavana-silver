@@ -1,0 +1,177 @@
+# Frontend Authentication Implementation Guide
+
+## 🚨 The Core Issue
+You were likely using the **System Token Endpoint** (`/api/v1/auth/token`), which is designed for server-to-server communication or guest access. This endpoint logs you in as a special "API System" user (User ID 8).
+
+To allow users to have their own Wishlists and Account settings, they **MUST** use the **Register** and **Login** endpoints.
+
+---
+
+## 1. Correct Endpoints
+
+| Action | Endpoint | Method | Purpose |
+| :--- | :--- | :--- | :--- |
+| **Register** | `/api/v1/auth/register` | `POST` | Create a new unique user account. |
+| **Login** | `/api/v1/auth/login` | `POST` | Log in an existing user and get their personal token. |
+| **Me** | `/api/v1/auth/me` | `GET` | Get details of the currently logged-in user. |
+
+---
+
+## 2. Implementation Steps (React + Axios)
+
+### Step A: Login Function
+Create a function to handle login form submission.
+
+```javascript
+import axios from 'axios';
+
+// Base URL for your API
+const API_URL = 'http://localhost:8000/api/v1';
+
+const loginUser = async (email, password) => {
+  try {
+    const response = await axios.post(`${API_URL}/auth/login`, {
+      email: email,
+      password: password
+    });
+
+    if (response.data.success) {
+      // 1. Get the token from the response
+      const token = response.data.token;
+      const user = response.data.user;
+
+      // 2. Store it securely (localStorage is easiest for now)
+      localStorage.setItem('auth_token', token);
+      localStorage.setItem('user_info', JSON.stringify(user));
+
+      console.log('Login Successful!', user);
+      
+      // 3. Redirect user or update state
+      // window.location.href = '/dashboard';
+    }
+  } catch (error) {
+    console.error('Login Failed:', error.response?.data?.message || error.message);
+    alert('Invalid Credentials');
+  }
+};
+```
+
+### Step B: Register Function
+Similar to login, but captures more details.
+
+```javascript
+const registerUser = async (formData) => {
+  try {
+    const response = await axios.post(`${API_URL}/auth/register`, {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      password: formData.password
+    });
+
+    if (response.data.success) {
+      const token = response.data.token;
+      const user = response.data.user;
+
+      // Auto-login after registration
+      localStorage.setItem('auth_token', token);
+      localStorage.setItem('user_info', JSON.stringify(user));
+
+      console.log('Registration Successful!');
+    }
+  } catch (error) {
+    console.error('Registration Failed:', error.response?.data?.errors);
+  }
+};
+```
+
+### Step C: Attaching the Token (Interceptors)
+Instead of adding `Authorization: Bearer ...` to every single request manually, configure global **axios interceptors**. This ensures **Wishlist**, **Profile**, and **Logout** requests always have the correct token.
+
+Create a file like `axiosConfig.js` or puts this in your main `App.js`:
+
+```javascript
+import axios from 'axios';
+
+// Create a custom instance
+const api = axios.create({
+  baseURL: 'http://localhost:8000/api/v1',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  }
+});
+
+// Add a request interceptor
+api.interceptors.request.use(
+  (config) => {
+    // Check if token exists in localStorage
+    const token = localStorage.getItem('auth_token');
+    
+    // If token exists, add it to headers
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export default api;
+```
+
+### Step D: Using the Configured Axios
+Now, when you call Wishlist endpoints, use the `api` instance we just created.
+
+```javascript
+import api from './axiosConfig'; // Import the instance from Step C
+
+// Add to Wishlist
+const addToWishlist = async (productId) => {
+  try {
+    // Token is AUTOMATICALLY added by the interceptor!
+    const response = await api.post('/wishlist', {
+      product_id: productId
+    });
+    console.log('Added to wishlist:', response.data);
+  } catch (error) {
+    console.error('Error adding to wishlist', error);
+  }
+};
+```
+
+---
+
+## 3. Account Settings Logic
+Now that you have the correct token, you can use the Account Settings endpoints we just built.
+
+```javascript
+// Update Profile
+const updateProfile = async (data) => {
+  // data = { first_name, last_name, email, phone, company_name }
+  await api.post('/auth/account/profile', data);
+};
+
+// Change Password
+const changePassword = async (currentPassword, newPassword, confirmPassword) => {
+  await api.post('/auth/account/password', {
+    current_password: currentPassword,
+    new_password: newPassword,
+    new_password_confirmation: confirmPassword
+  });
+};
+
+// Delete Account
+const deleteAccount = async (password) => {
+  await api.post('/auth/account/delete', {
+    password: password
+  });
+  
+  // Cleanup
+  localStorage.removeItem('auth_token');
+  localStorage.removeItem('user_info');
+  window.location.href = '/login';
+};
+```

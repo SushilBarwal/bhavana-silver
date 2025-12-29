@@ -15,21 +15,20 @@ const Footer = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [footerData, setFooterData] = useState({
-    logo: "",
-    contact_info: {
-      address: "",
-      phone: "",
-      email: "",
-    },
-    social_links: {
-      facebook: null,
-      instagram: null,
-      twitter: null,
-      pinterest: null,
-      youtube: null,
-    },
-    copyright: "",
+    footer_logo: "",
+    description: "",
+    know_more_text: "",
+    know_more_url: "",
+    copyright_text: "",
+    newsletter_title: "",
+    newsletter_description: "",
+    contact_title: "",
+    contact_business_name: "",
+    contact_address: "",
+    contact_email: "",
+    contact_phone: "",
     columns: [],
+    social_links: [],
   });
 
   useEffect(() => {
@@ -39,18 +38,22 @@ const Footer = () => {
         const data = await fetchFooterSettings();
 
         if (data && data.success && data.data) {
-          setFooterData((prev) => ({
-            ...prev,
-            logo: data.data.logo || "",
-            contact_info: {
-              address: data.data.contact_info?.address || "",
-              phone: data.data.contact_info?.phone || "",
-              email: data.data.contact_info?.email || "",
-            },
-            social_links: data.data.social_links || {},
-            copyright: data.data.copyright || "",
+          setFooterData({
+            footer_logo: data.data.footer_logo || "",
+            description: data.data.description || "",
+            know_more_text: data.data.know_more_text || "",
+            know_more_url: data.data.know_more_url || "",
+            copyright_text: data.data.copyright_text || "",
+            newsletter_title: data.data.newsletter_title || "",
+            newsletter_description: data.data.newsletter_description || "",
+            contact_title: data.data.contact_title || "",
+            contact_business_name: data.data.contact_business_name || "",
+            contact_address: data.data.contact_address || "",
+            contact_email: data.data.contact_email || "",
+            contact_phone: data.data.contact_phone || "",
             columns: data.data.columns || [],
-          }));
+            social_links: data.data.social_links || [],
+          });
         }
       } catch (error) {
         console.error("Failed to load footer settings", error);
@@ -94,19 +97,18 @@ const Footer = () => {
                   {column.title}
                 </h3>
                 <ul className="space-y-3">
-                  {(column.links || column.items || []).map(
-                    (link, linkIndex) => (
+                  {column.links &&
+                    Object.values(column.links).map((link, linkIndex) => (
                       <li key={linkIndex}>
                         <Link
-                          to={link.url || link.path || "#"}
+                          to={link.url || "#"}
                           onClick={handleLinkClick}
                           className="text-question text-gray-600 hover:text-primary transition-colors duration-300"
                         >
-                          {link.label || link.name || link.title}
+                          {link.text}
                         </Link>
                       </li>
-                    )
-                  )}
+                    ))}
                 </ul>
               </div>
             ))}
@@ -119,11 +121,10 @@ const Footer = () => {
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <h3 className="font-sans text-[18px] font-semibold text-gray-900 mb-3 uppercase tracking-wider">
-              NEWSLETTER
+              {footerData.newsletter_title}
             </h3>
             <p className="text-question text-gray-600 mb-6">
-              Subscribe here to receive updates, access to exclusive deals,
-              discounts, and more.
+              {footerData.newsletter_description}
             </p>
             <form
               onSubmit={handleSubscribe}
@@ -157,9 +158,9 @@ const Footer = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Company Description */}
             <div className="text-center lg:text-left">
-              {footerData.logo && (
+              {footerData.footer_logo && (
                 <img
-                  src={footerData.logo}
+                  src={footerData.footer_logo}
                   alt="Bhavana Silver Jewelry"
                   className="h-12 w-auto mx-auto lg:mx-0 mb-6 object-contain brightness-0 invert"
                 />
@@ -169,42 +170,68 @@ const Footer = () => {
                   {footerData.description}
                 </p>
               )}
-              <Link
-                to="/about-us"
-                onClick={handleLinkClick}
-                className="text-white hover:text-white/80 text-body font-medium underline transition-colors duration-300"
-              >
-                Know more about Bhavana Silver Jewellers
-              </Link>
+              {footerData.know_more_text && footerData.know_more_url && (
+                <Link
+                  to={footerData.know_more_url}
+                  onClick={handleLinkClick}
+                  className="text-white hover:text-white/80 text-body font-medium underline transition-colors duration-300"
+                >
+                  {footerData.know_more_text}
+                </Link>
+              )}
+
+              {/* Social Links */}
+              {footerData.social_links &&
+                footerData.social_links.length > 0 && (
+                  <div className="flex gap-4 justify-center lg:justify-start mt-6">
+                    {footerData.social_links.map((social) => (
+                      <a
+                        key={social.id}
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="transition-opacity duration-300 hover:opacity-80"
+                      >
+                        <img
+                          src={social.icon}
+                          alt="Social Media"
+                          className="w-6 h-6 object-contain brightness-0 invert"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                )}
             </div>
 
             {/* Contact Information */}
             <div className="text-center lg:text-right">
               <h3 className="font-sans text-[18px] font-semibold text-white mb-4 uppercase tracking-wider">
-                CONTACT
+                {footerData.contact_title}
               </h3>
               <div className="text-white/90 text-body space-y-2">
-                <p className="font-medium">Bhavana Silver Jewellers</p>
+                <p className="font-medium">
+                  {footerData.contact_business_name}
+                </p>
                 <div className="text-white/80 leading-relaxed whitespace-pre-line">
-                  {footerData.contact_info.address}
+                  {footerData.contact_address}
                 </div>
                 <div className="pt-4 space-y-1">
                   <p>
                     Email:{" "}
                     <a
-                      href={`mailto:${footerData.contact_info.email}`}
+                      href={`mailto:${footerData.contact_email}`}
                       className="text-white hover:text-white/80 underline transition-colors duration-300"
                     >
-                      {footerData.contact_info.email}
+                      {footerData.contact_email}
                     </a>
                   </p>
                   <p>
                     Phone:{" "}
                     <a
-                      href={`tel:${footerData.contact_info.phone}`}
+                      href={`tel:${footerData.contact_phone}`}
                       className="text-white hover:text-white/80 transition-colors duration-300"
                     >
-                      {footerData.contact_info.phone}
+                      {footerData.contact_phone}
                     </a>
                   </p>
                 </div>
@@ -218,7 +245,7 @@ const Footer = () => {
       <div className="bg-gray-900 py-6">
         <div className="container mx-auto px-4 md:px-6 lg:px-8">
           <p className="text-center text-question text-gray-400">
-            {footerData.copyright}
+            {footerData.copyright_text}
           </p>
         </div>
       </div>

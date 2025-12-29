@@ -53,19 +53,19 @@ const RegisterPage = () => {
       const response = await registerUser(payload);
       console.log("Registration success:", response);
 
-      // Show success message instead of auto-redirect
-      setSuccess("Registration successful!");
+      if (response.success) {
+        const token = response.token;
+        const user = response.user;
 
-      // Optional: reset form
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        password: "",
-        confirmPassword: "",
-        newsletter: false,
-      });
+        // Auto-login after registration
+        localStorage.setItem("auth_token", token);
+        localStorage.setItem("user_info", JSON.stringify(user));
+
+        console.log("Registration Successful!");
+
+        // Redirect to account page
+        navigate("/account");
+      }
     } catch (err) {
       console.error("Registration failed:", err);
       setError(

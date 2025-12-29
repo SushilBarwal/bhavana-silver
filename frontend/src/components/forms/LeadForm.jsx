@@ -1,46 +1,54 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-import { FiMail, FiRefreshCw } from 'react-icons/fi';
-import Input from '../common/Input';
-import Button from '../common/Button';
-import { generateCaptcha, validateCaptcha } from '../../utils/captcha';
+import { useState } from "react";
+import PropTypes from "prop-types";
+import { FiMail, FiRefreshCw } from "react-icons/fi";
+import Input from "../common/Input";
+import Button from "../common/Button";
+import { generateCaptcha, validateCaptcha } from "../../utils/captcha";
 
 /**
  * Reusable Lead/Appointment Form Component
+ * Supports both appointment booking and product enquiry modes
  */
-const LeadForm = ({ onSubmit, submitButtonText = 'SUBMIT' }) => {
+const LeadForm = ({
+  onSubmit,
+  submitButtonText = "SUBMIT",
+  formType = "appointment", // 'appointment' or 'enquiry'
+  productName = "",
+  productSku = "",
+}) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    mobile: '',
-    country: '',
-    company: '',
-    dateTime: '',
-    message: '',
-    captcha: ''
+    name: "",
+    email: "",
+    mobile: "",
+    country: "",
+    company: "",
+    dateTime: "",
+    quantity: "",
+    message: "",
+    captcha: "",
   });
 
   const [captchaCode, setCaptchaCode] = useState(generateCaptcha());
 
   const refreshCaptcha = () => {
     setCaptchaCode(generateCaptcha());
-    setFormData({ ...formData, captcha: '' });
+    setFormData({ ...formData, captcha: "" });
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // Validate captcha
     if (!validateCaptcha(formData.captcha, captchaCode)) {
-      alert('Invalid captcha code. Please try again.');
+      alert("Invalid captcha code. Please try again.");
       refreshCaptcha();
       return;
     }
@@ -52,20 +60,40 @@ const LeadForm = ({ onSubmit, submitButtonText = 'SUBMIT' }) => {
 
     // Reset form
     setFormData({
-      name: '',
-      email: '',
-      mobile: '',
-      country: '',
-      company: '',
-      dateTime: '',
-      message: '',
-      captcha: ''
+      name: "",
+      email: "",
+      mobile: "",
+      country: "",
+      company: "",
+      dateTime: "",
+      quantity: "",
+      message: "",
+      captcha: "",
     });
     refreshCaptcha();
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* Product Information (for enquiry mode) */}
+      {formType === "enquiry" && (productName || productSku) && (
+        <div className="mb-6 p-4 bg-gray-50 border border-gray-200 rounded">
+          <h3 className="text-sm font-semibold text-gray-900 mb-2 uppercase tracking-wide">
+            Product Details
+          </h3>
+          {productName && (
+            <p className="text-sm text-gray-700 mb-1">
+              <span className="font-medium">Product:</span> {productName}
+            </p>
+          )}
+          {productSku && (
+            <p className="text-sm text-gray-700">
+              <span className="font-medium">SKU:</span> {productSku}
+            </p>
+          )}
+        </div>
+      )}
+
       {/* Row 1: Name and Email */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <Input
@@ -107,7 +135,7 @@ const LeadForm = ({ onSubmit, submitButtonText = 'SUBMIT' }) => {
         />
       </div>
 
-      {/* Row 3: Company and Date/Time */}
+      {/* Row 3: Company and Date/Time OR Quantity */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <Input
           type="text"
@@ -116,14 +144,26 @@ const LeadForm = ({ onSubmit, submitButtonText = 'SUBMIT' }) => {
           onChange={handleChange}
           placeholder="Company"
         />
-        <Input
-          type="datetime-local"
-          name="dateTime"
-          value={formData.dateTime}
-          onChange={handleChange}
-          placeholder="Select Date & Time*"
-          required
-        />
+        {formType === "appointment" ? (
+          <Input
+            type="datetime-local"
+            name="dateTime"
+            value={formData.dateTime}
+            onChange={handleChange}
+            placeholder="Select Date & Time*"
+            required
+          />
+        ) : (
+          <Input
+            type="number"
+            name="quantity"
+            value={formData.quantity}
+            onChange={handleChange}
+            placeholder="Quantity Required*"
+            required
+            min="1"
+          />
+        )}
       </div>
 
       {/* Row 4: Message */}
@@ -143,9 +183,13 @@ const LeadForm = ({ onSubmit, submitButtonText = 'SUBMIT' }) => {
         <div className="form-group flex items-center gap-4">
           <div className="captcha-display bg-gray-200 px-6 py-3 rounded font-mono text-lg tracking-widest select-none relative">
             <span className="text-gray-700">{captchaCode}</span>
-            <div className="absolute inset-0 pointer-events-none" style={{
-              backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px)'
-            }}></div>
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                backgroundImage:
+                  "repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px)",
+              }}
+            ></div>
           </div>
           <button
             type="button"
