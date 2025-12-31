@@ -1,14 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  FiFacebook,
-  FiInstagram,
-  FiMail,
-  FiTwitter,
-  FiYoutube,
-} from "react-icons/fi";
-import { FaPinterest, FaYoutube } from "react-icons/fa";
-import whiteLogo from "../../assets/logos/white-logo.png";
+import { FiMail } from "react-icons/fi";
 import SkeletonLoader from "../common/SkeletonLoader";
 
 const Footer = () => {
@@ -110,6 +102,35 @@ const Footer = () => {
                       </li>
                     ))}
                 </ul>
+
+                {/* Add Connect Us section after Resources column */}
+                {column.title === "RESOURCES" && (
+                  <div className="mt-6">
+                    <h3 className="font-sans text-body font-semibold text-gray-900 mb-4 uppercase tracking-wider">
+                      CONNECT US
+                    </h3>
+                    {footerData.social_links &&
+                      footerData.social_links.length > 0 && (
+                        <div className="flex gap-4">
+                          {footerData.social_links.map((social) => (
+                            <a
+                              key={social.id}
+                              href={social.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="transition-opacity duration-300 hover:opacity-80"
+                            >
+                              <img
+                                src={social.icon}
+                                alt="Social Media"
+                                className="w-6 h-6 object-contain"
+                              />
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -179,28 +200,6 @@ const Footer = () => {
                   {footerData.know_more_text}
                 </Link>
               )}
-
-              {/* Social Links */}
-              {footerData.social_links &&
-                footerData.social_links.length > 0 && (
-                  <div className="flex gap-4 justify-center lg:justify-start mt-6">
-                    {footerData.social_links.map((social) => (
-                      <a
-                        key={social.id}
-                        href={social.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="transition-opacity duration-300 hover:opacity-80"
-                      >
-                        <img
-                          src={social.icon}
-                          alt="Social Media"
-                          className="w-6 h-6 object-contain brightness-0 invert"
-                        />
-                      </a>
-                    ))}
-                  </div>
-                )}
             </div>
 
             {/* Contact Information */}

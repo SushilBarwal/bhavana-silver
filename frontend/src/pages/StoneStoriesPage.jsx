@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { fetchHomepageData } from "../api/homepage";
+import { fetchStoneStoriesData } from "../api/stoneStories";
 import StoneDetailModal from "../components/common/StoneDetailModal";
 
 const StoneStoriesPage = () => {
@@ -8,6 +9,10 @@ const StoneStoriesPage = () => {
   const [loading, setLoading] = useState(true);
   const [selectedStone, setSelectedStone] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pageData, setPageData] = useState({
+    title: "STONE STORIES",
+    description: "Every gemstone has a unique tale to tell. From the depths of the earth to the skilled hands of our artisans, explore the journey, meaning, and beauty behind the precious stones we use in our creations."
+  });
 
   const { stoneName } = useParams();
   const navigate = useNavigate();
@@ -15,6 +20,16 @@ const StoneStoriesPage = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
+        // Load page header data from API
+        const stoneStoriesData = await fetchStoneStoriesData();
+        if (stoneStoriesData) {
+          setPageData({
+            title: stoneStoriesData.title || "STONE STORIES",
+            description: stoneStoriesData.description || pageData.description
+          });
+        }
+
+        // Load gemstones data
         const response = await fetchHomepageData();
 
         if (
@@ -98,15 +113,13 @@ const StoneStoriesPage = () => {
           {/* Header */}
           <div className="text-center max-w-4xl mx-auto mb-20">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif text-gray-900 mb-6 tracking-tight">
-              STONE <span className="italic text-primary">STORIES</span>
+              {pageData.title}
             </h1>
             <div className="w-32 h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-8"></div>
-            <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-sans max-w-3xl mx-auto">
-              Every gemstone has a unique tale to tell. From the depths of the
-              earth to the skilled hands of our artisans, explore the journey,
-              meaning, and beauty behind the precious stones we use in our
-              creations.
-            </p>
+            <div 
+              className="text-lg md:text-xl text-gray-600 leading-relaxed font-sans max-w-3xl mx-auto prose prose-lg max-w-none"
+              dangerouslySetInnerHTML={{ __html: pageData.description }}
+            />
           </div>
 
           {/* Grid */}

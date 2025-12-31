@@ -11,7 +11,7 @@ export const fetchHeaderSettings = async () => {
 };
 export const fetchFooterSettings = async () => {
     try {
-        const response = await apiClient.get('/site-settings/footer');
+        const response = await apiClient.get('/footer');
         return response.data;
     } catch (error) {
         console.error('Error fetching footer settings:', error);
